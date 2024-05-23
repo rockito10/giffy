@@ -1,6 +1,21 @@
+interface MappedGifs {
+  data: MappedGif[]
+  pagination: Pagination
+}
+
+interface MappedGif {
+  altText: string
+  author: string
+  id: string
+  image: FixedHeight
+  title: string
+}
+
+// ------------------------------------------------------------
+
 interface GifResponse {
-  data: Gif[] | never[]
-  meta: Meta | object
+  data: Gif[]
+  meta: Meta
   pagination: Pagination
 }
 

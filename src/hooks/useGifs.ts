@@ -3,26 +3,29 @@ import { useEffect, useState } from "react"
 import { getSearch } from "../services/getSearch"
 
 export function useGifs() {
-  const [data, setData] = useState<GifResponse>({
+  const [data, setData] = useState<MappedGifs>({
     data: [],
-    meta: {},
     pagination: { count: 0, offset: 0, total_count: 0 },
   })
 
-  const [gifParams, setGifParams] = useState({ offset: 0, query: "anime" }) // default
+  const [gifParams, setGifParams] = useState({ limit: 20, offset: 0, query: "anime" }) // default
 
   useEffect(() => {
-    getSearch({ offset: gifParams.offset, query: gifParams.query }).then((gifs) =>
-      setData((previousGifs) => {
-        // combinar las response anteriores con las nuevas
-        return {
-          data: [...previousGifs.data, ...gifs.data],
-          meta: gifs.meta,
-          pagination: gifs.pagination,
-        }
-      }),
+    getSearch({ limit: gifParams.limit, offset: gifParams.offset, q: gifParams.query }).then(
+      (gifs) =>
+        setData((previousGifs) => {
+          // combinar las response anteriores con las nuevas
+          return {
+            data: [...previousGifs.data, ...gifs.data],
+            pagination: gifs.pagination,
+          }
+        }),
     )
-  }, [gifParams]) // Cuando se monta el componente, cuando se actualiza el componente y cuando se desmonta el componente
+    // return () => {} // cleanup
+  }, [gifParams])
+  // [] -> solo se ejecuta cuando se monta el componente
+  // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
+  // return () => {} -> se ejecuta cuando se desmonta el componente
 
   return { data, setQuery: setGifParams }
 }
