@@ -1,18 +1,18 @@
-export function gifResponseMapper(gifs: GifResponse) {
-  const data = gifs.data.map((gif) => dataMapper(gif))
+import type { Gif, GifResponse, MappedGif, MappedGifs } from "../types/types"
 
+export function gifResponseMapper(response: GifResponse): MappedGifs {
   return {
-    data,
-    pagination: gifs.pagination,
+    data: response.results.map((gif) => dataMapper(gif)),
+    next: response.next,
   }
 }
 
-function dataMapper(data: Gif) {
+function dataMapper(data: Gif): MappedGif {
   return {
-    altText: data.alt_text,
-    author: data.username,
+    alt: data.content_description,
     id: data.id,
-    image: data.images.original,
+    image: data.media_formats.gif.url,
+    tags: data.tags,
     title: data.title,
   }
 }

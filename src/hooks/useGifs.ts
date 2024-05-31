@@ -1,31 +1,39 @@
 import { useEffect, useState } from "react"
 
+import type { MappedGifs } from "../types/types"
+
 import { getSearch } from "../services/getSearch"
 
 export function useGifs() {
   const [data, setData] = useState<MappedGifs>({
     data: [],
-    pagination: { count: 0, offset: 0, total_count: 0 },
+    next: "",
   })
 
-  const [gifParams, setGifParams] = useState({ limit: 20, offset: 0, query: "anime" }) // default
+  const [query, setQuery] = useState("dragon ball") // default
+
+  async function fetchData() {
+    const gifs = await getSearch({ query })
+    console.log("gifs", gifs)
+
+    setData((previousGifs) => {
+      if (!gifs) return previousGifs
+
+      // combinar las response anteriores con las nuevas
+      return {
+        data: [...previousGifs.data, ...gifs.data],
+        next: gifs.next,
+      }
+    })
+  }
 
   useEffect(() => {
-    getSearch({ limit: gifParams.limit, offset: gifParams.offset, q: gifParams.query }).then(
-      (gifs) =>
-        setData((previousGifs) => {
-          // combinar las response anteriores con las nuevas
-          return {
-            data: [...previousGifs.data, ...gifs.data],
-            pagination: gifs.pagination,
-          }
-        }),
-    )
+    fetchData()
     // return () => {} // cleanup
-  }, [gifParams])
+  }, [query])
   // [] -> solo se ejecuta cuando se monta el componente
   // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
   // return () => {} -> se ejecuta cuando se desmonta el componente
 
-  return { data, setQuery: setGifParams }
+  return { data, setQuery }
 }

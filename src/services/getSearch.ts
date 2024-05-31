@@ -1,53 +1,27 @@
+import type { MappedGifs } from "../types/types"
+
 import { gifResponseMapper } from "../utils/gifResponseMapper"
 
-// const API_KEY = "WSqVYG5DTwIXqSoXvaohWrj8qCtjO6zZ"
-// const HEAD = "https://api.giphy.com/v1/gifs/search?"
-// const QUERY = "&q="
-// const LIMIT = "&limit=20"
-// const OFFSET = "&offset="
-// const TAIL = "&rating=g&lang=en&bundle=messaging_non_clips"
-
-// console.log(API_KEY)
-// RSJ0OS9rA7vBucO3qPhE24JPZNesxvdF
-
-// const GIFFY = {}
-
-// const BASE_URL = "https://api.giphy.com/v1/gifs/search"
-// const LIMIT = "20"
-// const OFFSET = "20"
-// const QUERY = "ANIME"
-
-// const URL = new URLSearchParams({
-//   api_key: API_KEY,
-//   limit: LIMIT,
-//   offset: OFFSET,
-//   q: QUERY,
-// })
-
-interface SearchParams {
-  limit: number
-  offset: number
-  q: string
+interface GetSearchParams {
+  query: string
 }
 
-const GIFFY = {
-  BASE_URL: "https://api.giphy.com/v1/gifs/search",
+const TENOR_API_KEY = "AIzaSyBwtgEHAWlCQW0bDiIrT9oksqKfElzh5r0"
 
-  createParams: function ({ limit, offset, q }: SearchParams) {
-    return new URLSearchParams({
-      api_key: "WSqVYG5DTwIXqSoXvaohWrj8qCtjO6zZ",
-      limit: String(limit),
-      offset: String(offset),
-      q,
-    })
-  },
-}
+export async function getSearch({ query }: GetSearchParams): Promise<MappedGifs | undefined> {
+  const URL = `https://tenor.googleapis.com/v2/search?q=${query}&key=${TENOR_API_KEY}&limit=${50}`
 
-export async function getSearch({ limit, offset, q }: SearchParams): Promise<MappedGifs> {
-  const URL = GIFFY.createParams({ limit, offset, q })
+  try {
+    const resp = await fetch(URL)
+    const data = await resp.json()
 
-  const resp = await fetch(GIFFY.BASE_URL + "?" + URL.toString())
-  const data = await resp.json()
+    if (resp.status !== 200) {
+      console.log(resp.status)
+      throw new Error("Error fetching gifs")
+    }
 
-  return gifResponseMapper(data)
+    return gifResponseMapper(data)
+  } catch (err) {
+    console.error(err)
+  }
 }

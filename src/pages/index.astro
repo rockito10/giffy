@@ -1,5 +1,6 @@
 ---
-import Grid from "../components/Grid"
+import { Form } from "../components/Form"
+import { Grid } from "../components/Grid"
 import Layout from "../layouts/Layout.astro"
 ---
 
@@ -7,6 +8,8 @@ import Layout from "../layouts/Layout.astro"
   <main>
     <h2 class="py-4 text-center text-6xl">GIFFY APP</h2>
     <!-- Para que el componente de react sea dinamico, agregamos la directiva client:visible -->
+
+    <Form client:visible />
     <Grid client:visible />
   </main>
 </Layout>
