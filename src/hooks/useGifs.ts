@@ -14,7 +14,7 @@ export function useGifs() {
 
   async function fetchData() {
     const gifs = await getSearch({ query })
-    console.log("gifs", gifs)
+    // console.log("gifs", gifs)
 
     setData((previousGifs) => {
       if (!gifs) return previousGifs
@@ -29,8 +29,8 @@ export function useGifs() {
 
   useEffect(() => {
     fetchData()
-    // return () => {} // cleanup
   }, [query])
+
   // [] -> solo se ejecuta cuando se monta el componente
   // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
   // return () => {} -> se ejecuta cuando se desmonta el componente

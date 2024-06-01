@@ -1,17 +1,16 @@
 import { useRef } from "react"
 
-import { useGifs } from "../hooks/useGifs"
+interface Props {
+  setQuery: (query: string) => void
+}
 
-export function Form() {
+export function Form({ setQuery }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const { setQuery } = useGifs()
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
     const value = inputRef.current?.value
-
-    console.log("value", value)
 
     if (!value) return
 
