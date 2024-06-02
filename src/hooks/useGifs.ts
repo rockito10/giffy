@@ -10,18 +10,24 @@ export function useGifs() {
     next: "",
   })
 
-  const [query, setQuery] = useState("dragon ball") // default
+  const [query, setQuery] = useState("") // default
+  const [next, setNext] = useState("")
+
+  const nextPage = () => {
+    setNext(data.next)
+  }
 
   async function fetchData() {
-    const gifs = await getSearch({ query })
-    // console.log("gifs", gifs)
+    if (!query) return
+
+    const gifs = await getSearch({ next, query })
 
     setData((previousGifs) => {
       if (!gifs) return previousGifs
 
       // combinar las response anteriores con las nuevas
       return {
-        data: [...previousGifs.data, ...gifs.data],
+        data: [...gifs.data, ...previousGifs.data],
         next: gifs.next,
       }
     })
@@ -29,11 +35,11 @@ export function useGifs() {
 
   useEffect(() => {
     fetchData()
-  }, [query])
+  }, [query, next])
 
   // [] -> solo se ejecuta cuando se monta el componente
   // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
   // return () => {} -> se ejecuta cuando se desmonta el componente
 
-  return { data, setQuery }
+  return { data, nextPage, query, setQuery }
 }

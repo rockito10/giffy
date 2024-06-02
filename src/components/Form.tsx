@@ -18,10 +18,23 @@ export function Form({ setQuery }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input ref={inputRef} placeholder="Dragon Ball, Breaking Bad..." type="text" />
+    <form className="font-semibold" onSubmit={handleSubmit}>
+      <div className="">
+        <input
+          ref={inputRef}
+          className="w-1/3 rounded-bl-lg rounded-tl-lg border px-4 py-2"
+          placeholder="Dragon Ball, Breaking Bad..."
+          type="text"
+          onChange={(evt) => setQuery(evt.target.value)}
+        />
 
-      <button type="submit">Buscar</button>
+        <button
+          className="rounded-br-lg rounded-tr-lg border bg-purple-700 px-4 py-2 transition-colors hover:bg-purple-500"
+          type="submit"
+        >
+          Buscar
+        </button>
+      </div>
     </form>
   )
 }

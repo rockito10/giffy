@@ -8,10 +8,11 @@ export function gifResponseMapper(response: GifResponse): MappedGifs {
 }
 
 function dataMapper(data: Gif): MappedGif {
+  console.log(data.media_formats.tinygif, data.media_formats.tinygif.url)
   return {
     alt: data.content_description,
     id: data.id,
-    image: data.media_formats.gif.url,
+    image: data.media_formats.tinygif.url,
     tags: data.tags,
     title: data.title,
   }

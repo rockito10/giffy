@@ -1,18 +1,26 @@
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+
 import type { MappedGifs } from "../types/types"
 
-export function Grid({ data }: { data: MappedGifs }) {
+interface Props {
+  data: MappedGifs
+  query: string
+}
+
+export function Grid({ data, query }: Props) {
+  if (!query) return
+
   return (
-    // Quisiera que muestre colunms pero sin que las nuevas imagenes se agregen a la derecha de las anteriores
-    // sino que se agreguen debajo de las anteriores
-    // y que el contenedor se ajuste al tamaño de las imagenes
-    // y que las imagenes se ajusten al tamaño del contenedor
-
-    <section className="columns-3 gap-x-2 md:columns-4 lg:columns-5 xl:columns-6">
-      {data?.data?.map((gif) => {
-        return <img key={gif.id} alt={gif.alt} className="mb-2" src={gif.image} />
-      })}
-
-      {/* <div id="observer"></div> */}
-    </section>
+    data.data.length > 0 && (
+      <section>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4, 1280: 6 }}>
+          <Masonry className="space-x-2.5">
+            {data.data.map((gif) => (
+              <img key={gif.id} alt={gif.alt} className="mt-2.5" src={gif.image} />
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
+      </section>
+    )
   )
 }
