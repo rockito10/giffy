@@ -16,7 +16,12 @@ export function Grid({ data, query }: Props) {
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4, 1280: 6 }}>
           <Masonry className="space-x-2.5">
             {data.data.map((gif) => (
-              <img key={gif.id} alt={gif.alt} className="mt-2.5" src={gif.image} />
+              <img
+                key={gif.id}
+                alt={gif.alt}
+                className="mt-2.5 transition-transform hover:scale-110"
+                src={gif.image}
+              />
             ))}
           </Masonry>
         </ResponsiveMasonry>

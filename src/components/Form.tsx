@@ -18,11 +18,11 @@ export function Form({ setQuery }: Props) {
   }
 
   return (
-    <form className="font-semibold" onSubmit={handleSubmit}>
-      <div className="">
+    <form className="w-1/2 font-semibold" onSubmit={handleSubmit}>
+      <div className="flex w-full">
         <input
           ref={inputRef}
-          className="w-1/3 rounded-bl-lg rounded-tl-lg border px-4 py-2"
+          className="flex-1 rounded-bl-lg rounded-tl-lg border px-4 py-2"
           placeholder="Dragon Ball, Breaking Bad..."
           type="text"
           onChange={(evt) => setQuery(evt.target.value)}

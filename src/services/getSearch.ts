@@ -5,15 +5,20 @@ import { gifResponseMapper } from "../utils/gifResponseMapper"
 interface GetSearchParams {
   next: string
   query: string
+  signal: AbortSignal
 }
 
 const TENOR_API_KEY = "AIzaSyBwtgEHAWlCQW0bDiIrT9oksqKfElzh5r0"
 
-export async function getSearch({ next, query }: GetSearchParams): Promise<MappedGifs | undefined> {
+export async function getSearch({
+  next,
+  query,
+  signal,
+}: GetSearchParams): Promise<MappedGifs | undefined> {
   const URL = `https://tenor.googleapis.com/v2/search?q=${query}&key=${TENOR_API_KEY}&limit=${50}&pos=${next}`
 
   try {
-    const resp = await fetch(URL)
+    const resp = await fetch(URL, { signal })
     const data = await resp.json()
 
     if (resp.status !== 200) {
