@@ -31,10 +31,12 @@ interface MappedGifs {
   next: string
 }
 
+type Key = "gif" | "mp4" | "tinygif" | "webp"
+
 interface MappedGif {
   alt: string
   id: string
-  image: string
+  images: Record<Key, string>
   tags: string[]
   title: string
 }

@@ -1,0 +1,34 @@
+---
+// import type { GetStaticPaths } from "astro"
+
+import type { GifResponse } from "../../types/types"
+
+import { gifResponseMapper } from "../../utils/gifResponseMapper"
+
+const { gif } = Astro.params
+
+// Service
+const TENOR_API_KEY = "AIzaSyBwtgEHAWlCQW0bDiIrT9oksqKfElzh5r0"
+
+const URL = `https://tenor.googleapis.com/v2/posts?key=${TENOR_API_KEY}&ids=${gif}`
+
+const response = await fetch(URL)
+const data: GifResponse = await response.json()
+const mappedData = gifResponseMapper(data)
+
+console.log(data.results[0])
+
+// ---
+---
+
+<div>
+  <h1>Showing GIF {gif}</h1>
+  <!-- <img
+    alt="gif"
+    src={`https://media.tenor.com/LO5LF4ge6jgAAAAM/teq-ultimate-gohan-teen-gohan.gif`}
+  /> -->
+  <img alt="gif" src={`${mappedData.data[0].images.gif}`} />
+  <h3>Autor: pepe</h3>
+  <div>{JSON.stringify(mappedData.data[0])}</div>
+  {gif}
+</div>
