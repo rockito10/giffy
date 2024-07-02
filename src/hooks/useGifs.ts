@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import type { MappedGifs } from "../types/types"
 
 import { getSearch } from "../services/getSearch"
+import { $searchStore } from "../store/search"
 
 export function useGifs() {
   const [data, setData] = useState<MappedGifs>({
@@ -31,6 +32,15 @@ export function useGifs() {
     if (!gifs) return
 
     setData({ data: gifs.data, next: gifs.next })
+
+    // guardamos datos en nanostore para persistirlos (incluso fuera de la página inicial)
+    $searchStore.set({
+      $searchData: {
+        data: gifs.data,
+        next: gifs.next,
+      },
+      $searchQuery: query,
+    })
   }
 
   useEffect(() => {
@@ -52,11 +62,14 @@ export function useGifs() {
 
       // combinar las response anteriores con las nuevas
       console.log([...previousGifs.data, ...gifs.data])
+
       return {
         data: [...previousGifs.data, ...gifs.data],
         next: gifs.next,
       }
     })
+
+    // $searchStore.set({ data: gifs.data, next: gifs.next })
   }
 
   useEffect(() => {
@@ -69,5 +82,5 @@ export function useGifs() {
   // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
   // return () => {} -> se ejecuta cuando se desmonta el componente
 
-  return { data, nextPage, query, setQuery }
+  return { data, nextPage, query, setQuery, $searchStore }
 }

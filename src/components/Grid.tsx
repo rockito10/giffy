@@ -8,12 +8,12 @@ interface Props {
 }
 
 export function Grid({ data, query }: Props) {
-  if (!query) return
+  // if (!query) return
 
-  // console.log(data.data)
+  console.log("data dentro de grid", data)
 
   return (
-    data.data.length > 0 && (
+    data?.data?.length > 0 && (
       <section>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4, 1280: 6 }}>
           <Masonry className="space-x-2.5">

@@ -22,7 +22,6 @@ export async function getSearch({
   const URL = `https://tenor.googleapis.com/v2/search?q=${query}&key=${TENOR_API_KEY}&limit=${50}&pos=${next}`
 
   try {
-    
     const resp = await fetch(URL, { signal })
     const data = await resp.json()
 
@@ -32,9 +31,11 @@ export async function getSearch({
       console.log(resp.status)
       throw new Error("Error fetching gifs")
     }
-    
+
     return gifResponseMapper(data)
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    if (signal.aborted) return
+
+    console.log(error)
   }
 }

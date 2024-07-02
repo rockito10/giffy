@@ -1,5 +1,7 @@
 import { useRef } from "react"
 
+import { $searchStore } from "../store/search"
+
 interface Props {
   setQuery: (query: string) => void
 }
@@ -12,9 +14,17 @@ export function Form({ setQuery }: Props) {
 
     const value = inputRef.current?.value
 
-    if (!value) return
+    if (!$searchStore.get()) return
 
     setQuery(value)
+
+    // $searchStore.set({
+    //   $searchData: {
+    //     data: [],
+    //     next: "",
+    //   },
+    //   $searchQuery: $searchQuery.get() || "",
+    // })
   }
 
   return (
@@ -25,6 +35,7 @@ export function Form({ setQuery }: Props) {
           className="flex-1 rounded-bl-lg rounded-tl-lg border px-4 py-2"
           placeholder="Dragon Ball, Breaking Bad..."
           type="text"
+          // value={$searchStore.get().$searchQuery ? $searchStore.get().$searchQuery : ""}
           onChange={(evt) => setQuery(evt.target.value)}
         />
 

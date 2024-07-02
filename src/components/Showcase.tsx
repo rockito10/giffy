@@ -5,25 +5,41 @@ import { useInView } from "../hooks/useInView"
 import { Form } from "./Form"
 import { Grid } from "./Grid"
 
+// import { $searchStore } from "../store/search"
+
 export function Showcase() {
-  const { data, nextPage, query, setQuery } = useGifs()
+  const { $searchStore, data, nextPage, query, setQuery } = useGifs()
+
+  // Quiero usar el estado de zustand para guardar los gifs
+  // y poder acceder a ellos desde cualquier componente
+  // que use este hook
+
+  // QUiero usar el store creado en useGifs
+  // para acceder a los gifs
+  // let search = data
+  // if (Object.keys(search).length === 0) {
+  //   search = $searchStore.get()
+  // }
+
+  // $searchStore.set(data)
+
+  // console.log($searchStore.get())
+
+  const { $searchData, $searchQuery } = $searchStore.get()
 
   const { inView, ref } = useInView({
     rootMargin: "0px 0px 500px 0px",
   })
 
-  useEffect(() => {
-    if (inView) {
-      nextPage()
-      console.log("inView", inView)
-    }
-  }, [inView])
-
   return (
     <>
       <div className="flex flex-col items-center justify-center">
         <Form setQuery={setQuery} />
-        <Grid data={data} query={query} />
+        <h2>
+          Buscando:
+          <span className="text-purple-700">{$searchQuery}</span>
+        </h2>
+        <Grid data={$searchData} query={$searchQuery} />
         <br />
         <div ref={ref} className="border">
           {/* Observer */}
