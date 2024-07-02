@@ -34,7 +34,7 @@ export function useGifs() {
   }
 
   useEffect(() => {
-    fetchDataQuery()
+    setTimeout(fetchDataQuery, 300)
 
     return () => {
       abortController.abort()
@@ -51,6 +51,7 @@ export function useGifs() {
       if (!gifs) return previousGifs
 
       // combinar las response anteriores con las nuevas
+      console.log([...previousGifs.data, ...gifs.data])
       return {
         data: [...previousGifs.data, ...gifs.data],
         next: gifs.next,

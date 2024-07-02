@@ -10,7 +10,7 @@ interface Props {
 export function Grid({ data, query }: Props) {
   if (!query) return
 
-  console.log(data.data)
+  // console.log(data.data)
 
   return (
     data.data.length > 0 && (
@@ -22,7 +22,7 @@ export function Grid({ data, query }: Props) {
                 <img
                   alt={gif.alt}
                   className="mt-2.5 transition-transform hover:scale-110"
-                  src={gif.images.webp}
+                  src={gif.images.tinygif}
                 />
               </a>
             ))}
