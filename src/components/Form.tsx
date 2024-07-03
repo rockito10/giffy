@@ -1,6 +1,6 @@
 import { useRef } from "react"
 
-import { $searchStore } from "../store/search"
+// import { $searchStore } from "../store/search"
 
 interface Props {
   setQuery: (query: string) => void
@@ -14,7 +14,7 @@ export function Form({ setQuery }: Props) {
 
     const value = inputRef.current?.value
 
-    if (!$searchStore.get()) return
+    // if (!$searchStore.get()) return
 
     setQuery(value)
 

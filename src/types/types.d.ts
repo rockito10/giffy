@@ -27,7 +27,7 @@ export interface Metadata {
 // ------------------------------
 
 interface MappedGifs {
-  data: MappedGif[]
+  gifs: MappedGif[]
   next: string
 }
 

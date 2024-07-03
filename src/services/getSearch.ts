@@ -25,7 +25,7 @@ export async function getSearch({
     const resp = await fetch(URL, { signal })
     const data = await resp.json()
 
-    console.log(data)
+    // console.log(data)
 
     if (resp.status !== 200) {
       console.log(resp.status)

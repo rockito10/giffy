@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+// import { useEffect } from "react"
 
 import { useGifs } from "../hooks/useGifs"
 import { useInView } from "../hooks/useInView"
@@ -8,11 +8,7 @@ import { Grid } from "./Grid"
 // import { $searchStore } from "../store/search"
 
 export function Showcase() {
-  const { $searchStore, data, nextPage, query, setQuery } = useGifs()
-
-  // Quiero usar el estado de zustand para guardar los gifs
-  // y poder acceder a ellos desde cualquier componente
-  // que use este hook
+  const { data, setQuery } = useGifs()
 
   // QUiero usar el store creado en useGifs
   // para acceder a los gifs
@@ -25,11 +21,15 @@ export function Showcase() {
 
   // console.log($searchStore.get())
 
-  const { $searchData, $searchQuery } = $searchStore.get()
+  // const { $searchData, $searchQuery } = $searchStore.get()
 
   const { inView, ref } = useInView({
     rootMargin: "0px 0px 500px 0px",
   })
+
+  // useEffect(() => {
+  //   nextPage()
+  // }, [inView])
 
   return (
     <>
@@ -37,9 +37,9 @@ export function Showcase() {
         <Form setQuery={setQuery} />
         <h2>
           Buscando:
-          <span className="text-purple-700">{$searchQuery}</span>
+          {/* <span className="text-purple-700">{$searchQuery}</span> */}
         </h2>
-        <Grid data={$searchData} query={$searchQuery} />
+        <Grid data={data} />
         <br />
         <div ref={ref} className="border">
           {/* Observer */}

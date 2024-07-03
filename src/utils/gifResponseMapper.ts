@@ -2,7 +2,7 @@ import type { Gif, GifResponse, MappedGif, MappedGifs } from "../types/types"
 
 export function gifResponseMapper(response: GifResponse): MappedGifs {
   return {
-    data: response.results.map((gif) => dataMapper(gif)),
+    gifs: response.results.map((gif) => dataMapper(gif)),
     next: response.next,
   }
 }

@@ -3,44 +3,40 @@ import { useEffect, useState } from "react"
 import type { MappedGifs } from "../types/types"
 
 import { getSearch } from "../services/getSearch"
-import { $searchStore } from "../store/search"
+import { searchStore } from "../store/searchStore"
+import { useSearchStore } from "./useSearchStore"
 
 export function useGifs() {
-  const [data, setData] = useState<MappedGifs>({
-    data: [],
-    next: "",
-  })
+  const {
+    // data, // Este es el estado para usar en JavaScript
+    // query, // Este es el estado para usar en JavaScript
+    setData,
+    setQuery,
+  } = searchStore
 
-  const [query, setQuery] = useState("") // default
-  const [next, setNext] = useState("")
+  const {
+    query, // Este es el estado para usar en React
+    data, // Este es el estado para usar en React
+  } = useSearchStore()
 
   const abortController = new AbortController()
 
-  const nextPage = () => {
-    setNext(data.next)
-  }
 
-  // Fetch query gifs
-
-  // ---------------------------------------------
+  // --------------------------------------------------
 
   async function fetchDataQuery() {
     if (!query) return
 
-    const gifs = await getSearch({ next: "", query, signal: abortController.signal })
-
-    if (!gifs) return
-
-    setData({ data: gifs.data, next: gifs.next })
-
-    // guardamos datos en nanostore para persistirlos (incluso fuera de la página inicial)
-    $searchStore.set({
-      $searchData: {
-        data: gifs.data,
-        next: gifs.next,
-      },
-      $searchQuery: query,
+    const data = await getSearch({
+      next: "",
+      query,
+      signal: abortController.signal,
     })
+
+    if (!data) return
+
+    setData(data)
+    setQuery(query)
   }
 
   useEffect(() => {
@@ -51,30 +47,30 @@ export function useGifs() {
     }
   }, [query])
 
-  // Fetch next gifs
-  // ---------------------------------------------
 
-  async function fetchDataNext() {
-    const gifs = await getSearch({ next, query, signal: abortController.signal })
+  // --------------------------------------------------
 
-    setData((previousGifs) => {
-      if (!gifs) return previousGifs
+  // async function fetchDataNext() {
+  //   const gifs = await getSearch({ next, query: query, signal: abortController.signal })
 
-      // combinar las response anteriores con las nuevas
-      console.log([...previousGifs.data, ...gifs.data])
+  //   setData((previousGifs) => {
+  //     if (!gifs) return previousGifs
 
-      return {
-        data: [...previousGifs.data, ...gifs.data],
-        next: gifs.next,
-      }
-    })
+  //     // combinar las response anteriores con las nuevas
+  //     console.log([...previousGifs.gifs, ...gifs.gifs])
 
-    // $searchStore.set({ data: gifs.data, next: gifs.next })
-  }
+  //     return {
+  //       data: [...previousGifs.gifs, ...gifs.gifs],
+  //       next: gifs.next,
+  //     }
+  //   })
 
-  useEffect(() => {
-    fetchDataNext()
-  }, [next])
+  //   // $searchStore.set({ data: gifs.data, next: gifs.next })
+  // }
+
+  // useEffect(() => {
+  //   fetchDataNext()
+  // }, [next])
 
   // ---------------------------------------------
 
@@ -82,5 +78,5 @@ export function useGifs() {
   // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
   // return () => {} -> se ejecuta cuando se desmonta el componente
 
-  return { data, nextPage, query, setQuery, $searchStore }
+  return { data, setQuery }
 }

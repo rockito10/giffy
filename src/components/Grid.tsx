@@ -1,34 +1,26 @@
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import { Frame } from "./Frame"
 
 import type { MappedGifs } from "../types/types"
 
 interface Props {
-  data: MappedGifs
-  query: string
+  data: MappedGifs | null
 }
 
-export function Grid({ data, query }: Props) {
-  // if (!query) return
+export function Grid({ data }: Props) {
+  const gifs = data?.gifs
 
-  console.log("data dentro de grid", data)
+  if (!gifs) return null
 
   return (
-    data?.data?.length > 0 && (
-      <section>
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4, 1280: 6 }}>
-          <Masonry className="space-x-2.5">
-            {data.data.map((gif) => (
-              <a key={gif.id} href={`gif/${gif.id}`}>
-                <img
-                  alt={gif.alt}
-                  className="mt-2.5 transition-transform hover:scale-110"
-                  src={gif.images.tinygif}
-                />
-              </a>
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
-      </section>
-    )
+    <section>
+      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 3, 900: 4, 1280: 6 }}>
+        <Masonry className="space-x-2.5">
+          {gifs.map(({ id, alt, images }) => (
+            <Frame key={id} id={id} alt={alt} src={images.tinygif} />
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
+    </section>
   )
 }
