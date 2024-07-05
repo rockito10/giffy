@@ -9,6 +9,7 @@ interface GetSearchParams {
 }
 
 const TENOR_API_KEY = "AIzaSyBwtgEHAWlCQW0bDiIrT9oksqKfElzh5r0"
+// const { TENOR_API_KEY } = import.meta.env
 
 export async function getSearch({
   next,

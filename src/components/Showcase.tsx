@@ -1,5 +1,7 @@
 // import { useEffect } from "react"
 
+import { useEffect } from "react"
+
 import { useGifs } from "../hooks/useGifs"
 import { useInView } from "../hooks/useInView"
 import { Form } from "./Form"
@@ -8,7 +10,7 @@ import { Grid } from "./Grid"
 // import { $searchStore } from "../store/search"
 
 export function Showcase() {
-  const { data, setQuery } = useGifs()
+  const { data, getMoreGifs, setQuery } = useGifs()
 
   // QUiero usar el store creado en useGifs
   // para acceder a los gifs
@@ -27,9 +29,9 @@ export function Showcase() {
     rootMargin: "0px 0px 500px 0px",
   })
 
-  // useEffect(() => {
-  //   nextPage()
-  // }, [inView])
+  useEffect(() => {
+    getMoreGifs()
+  }, [inView])
 
   return (
     <>

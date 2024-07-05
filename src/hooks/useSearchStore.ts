@@ -1,4 +1,5 @@
 import { useStore } from "@nanostores/react"
+
 import { $searchStore, searchStore } from "../store/searchStore"
 
 // para React, NO para JS

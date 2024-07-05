@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react"
-
-import type { MappedGifs } from "../types/types"
+import { useEffect } from "react"
 
 import { getSearch } from "../services/getSearch"
 import { searchStore } from "../store/searchStore"
@@ -15,12 +13,13 @@ export function useGifs() {
   } = searchStore
 
   const {
-    query, // Este es el estado para usar en React
     data, // Este es el estado para usar en React
+    query, // Este es el estado para usar en React
+    // setData,
+    // setQuery
   } = useSearchStore()
 
   const abortController = new AbortController()
-
 
   // --------------------------------------------------
 
@@ -28,7 +27,7 @@ export function useGifs() {
     if (!query) return
 
     const data = await getSearch({
-      next: "",
+      next: "", // Opcional
       query,
       signal: abortController.signal,
     })
@@ -39,6 +38,8 @@ export function useGifs() {
     setQuery(query)
   }
 
+  // useCallback(() => {}, [query])
+
   useEffect(() => {
     setTimeout(fetchDataQuery, 300)
 
@@ -47,36 +48,31 @@ export function useGifs() {
     }
   }, [query])
 
+  // --------------------------------------------------
+
+  async function getMoreGifs() {
+    if (!query) return
+
+    const newGifs = await getSearch({
+      next: data.next,
+      query: query,
+      signal: abortController.signal,
+    })
+
+    if (!newGifs) return
+
+    setData({
+      gifs: [...data.gifs, ...newGifs.gifs],
+      next: newGifs.next,
+    })
+  }
 
   // --------------------------------------------------
 
-  // async function fetchDataNext() {
-  //   const gifs = await getSearch({ next, query: query, signal: abortController.signal })
+  // useEffect Dependencies
+  // []                -> solo se ejecuta cuando se monta el componente
+  // [params]          -> se ejecuta cuando se monta el componente y cuando params cambie
+  // return () => {}   -> se ejecuta cuando se desmonta el componente
 
-  //   setData((previousGifs) => {
-  //     if (!gifs) return previousGifs
-
-  //     // combinar las response anteriores con las nuevas
-  //     console.log([...previousGifs.gifs, ...gifs.gifs])
-
-  //     return {
-  //       data: [...previousGifs.gifs, ...gifs.gifs],
-  //       next: gifs.next,
-  //     }
-  //   })
-
-  //   // $searchStore.set({ data: gifs.data, next: gifs.next })
-  // }
-
-  // useEffect(() => {
-  //   fetchDataNext()
-  // }, [next])
-
-  // ---------------------------------------------
-
-  // [] -> solo se ejecuta cuando se monta el componente
-  // [gifParams] -> se ejecuta cuando se monta el componente y cuando gifParams cambie
-  // return () => {} -> se ejecuta cuando se desmonta el componente
-
-  return { data, setQuery }
+  return { data, getMoreGifs, query, setQuery }
 }

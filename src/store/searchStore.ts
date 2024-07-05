@@ -5,12 +5,12 @@ import type { MappedGifs } from "../types/types"
 // para JS, NO para React
 
 interface SearchStore {
-  $searchData: MappedGifs | null
+  $searchData: MappedGifs
   $searchQuery: string
 }
 
 export const $searchStore = atom<SearchStore>({
-  $searchData: null,
+  $searchData: { gifs: [], next: "" },
   $searchQuery: "",
 })
 
