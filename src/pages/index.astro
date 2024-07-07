@@ -13,6 +13,50 @@ import Layout from "../layouts/Layout.astro"
 
     <InfiniteGrid client:only="react" />
   </main>
+  <script>
+    // document.addEventListener("astro:page-load", () => {
+    //   if (window.location.pathname !== "/") return
+
+    //   const position = JSON.parse(sessionStorage.getItem("position"))
+
+    //   console.log({ "astro:page-load": position })
+
+    //   if (!position) {
+    //     sessionStorage.setItem("position", JSON.stringify(window.scrollY))
+    //     return
+    //   }
+
+    //   window.scrollTo(0, 600)
+    // })
+
+    
+    document.addEventListener("astro:page-load", () => {
+      
+      if (window.location.pathname !== "/") return
+      // console.log(window.location.pathname)
+      
+      const position = sessionStorage.getItem("position")
+      if (!position) return
+      setTimeout(() => {window.scrollTo(0, JSON.parse(position))}, 100)
+      })
+
+    document.addEventListener("astro:before-swap", () => {
+      console.log(window.location.pathname, "BEFORE")
+      console.log(document.getElementById("index"))
+
+      const index = document.getElementById("index")
+      if (!index) return
+
+      console.log("FALSE")
+
+      const position = JSON.stringify(window.scrollY)
+
+      console.log({ "astro:before-swap": window.scrollY })
+
+      sessionStorage.setItem("position", position)
+    })
+
+  </script>
 </Layout>
 
 <script>
