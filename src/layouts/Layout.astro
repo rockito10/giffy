@@ -17,9 +17,9 @@ const { title } = Astro.props
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <meta content={Astro.generator} name="generator" />
     <title>{title}</title>
-    <ViewTransitions fallback="swap" />
+    <ViewTransitions fallback="none" />
   </head>
-  <body>
+  <body class="p-4">
     <div>
       <slot />
     </div>
@@ -30,6 +30,7 @@ const { title } = Astro.props
 
       img {
         width: 100%;
+        max-width: 100%;
       }
 
       div {
@@ -37,32 +38,5 @@ const { title } = Astro.props
         margin-inline: auto;
       }
     </style>
-
-    <script is:inline>
-      document.addEventListener("astro:page-load", () => {
-        if (window.location.pathname !== "/") return
-
-        const position = JSON.parse(sessionStorage.getItem("position"))
-
-        console.log({ "astro:page-load": position })
-
-        if (!position) {
-          sessionStorage.setItem("position", JSON.stringify(window.scrollY))
-          return
-        }
-
-        window.scrollTo(0, position)
-      })
-
-      document.addEventListener("astro:before-swap", () => {
-        if (window.location.pathname !== "/") return
-
-        const position = JSON.stringify(window.scrollY)
-
-        console.log({ "astro:before-swap": window.scrollY })
-
-        sessionStorage.setItem("position", position)
-      })
-    </script>
   </body>
 </html>

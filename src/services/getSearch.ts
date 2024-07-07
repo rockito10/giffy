@@ -8,8 +8,7 @@ interface GetSearchParams {
   signal: AbortSignal
 }
 
-const TENOR_API_KEY = "AIzaSyBwtgEHAWlCQW0bDiIrT9oksqKfElzh5r0"
-// const { TENOR_API_KEY } = import.meta.env
+import { PUBLIC_TENOR_API_KEY as TENOR_API_KEY } from "../environment/environment"
 
 export async function getSearch({
   next,
@@ -25,8 +24,6 @@ export async function getSearch({
   try {
     const resp = await fetch(URL, { signal })
     const data = await resp.json()
-
-    // console.log(data)
 
     if (resp.status !== 200) {
       console.log(resp.status)
