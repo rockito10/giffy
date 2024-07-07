@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import { getSearch } from "../services/getSearch"
 import { searchStore } from "../store/searchStore"
@@ -18,6 +18,8 @@ export function useGifs() {
     // setData,
     // setQuery
   } = useSearchStore()
+
+  const firstUpdate = useRef(true)
 
   const abortController = new AbortController()
 
@@ -41,6 +43,10 @@ export function useGifs() {
   // useCallback(() => {}, [query])
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
     setTimeout(fetchDataQuery, 300)
 
     return () => {
