@@ -19,7 +19,7 @@ export async function getSearch({
     return
   }
 
-  const URL = `https://tenor.googleapis.com/v2/search?q=${query}&key=${TENOR_API_KEY}&limit=${50}&pos=${next}`
+  const URL = `https://tenor.googleapis.com/v2/search?q=${query}&key=${TENOR_API_KEY}&limit=${20}&pos=${next}`
 
   try {
     const resp = await fetch(URL, { signal })
