@@ -26,5 +26,6 @@ module.exports = {
         shorthandFirst: true,
       },
     ],
+    "@typescript-eslint/no-unused-vars": "warn",
   },
 }
