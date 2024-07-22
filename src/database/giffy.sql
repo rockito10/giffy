@@ -1,0 +1,43 @@
+-- DROP DATABASE IF EXISTS giffy;
+
+DROP TABLE IF EXISTS LIKED;
+DROP TABLE IF EXISTS COMENTARIO;
+DROP TABLE IF EXISTS GIF;
+DROP TABLE IF EXISTS USUARIO;
+
+-- Crear tabla GIF
+CREATE TABLE GIF (
+    id VARCHAR(255) PRIMARY KEY,
+    likes INTEGER DEFAULT 0
+);
+
+-- Crear tabla USUARIO
+CREATE TABLE USUARIO (
+	id VARCHAR(64) PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE,
+    pass VARCHAR(50) NOT NULL,
+    img VARCHAR(255)
+);
+
+-- Crear tabla LIKED
+CREATE TABLE LIKED (
+    name VARCHAR(20),
+    gif_id VARCHAR(255),
+    PRIMARY KEY (name, gif_id),
+    FOREIGN KEY (name) REFERENCES USUARIO(name) ON DELETE CASCADE,
+    FOREIGN KEY (gif_id) REFERENCES GIF(id) ON DELETE CASCADE
+);
+
+-- Crear tabla COMENTARIO
+CREATE TABLE COMENTARIO (
+    num SERIAL,
+    gif_id VARCHAR(255),
+    name VARCHAR(20),
+    text TEXT,
+    PRIMARY KEY (gif_id, name, num),
+    FOREIGN KEY (gif_id) REFERENCES GIF(id) ON DELETE CASCADE,
+    FOREIGN KEY (name) REFERENCES USUARIO(name) ON DELETE CASCADE
+);
+
+INSERT INTO USUARIO (id, name, pass, img)
+VALUES ('1', 'pepe', 'pepe1234', 'https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg');

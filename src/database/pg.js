@@ -13,7 +13,7 @@ const client = new Client({
 
 client.connect()
 
-const res = await client.query("SELECT * FROM USUARIO", ["Hello world!"])
-console.log(res)
-console.log(res.rows[0].message) // Hello world!
+const res = await client.query("SELECT * FROM USUARIO")
+// console.log(res)
+console.log(res.rows[0]) // Hello world!
 await client.end()
