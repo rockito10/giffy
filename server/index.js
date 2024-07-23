@@ -1,5 +1,3 @@
-// @ts-check
-
 import express from "express"
 import cors from "cors"
 import pg from "pg"
@@ -8,15 +6,8 @@ const app = express()
 const port = 3000
 app.use(cors())
 
-// const infoFromDataBase = {
-//   id: 1,
-//   name: "Pepe",
-//   img: "https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg",
-// }
-
-const { Client } = pg
-
-const client = new Client({
+// Configura el cliente de PostgreSQL
+const client = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "giffy",
@@ -24,29 +15,36 @@ const client = new Client({
   port: 5432,
 })
 
-client.connect()
+// Conéctate a la base de datos una sola vez al iniciar el servidor
+client
+  .connect()
+  .then(() => console.log("Conectado a la base de datos"))
+  .catch((err) => console.error("Error al conectar a la base de datos", err))
 
-// Enable CORS for all routes
-
+// Maneja la ruta raíz
 app.get("/", (req, res) => {
-  res.send({
-    message: "Hello World!",
-  })
+  res.json({ message: "Hello World!" })
 })
 
-const id = 1
-
-app.get(`/user/${id}`, (req, res) => {
-
-  const infoFromDataBase = client.query(
-    `SELECT (id, name, img) FROM usuario WHERE id = '${id}'`,
-  )
-
-  res.send(infoFromDataBase)
+// Maneja la solicitud para obtener un usuario específico
+app.get(`/user/1`, async (req, res) => {
+  try {
+    const user = await client.query(`SELECT name, img FROM usuario WHERE id = '1'`)
+    res.json(user.rows[0])
+  } catch (err) {
+    console.error("Error al consultar la base de datos", err)
+    res.status(500).json({ message: "Error al consultar la base de datos" })
+  }
 })
 
+// Maneja el cierre del servidor
 app.listen(port, () => {
   console.log(`http://localhost:${port}`)
 })
 
-await client.end()
+// Cierra la conexión al terminar el proceso
+process.on("SIGINT", async () => {
+  await client.end()
+  console.log("Conexión a la base de datos cerrada")
+  process.exit(0)
+})

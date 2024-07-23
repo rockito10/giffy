@@ -41,7 +41,7 @@ CREATE TABLE COMENTARIO (
 );
 
 INSERT INTO USUARIO (id, name, pass, img)
-VALUES ('4a12a2', 'peparda', '8887', 'https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg'),
+VALUES ('1', 'peparda', '8887', 'https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg'),
 	('aabh1', 'pepe', 'pepe1234', 'https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg'),
 ('AsfG8', 'elma', 'tute', NULL);
 

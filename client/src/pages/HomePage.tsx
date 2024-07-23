@@ -1,3 +1,4 @@
+import Avatar from "../components/Avatar"
 import { useFetch } from "../hooks/useFetch"
 import { getUserInfo } from "../services/getUserInfo"
 
@@ -8,14 +9,16 @@ interface UserInfo {
 }
 
 export default function HomePage() {
-  const { data } = useFetch<UserInfo>({ service: () => getUserInfo({ id: 1 }) })
+  const { data: userInfo } = useFetch<UserInfo>({ service: () => getUserInfo({ id: 1 }) })
 
-  console.log("userInfo: ", data)
+  console.log("userInfo: ", userInfo)
 
   return (
     <div>
-      <p>Welcome {data?.name}</p>
-      <h2>HOME PAGE</h2>
+      <p>Welcome {userInfo?.name}</p>
+      <div className="absolute right-12 top-12">
+        {userInfo && <Avatar name={userInfo.name} src={userInfo.img} />}
+      </div>
       <span className="bg-red-600">TODO: Tus Gifs Favoritos</span>
     </div>
   )

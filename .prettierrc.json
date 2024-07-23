@@ -1,4 +1,13 @@
 {
   "printWidth": 100,
-  "semi": false
+  "semi": false,
+
+  "overrides": [
+    {
+      "files": "client/**/*.{html,js,jsx,ts,tsx}",
+      "options": {
+        "plugins": ["prettier-plugin-tailwindcss"]
+      }
+    }
+  ]
 }
