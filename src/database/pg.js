@@ -13,7 +13,7 @@ const client = new Client({
 
 client.connect()
 
-const res = await client.query("SELECT * FROM USUARIO")
+const res = await client.query("SELECT * FROM usuario NATURAL JOIN comentario WHERE name = 'pepe'")
 // console.log(res)
-console.log(res.rows[0]) // Hello world!
+console.log(res["rows"])
 await client.end()
