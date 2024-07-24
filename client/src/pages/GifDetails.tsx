@@ -5,23 +5,32 @@ import { useParams } from "wouter"
 import { LikeButton } from "../components/LikeButton"
 import { useFetch } from "../hooks/useFetch"
 import { getGifDetails } from "../services/getGifDetails"
+import { getComments } from "../services/getComments"
 
 export default function GifsDetails() {
   const { id } = useParams()
 
-  console.log(id)
+  // console.log(id)
 
+  // Get Gif Details (Tenor)
   const { data, isLoading, error } = useFetch<MappedGif>({
     service: () => getGifDetails({ id }),
   })
 
-  console.log("esta data", { data, isLoading, error })
+  // Get Comments (GiffyDb)
+  const { data: comments } = useFetch<MappedGif>({
+    service: () => getComments(id),
+  })
+
+  // console.log("esta data", { data, isLoading, error })
 
   if (error) return <div>Error: {error}</div>
 
   if (isLoading) return <div>Loading...</div>
 
   if (!data) return <div>No data</div>
+
+  console.log("comments", comments)
 
   return (
     <div>
@@ -57,6 +66,17 @@ export default function GifsDetails() {
         </div> */}
 
           <LikeButton />
+
+          <div>
+            <h2>Comments</h2>
+            <ul>
+              {comments?.map(({id, comment}) => (
+                <li key={id}>{comment}</li>
+              ))}
+            </ul>
+          
+          </div>
+
         </div>
       </div>
     </div>
