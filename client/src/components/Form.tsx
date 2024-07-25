@@ -1,10 +1,7 @@
-import { useRef } from "react"
-import { useGiffyContext } from "../hooks/useGiffyContext"
 import { useLocation } from "wouter"
+import { useGiffyContext } from "../hooks/useGiffyContext"
 
 export function Form() {
-  const inputRef = useRef<HTMLInputElement | null>(null)
-
   const { setQuery } = useGiffyContext()
 
   const [, setLocation] = useLocation()
@@ -22,7 +19,6 @@ export function Form() {
     <form className="w-1/2 font-semibold text-black" onSubmit={handleSubmit}>
       <div className="flex w-full">
         <input
-          ref={inputRef}
           className="flex-1 rounded-bl-lg rounded-tl-lg border px-4 py-2"
           placeholder="Dragon Ball, Breaking Bad..."
           type="text"

@@ -1,3 +1,5 @@
+import { Form } from "../components/Form"
+
 interface Props {
   children: React.ReactNode
 }
@@ -5,9 +7,11 @@ interface Props {
 export function MainLayout({ children }: Props) {
   return (
     <div className="p-8">
-      <header>HEADER</header>
+      <header>
+        <Form />
+      </header>
       <main>{children}</main>
-      <footer>FOOTER</footer>
+      {/* <footer>FOOTER</footer> */}
     </div>
   )
 }

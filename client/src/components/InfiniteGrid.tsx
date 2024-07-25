@@ -1,13 +1,11 @@
 import { useEffect } from "react"
 
-import { useFetchGifs } from "../hooks/useBorrar"
+import { useFetchGifs } from "../hooks/useFetchGifs"
 import { useInView } from "../hooks/useInView"
 import { Grid } from "./Grid"
 
 export function InfiniteGrid() {
   const { data, getMoreGifs } = useFetchGifs()
-
-  // const { data, isLoading, error } = useFetch(() => getSearch({ query: "cats" }))
 
   const { inView, ref } = useInView({
     rootMargin: "0px 0px 500px 0px",

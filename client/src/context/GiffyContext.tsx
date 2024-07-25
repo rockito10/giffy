@@ -8,6 +8,7 @@ interface GiffyContextType {
   query: string
   setData: (data: MappedGifs) => void
   setQuery: (query: string) => void
+  concatData: (newGifs: MappedGifs) => void
 }
 
 export const GiffyContext = createContext<GiffyContextType>({
@@ -15,6 +16,7 @@ export const GiffyContext = createContext<GiffyContextType>({
   query: "",
   setData: () => {},
   setQuery: () => {},
+  concatData: () => {}
 })
 
 // ---------- Provider ----------
@@ -27,6 +29,15 @@ export function GiffyContextProvider({ children }: Props) {
   const [query, setQuery] = useState("")
   const [data, setData] = useState<MappedGifs>({ gifs: [], next: "" })
 
+  const concatData = (newData: MappedGifs) => {
+    setData((prevData) => {
+      return {
+        gifs: [...prevData.gifs, ...newData.gifs],
+        next: newData.next,
+      }
+    })
+  }
+
   return (
     <GiffyContext.Provider
       value={{
@@ -34,6 +45,7 @@ export function GiffyContextProvider({ children }: Props) {
         query,
         setData,
         setQuery,
+        concatData,
       }}
     >
       {children}

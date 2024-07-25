@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react"
 import { Route, Router } from "wouter"
-import { Form } from "../components/Form"
 import { MainLayout } from "../layouts/MainLayout"
 
 // Pages
@@ -13,11 +12,8 @@ export function AppRoutes() {
     <Router>
       <MainLayout>
         <Suspense fallback={<div>Loading...</div>}>
-          <div>
-            <Form />
-            <Route component={HomePage} path="/" />
-            <Route component={SearchPage} path="/search/:query" />
-          </div>
+          <Route component={HomePage} path="/" />
+          <Route component={SearchPage} path="/search/:query" />
           <Route component={GifsDetails} path="/gif/:id" />
         </Suspense>
       </MainLayout>

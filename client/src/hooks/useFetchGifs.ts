@@ -1,18 +1,18 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import { getSearch } from "../services/getSearch"
 import { useGiffyContext } from "./useGiffyContext"
 
 export function useFetchGifs() {
-  const { data, query, setQuery, setData } = useGiffyContext()
+  const { data, query, setData, concatData } = useGiffyContext()
 
-  // const firstUpdate = useRef(true)
+  const firstUpdate = useRef(true)
 
   const abortController = new AbortController()
 
   // --------------------------------------------------
 
-  async function fetchDataQuery() {
+  const fetchDataQuery = async () => {
     if (!query) return
 
     const data = await getSearch({ next: "", query, signal: abortController.signal })
@@ -23,10 +23,10 @@ export function useFetchGifs() {
   }
 
   useEffect(() => {
-    // if (firstUpdate.current) {
-    //   firstUpdate.current = false
-    //   return
-    // }
+    if (firstUpdate.current) {
+      firstUpdate.current = false
+      return
+    }
 
     fetchDataQuery()
 
@@ -45,22 +45,11 @@ export function useFetchGifs() {
       query: query,
       signal: abortController.signal,
     })
-
     if (!newGifs) return
-
-    // ESTO ESTA MAL
-    setData({
-      gifs: [...data.gifs, ...newGifs.gifs],
-      next: newGifs.next,
-    })
+    concatData(newGifs)
   }
 
   // --------------------------------------------------
 
-  // useEffect Dependencies
-  // []                -> solo se ejecuta cuando se monta el componente
-  // [params]          -> se ejecuta cuando se monta el componente y cuando params cambie
-  // return () => {}   -> se ejecuta cuando se desmonta el componente
-
-  return { data, getMoreGifs, query, setQuery }
+  return { data, getMoreGifs }
 }
