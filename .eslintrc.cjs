@@ -24,6 +24,7 @@ module.exports = {
   plugins: ["react-refresh"],
   rules: {
     // TypeScript
+    "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-unused-vars": [

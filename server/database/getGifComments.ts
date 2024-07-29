@@ -1,4 +1,4 @@
-import { giffyDb } from "./clientInstance.js"
+import { giffyDb } from "./clientInstance"
 
 export async function getGifComments(gifId) {
   //: string
