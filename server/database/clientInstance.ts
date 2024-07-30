@@ -1,12 +1,15 @@
 import pg from "pg"
+import { DB } from "../config/env"
 
 // Configura el cliente de PostgreSQL
+const { USER, HOST, DATABASE, PASSWORD, PORT } = DB
+
 const client = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "giffy",
-  password: "1234",
-  port: 5432,
+  user: USER,
+  host: HOST,
+  database: DATABASE,
+  password: PASSWORD,
+  port: Number(PORT),
 })
 
 async function connectToDatabase() {
@@ -27,14 +30,11 @@ async function disconnectFromDatabase() {
   }
 }
 
-/**
- * Ejecuta una consulta en la base de datos
- * @param {string} query - Consulta a ejecutar
- * @returns {Promise<pg.QueryResult>} - Resultado de la consulta
- */
+interface Params {
+  query: string
+}
 
-async function queryDatabase(query) {
-  //: string
+async function queryDatabase({ query }: Params) {
   try {
     const result = await client.query(query)
     return result

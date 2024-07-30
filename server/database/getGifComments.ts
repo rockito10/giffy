@@ -2,15 +2,15 @@ import { giffyDb } from "./clientInstance"
 
 export async function getGifComments(gifId) {
   //: string
-  const QUERY = `SELECT num, gif_id, usuario.name, text, img FROM comentario JOIN usuario ON usuario.name = comentario.name WHERE gif_id = '${gifId}'`
+  const query = `SELECT num, gif_id, usuario.name, text, img FROM comentario JOIN usuario ON usuario.name = comentario.name WHERE gif_id = '${gifId}'`
 
   try {
-    const comments = await giffyDb.queryDatabase(QUERY)
+    const comments = await giffyDb.queryDatabase({ query })
 
-    const mappedComments = comments.rows.map((comment) => {
+    const mappedComments = comments?.rows.map((comment) => {
       return {
-        numOfComment: comment.num,
-        gifId: comment.gif_id,
+        comment_num: comment.num,
+        gif_id: comment.gif_id,
         username: comment.name,
         comment: comment.text,
         avatar: comment.img,

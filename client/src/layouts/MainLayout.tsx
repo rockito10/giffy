@@ -1,4 +1,4 @@
-import { Form } from "../components/Form"
+import { Header } from "../components/Header"
 
 interface Props {
   children: React.ReactNode
@@ -6,11 +6,11 @@ interface Props {
 
 export function MainLayout({ children }: Props) {
   return (
-    <div className="p-8">
-      <header>
-        <Form />
-      </header>
-      <main>{children}</main>
+    <div>
+      <div className="sticky top-0 z-[100]">
+        <Header />
+      </div>
+      <main className="p-8">{children}</main>
       {/* <footer>FOOTER</footer> */}
     </div>
   )

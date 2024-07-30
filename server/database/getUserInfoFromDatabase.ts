@@ -2,10 +2,10 @@ import { giffyDb } from "./clientInstance"
 
 export async function getUserInfoFromDatabase(userId) {
   //: string
-  const QUERY = `SELECT id, name, img FROM usuario WHERE id = '${userId}'`
+  const query = `SELECT id, name, img FROM usuario WHERE id = '${userId}'`
 
   try {
-    const userInfo = await giffyDb.queryDatabase(QUERY)
+    const userInfo = await giffyDb.queryDatabase({ query })
 
     if (!userInfo) {
       return null

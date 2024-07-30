@@ -1,4 +1,4 @@
-export async function getComments(id: string) {
+export async function getComments(id: string | undefined) {
   const URL = `http://localhost:3000/comments/${id}`
 
   const resp = await fetch(URL)

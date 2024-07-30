@@ -5,7 +5,7 @@ export default function SearchPage() {
 
   return (
     <div>
-      <h2>SEARCH PAGE fdsafdsa</h2>
+      <h2>SEARCH PAGE</h2>
       <InfiniteGrid />
     </div>
   )

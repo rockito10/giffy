@@ -3,6 +3,16 @@ export interface GifResponse {
   results: Gif[]
 }
 
+export interface Comment {
+  comment_num: number
+  gif_id: string
+  username: string
+  comment: string
+  avatar: string
+}
+
+type GifComments = Comment[]
+
 export interface Gif {
   content_description: string
   created: number
@@ -39,4 +49,10 @@ interface MappedGif {
   images: Record<Key, string>
   tags: string[]
   title: string
+}
+
+export interface UserInfo {
+  img: string
+  name: string
+  id: number
 }

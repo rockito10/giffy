@@ -1,5 +1,5 @@
-import { TENOR_API_KEY } from "../environment/environment"
-import type { MappedGif } from "../types/types.d.ts"
+import { TENOR_API } from "../config/env"
+import type { MappedGif } from "../types/types"
 import { dataMapper } from "../utils/gifResponseMapper"
 
 interface GetGifById {
@@ -7,9 +7,13 @@ interface GetGifById {
 }
 
 export async function getGifById({ id }: GetGifById): Promise<MappedGif> {
-  const URL = `https://tenor.googleapis.com/v2/posts?key=${TENOR_API_KEY}&ids=${id}`
+  const URL = `${TENOR_API.API_BASE_URL}/posts?key=${TENOR_API.API_KEY}&ids=${id}`
 
-  const resp = await fetch(URL)
-  const data = await resp.json()
-  return dataMapper(data.results[0])
+  try {
+    const resp = await fetch(URL)
+    const data = await resp.json()
+    return dataMapper(data.results[0])
+  } catch (error) {
+    // return Promise.reject(error)
+  }
 }

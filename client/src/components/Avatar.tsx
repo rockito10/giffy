@@ -3,7 +3,7 @@ interface Props {
   src: string
 }
 
-export default function Avatar({ name, src }: Props) {
+export function Avatar({ name, src }: Props) {
   return (
     <div className="flex flex-col">
       <img
@@ -12,7 +12,6 @@ export default function Avatar({ name, src }: Props) {
         src={src ?? "/assets/no-avatar.svg"}
         title={name}
       />
-      <h3>{name}</h3>
     </div>
   )
 }
