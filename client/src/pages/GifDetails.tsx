@@ -1,12 +1,12 @@
-import type { MappedGif, GifComments } from "../types/types"
+import type { GifComments, MappedGif } from "../types/types"
 
 import { Link, useParams } from "wouter"
 
+import { CommentSection } from "../components/Comments/CommentSection"
 import { LikeButton } from "../components/LikeButton"
 import { useFetch } from "../hooks/useFetch"
-import { getGifDetails } from "../services/getGifDetails"
 import { getComments } from "../services/getComments"
-import CommentSection from "../components/CommentSection"
+import { getGifDetails } from "../services/getGifDetails"
 
 export default function GifsDetails() {
   const { id } = useParams()
@@ -30,13 +30,10 @@ export default function GifsDetails() {
   if (!data) return <div>No data</div>
 
   return (
-    <div className="flex gap-8 flex-col">
+    <div className="flex flex-col gap-8">
       <div className="flex gap-8">
-        
         {/* --- GIF --- */}
         <div className="flex w-1/3 flex-shrink-0 flex-col gap-y-4">
-
-
           <h1 className="text-4xl">Your GIF: {data.alt}</h1>
           <img
             alt="gif"
@@ -47,7 +44,7 @@ export default function GifsDetails() {
 
         <section className="flex flex-col justify-center gap-8">
           {/* --- TAGS --- */}
-          <div className="flex justify-center gap-x-4 text-xl items-center">
+          <div className="flex items-center justify-center gap-x-4 text-xl">
             <span>TAGS: </span>
 
             {data?.tags.map((tag) => (

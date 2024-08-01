@@ -3,14 +3,16 @@ import express from "express"
 import { giffyDb } from "./database/clientInstance"
 import { getGifComments } from "./database/getGifComments"
 import { getUserInfoFromDatabase } from "./database/getUserInfoFromDatabase"
+import { sendGifComment } from "./database/sendGifComment"
 import { getGifById } from "./gifsAPI/getGifById"
 import { getGifsByQuery } from "./gifsAPI/getGifsByQuery"
 
 const app = express()
 const port = 3000
 app.use(cors())
+app.use(express.json())
 
-async function init () {
+async function init() {
   await giffyDb.connectToDatabase()
 }
 
@@ -24,7 +26,7 @@ app.listen(port, () => {
 app.get("/", (req, res) => {
   res.json({ message: "Hello Pepe!" })
 })
-  
+
 // USERS
 
 app.get(`/user/:userId`, async (req, res) => {
@@ -39,6 +41,16 @@ app.get(`/comments/:gifId`, async (req, res) => {
   const { gifId } = req.params
   const gifInfo = await getGifComments(gifId)
   res.json(gifInfo)
+})
+
+app.post(`/comments/:gifId`, async (req, res) => {
+  const { gifId } = req.params
+
+  const comment_info = req.body
+  console.log("Body:", req.body);
+
+  const gifInfo = await sendGifComment({ gifId, comment_info })
+  res.status(201).json(gifInfo)
 })
 
 // GIFS
@@ -61,7 +73,11 @@ app.get(`/gif/:gifId/`, async (req, res) => {
   res.json(gifInfo)
 })
 
+// app.set()
+
 // Quiero cerrar la conexion de la base de datos al cerrar el servidor
 app.on("close", async () => {
   await giffyDb.disconnectFromDatabase()
 })
+
+// rutas y controllers en carpetas separadas
