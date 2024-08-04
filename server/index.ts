@@ -6,6 +6,7 @@ import { getUserInfoFromDatabase } from "./database/getUserInfoFromDatabase"
 import { sendGifComment } from "./database/sendGifComment"
 import { getGifById } from "./gifsAPI/getGifById"
 import { getGifsByQuery } from "./gifsAPI/getGifsByQuery"
+import { commentsRouter } from "./routes/comments"
 
 const app = express()
 const port = 3000
@@ -35,23 +36,25 @@ app.get(`/user/:userId`, async (req, res) => {
   res.json(userInfo)
 })
 
-// COMMENTS
+// // COMMENTS
+app.use("/comments", commentsRouter)
+// app.get(`/comments/:gifId`, async (req, res) => {
+//   const { gifId } = req.params
+//   const gifInfo = await getGifComments(gifId)
+//   res.json(gifInfo)
+// })
 
-app.get(`/comments/:gifId`, async (req, res) => {
-  const { gifId } = req.params
-  const gifInfo = await getGifComments(gifId)
-  res.json(gifInfo)
-})
+// app.post(`/comments/:gifId`, async (req, res) => {
+//   const { gifId } = req.params
 
-app.post(`/comments/:gifId`, async (req, res) => {
-  const { gifId } = req.params
+//   const comment_info = req.body
+//   console.log("Body:", req.body)
 
-  const comment_info = req.body
-  console.log("Body:", req.body);
+//   const gifExists = await getGifById({ gifId })
+//   const gifInfo = await sendGifComment({ gifId, comment_info })
 
-  const gifInfo = await sendGifComment({ gifId, comment_info })
-  res.status(201).json(gifInfo)
-})
+//   res.status(201).json(gifInfo)
+// })
 
 // GIFS
 
@@ -69,7 +72,7 @@ app.get(`/search/:query`, async (req, res) => {
 
 app.get(`/gif/:gifId/`, async (req, res) => {
   const { gifId } = req.params
-  const gifInfo = await getGifById({ id: gifId })
+  const gifInfo = await getGifById({ gifId })
   res.json(gifInfo)
 })
 
