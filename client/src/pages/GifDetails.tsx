@@ -1,11 +1,10 @@
-import type { GifComments, MappedGif } from "../types/types"
+import type { MappedGif } from "../types/types"
 
 import { Link, useParams } from "wouter"
 
 import { CommentSection } from "../components/Comments/CommentSection"
 import { LikeButton } from "../components/LikeButton"
 import { useFetch } from "../hooks/useFetch"
-import { getComments } from "../services/getComments"
 import { getGifDetails } from "../services/getGifDetails"
 
 export default function GifsDetails() {
@@ -17,11 +16,6 @@ export default function GifsDetails() {
   })
 
   console.log({ data }, "PEPE", { id })
-
-  // Get Comments (GiffyDb)
-  const { data: AllComments } = useFetch<GifComments>({
-    service: () => getComments(id),
-  })
 
   if (error) return <div>Error: {error}</div>
 
@@ -69,7 +63,7 @@ export default function GifsDetails() {
       {/* ... */}
 
       <div>
-        <CommentSection comments={AllComments} />
+        <CommentSection gifId={id} />
       </div>
     </div>
   )

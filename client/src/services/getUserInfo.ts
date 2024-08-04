@@ -13,11 +13,10 @@ interface UserInfo {
 }
 
 export async function getUserInfo({ id }: GetUserInfo): Promise<UserInfo> {
-  const URL = `http://localhost:3000/user/${id}`
 
   console.log(URL)
 
-  const resp = await fetch(URL)
+  const resp = await fetch(`/api/user/${id}`)
   const data = await resp.json()
 
   console.log(data)

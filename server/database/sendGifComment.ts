@@ -1,12 +1,19 @@
 import { giffyDb } from "./clientInstance"
 
 export async function sendGifComment({ gifId, comment_info }) {
-  const { comment_num, username, comment} = comment_info
-
-  const query = `INSERT INTO comentario (num, gif_id, name, text) VALUES (${comment_num}, ${gifId}, '${username}', '${comment}')`
+  const { username, commentText } = comment_info
 
   try {
-    await giffyDb.queryDatabase({ query })
+    const queryComNum = `SELECT MAX(num) FROM comentario WHERE gif_id = '${gifId}'`
+    const comment_num = await giffyDb.queryDatabase({ query: queryComNum })
+
+    if (!comment_num) {
+      const query = `INSERT INTO comentario (num, gif_id, name, text) VALUES (0, '${gifId}', '${username}', '${commentText}')`
+      await giffyDb.queryDatabase({ query })
+    } else {
+      const query = `INSERT INTO comentario (num, gif_id, name, text) VALUES (${comment_num.rows[0].max + 1}, '${gifId}', '${username}', '${commentText}')`
+      await giffyDb.queryDatabase({ query })
+    }
   } catch (err) {
     console.error("Error al enviar a la base de datos", err)
   }

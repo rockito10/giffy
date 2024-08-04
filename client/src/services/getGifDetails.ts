@@ -5,10 +5,7 @@ interface GetGifDetails {
 }
 
 export async function getGifDetails({ id }: GetGifDetails): Promise<MappedGif> {
-  const URL = `http://localhost:3000/gif/${id}`
-
-  const resp = await fetch(URL)
+  const resp = await fetch(`/api/gif/${id}`)
   const data = await resp.json()
-
   return data
 }

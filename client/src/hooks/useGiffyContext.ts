@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { GiffyContext } from "../context/GiffyContext"
+import { GiffyContext } from "../contexts/GiffyContext"
 
 export function useGiffyContext() {
   const { data, query, setData, setQuery, concatData } = useContext(GiffyContext)

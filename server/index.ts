@@ -30,14 +30,14 @@ app.get("/", (req, res) => {
 
 // USERS
 
-app.get(`/user/:userId`, async (req, res) => {
+app.get(`/api/user/:userId`, async (req, res) => {
   const { userId } = req.params
   const userInfo = await getUserInfoFromDatabase(userId)
   res.json(userInfo)
 })
 
 // // COMMENTS
-app.use("/comments", commentsRouter)
+app.use("/api/comments", commentsRouter)
 // app.get(`/comments/:gifId`, async (req, res) => {
 //   const { gifId } = req.params
 //   const gifInfo = await getGifComments(gifId)
@@ -58,19 +58,19 @@ app.use("/comments", commentsRouter)
 
 // GIFS
 
-app.get(`/search/:query/:next`, async (req, res) => {
+app.get(`/api/search/:query/:next`, async (req, res) => {
   const { query, next } = req.params
   const queryData = await getGifsByQuery({ query, next })
   res.json(queryData)
 })
 
-app.get(`/search/:query`, async (req, res) => {
+app.get(`/api/search/:query`, async (req, res) => {
   const { query } = req.params
   const queryData = await getGifsByQuery({ query, next: "" })
   res.json(queryData)
 })
 
-app.get(`/gif/:gifId/`, async (req, res) => {
+app.get(`/api/gif/:gifId/`, async (req, res) => {
   const { gifId } = req.params
   const gifInfo = await getGifById({ gifId })
   res.json(gifInfo)

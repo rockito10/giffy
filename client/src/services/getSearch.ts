@@ -7,22 +7,19 @@ interface GetGifs {
 }
 
 export async function getSearch({ query, next, signal }: GetGifs): Promise<MappedGifs> {
-  const URL = `http://localhost:3000/search/${query}/${next}`
-
   console.log({ URL })
 
   try {
-    const resp = await fetch(URL, { signal })
-  const data = await resp.json()
+    const resp = await fetch(`/api/search/${query}/${next}`, { signal })
+    const data = await resp.json()
 
-  return data
+    return data
   } catch (error) {
     // if (signal.aborted) return
-
-    if (error.name === 'AbortError') {
-      return
+    if (error.message === "AbortError") {
+      return new Promise((_, reject) => reject(error))
     }
 
-    console.log(error)    
+    console.log(error)
   }
 }

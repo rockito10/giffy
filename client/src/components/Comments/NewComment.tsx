@@ -1,4 +1,5 @@
 import { useParams } from "wouter"
+import { useOptimisticCommentsContext } from "../../hooks/useOptimisticCommentsContext"
 
 interface Props {
   isFirstComment: boolean
@@ -6,24 +7,34 @@ interface Props {
 
 export function NewComment({ isFirstComment }: Props) {
   const { id } = useParams()
+  const { addComment } = useOptimisticCommentsContext()
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
     // Post Comment
-    const comment = evt.currentTarget.querySelector("textarea")?.value
-    if (!comment) return
+    const commentText = evt.currentTarget.querySelector("textarea")?.value
+    if (!commentText) return
 
     const infoToSend = {
-      comment,
-      comment_num: 21,
+      commentText,
       username: "peparda",
     }
 
     // ACTUALIZACION OPTIMISTA (Add comment to UI)
 
+    const optCom = {
+      avatar: "https://wiki.teamfortress.com/w/images/thumb/7/7b/Soldier.png/250px-Soldier.png",
+      comment_num: -1,
+      comment: commentText,
+      gif_id: id,
+      username: "OPTIMISTIC PEPE",
+    }
+
+    addComment(optCom)
+
     try {
-      const response = await fetch(`http://localhost:3000/comments/${id}`, {
+      const response = await fetch(`/api/comments/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

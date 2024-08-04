@@ -1,8 +1,11 @@
-export async function getComments(id: string | undefined) {
-  const URL = `http://localhost:3000/comments/${id}`
+import type { CommentsResponse } from "../types/comments"
 
-  const resp = await fetch(URL)
+interface GetCommentsProps {
+  gifId: string | undefined
+}
+
+export async function getComments({ gifId }: GetCommentsProps): Promise<CommentsResponse> {
+  const resp = await fetch(`/api/comments/${gifId}`)
   const data = await resp.json()
-
   return data
 }

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 
-interface Props<Data> {
-  service: () => Promise<Data>
+interface Props<T> {
+  service: () => Promise<T>
   // dependencies?: any[]
 }
 
-export function useFetch<Data>({ service }: Props<Data>) {
-  const [data, setData] = useState<Data | null>(null)
+export function useFetch<T>({ service }: Props<T>) {
+  const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 

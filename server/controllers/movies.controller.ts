@@ -17,7 +17,8 @@ export async function sendCommentController(req, res) {
   const gifExists = await getGifInfoById({ gifId })
 
   if (!gifExists) {
-    const pepe = await createGif({ gifId })
+    //mejorar
+    await createGif({ gifId })
   }
   const gifInfo = await sendGifComment({ gifId, comment_info })
 
