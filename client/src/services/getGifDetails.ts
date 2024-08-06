@@ -5,7 +5,7 @@ interface GetGifDetails {
 }
 
 export async function getGifDetails({ id }: GetGifDetails): Promise<MappedGif> {
-  const resp = await fetch(`/api/gif/${id}`)
+  const resp = await fetch(`/api/search/${id}`)
   const data = await resp.json()
   return data
 }

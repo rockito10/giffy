@@ -16,7 +16,7 @@ export const GiffyContext = createContext<GiffyContextType>({
   query: "",
   setData: () => {},
   setQuery: () => {},
-  concatData: () => {}
+  concatData: () => {},
 })
 
 // ---------- Provider ----------

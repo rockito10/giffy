@@ -20,8 +20,7 @@ export function LikeButton() {
 
   return (
     <button
-      className="w-fit rounded-md border border-red-950 px-2 py-1 text-red-600
-                 transition-colors hover:bg-red-500 hover:text-black"
+      className="w-fit rounded-md border border-red-950 px-2 py-1 text-red-600 transition-colors hover:bg-red-500 hover:text-black"
       onClick={handleLike}
     >
       Like {nroLikes}

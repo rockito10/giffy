@@ -1,10 +1,10 @@
-import { giffyDb } from "./clientInstance"
+import { giffyDb } from "../database/databaseOps"
 
 interface Props {
   gifId: number
 }
 
-export async function createGif({ gifId }: Props) {
+export async function postGif({ gifId }: Props) {
   //: string
   const query = `INSERT INTO gif (id, likes) VALUES ('${gifId}', 0)`
 

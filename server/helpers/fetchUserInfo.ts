@@ -1,6 +1,6 @@
-import { giffyDb } from "./clientInstance"
+import { giffyDb } from "../database/databaseOps"
 
-export async function getUserInfoFromDatabase(userId) {
+export async function fetchUserInfo(userId) {
   //: string
   const query = `SELECT id, name, img FROM usuario WHERE id = '${userId}'`
 

@@ -1,6 +1,6 @@
 import { useParams } from "wouter"
-import { useOptimisticCommentsContext } from "../../hooks/useOptimisticCommentsContext"
 import { useMe } from "../../hooks/useMe"
+import { useOptimisticCommentsContext } from "../../hooks/useOptimisticCommentsContext"
 
 interface Props {
   isFirstComment: boolean
@@ -21,6 +21,8 @@ export function NewComment({ isFirstComment }: Props) {
     const infoToSend = {
       commentText,
       username,
+      // ID DE PEPE
+      // IDE DEL COMENTARIO
     }
 
     // ACTUALIZACION OPTIMISTA (Add comment to UI)

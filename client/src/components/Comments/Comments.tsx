@@ -9,8 +9,6 @@ interface CommentsProps {
 export function Comments({ data }: CommentsProps) {
   const { comments: optComments } = useOptimisticCommentsContext()
 
-  // const
-
   return (
     <div>
       <ul className="space-y-8">

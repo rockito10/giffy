@@ -1,6 +1,6 @@
-import { giffyDb } from "./clientInstance"
+import { giffyDb } from "../database/databaseOps"
 
-export async function getGifComments(gifId) {
+export async function fetchGifComments(gifId) {
   //: string
   const query = `SELECT num, gif_id, usuario.name, text, img FROM comentario JOIN usuario ON usuario.name = comentario.name WHERE gif_id = '${gifId}' ORDER BY num DESC`
 
