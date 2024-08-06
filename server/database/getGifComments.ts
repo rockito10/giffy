@@ -2,7 +2,7 @@ import { giffyDb } from "./clientInstance"
 
 export async function getGifComments(gifId) {
   //: string
-  const query = `SELECT num, gif_id, usuario.name, text, img FROM comentario JOIN usuario ON usuario.name = comentario.name WHERE gif_id = '${gifId}' ORDER BY num asc`
+  const query = `SELECT num, gif_id, usuario.name, text, img FROM comentario JOIN usuario ON usuario.name = comentario.name WHERE gif_id = '${gifId}' ORDER BY num DESC`
 
   try {
     const comments = await giffyDb.queryDatabase({ query })

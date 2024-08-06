@@ -13,23 +13,18 @@ export function Comments({ data }: CommentsProps) {
 
   return (
     <div>
-      <ul className="space-y-4">
+      <ul className="space-y-8">
         {/* Optimistic comments */}
 
-        {optComments?.map(({ comment_num, username, avatar, comment }) => (
-          <Comment
-            key={comment_num}
-            avatar={
-              "https://wiki.teamfortress.com/w/images/thumb/7/7b/Soldier.png/250px-Soldier.png"
-            }
-            comment={comment}
-            username={username}
-          />
+        {optComments?.map(({ comment_num, avatar, username, comment }) => (
+          <Comment key={comment_num} avatar={avatar} comment={comment} username={username} />
         ))}
 
         {/* Database comments */}
         {data?.map(({ comment_num, username, avatar, comment }) => (
-          <Comment key={comment_num} avatar={avatar} comment={comment} username={username} />
+          <div key={comment_num}>
+            <Comment avatar={avatar} comment={comment} username={username} />
+          </div>
         ))}
       </ul>
     </div>

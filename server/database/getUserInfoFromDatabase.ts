@@ -7,6 +7,8 @@ export async function getUserInfoFromDatabase(userId) {
   try {
     const userInfo = await giffyDb.queryDatabase({ query })
 
+    console.log("userInfo", userInfo)
+
     if (!userInfo) {
       return null
     }
@@ -15,5 +17,5 @@ export async function getUserInfoFromDatabase(userId) {
   } catch (err) {
     console.error("Error al consultar la base de datos", err)
     return { message: "Error al consultar la base de datos" }
-  } 
+  }
 }

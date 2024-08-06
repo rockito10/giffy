@@ -1,4 +1,5 @@
 import { Avatar } from "../Avatar"
+import { DeleteComment } from "./DeleteComment"
 
 interface Props {
   username: string
@@ -8,12 +9,22 @@ interface Props {
 
 export function Comment({ username, avatar, comment }: Props) {
   return (
-    <li className="flex w-2/3 items-center gap-x-8 border border-white/70 p-[0.5vw]">
-      <div className="flex flex-col items-center">
-        <Avatar name={username} src={avatar} />
-        <h3 className="font-bold">{username} </h3>
+    <li className="relative flex w-2/3 items-center border border-white/70">
+      <div className="flex w-full items-center gap-4">
+        {/* ... */}
+
+        <div className="flex flex-col items-center border-r border-white/50 p-[1vw]">
+          <Avatar name={username} src={avatar} />
+          <h3 className="text-sm font-bold">{username} </h3>
+        </div>
+
+        {/* ... */}
+
+        <span>{comment}</span>
+        <span className="absolute -bottom-4 -right-4 z-10">
+          <DeleteComment />
+        </span>
       </div>
-      <span>{comment}</span>
     </li>
   )
 }

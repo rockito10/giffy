@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 
 app.get(`/api/user/:userId`, async (req, res) => {
   const { userId } = req.params
+
   const userInfo = await getUserInfoFromDatabase(userId)
   res.json(userInfo)
 })
