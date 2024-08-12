@@ -9,7 +9,7 @@ interface Props {
 export function NewComment({ isFirstComment }: Props) {
   const { id } = useParams()
   const { addComment } = useOptimisticCommentsContext()
-  const { avatar, username } = useMe()
+  const { avatar, username, id: userId } = useMe()
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -20,7 +20,7 @@ export function NewComment({ isFirstComment }: Props) {
 
     const infoToSend = {
       commentText,
-      username,
+      userId,
       // ID DE PEPE
       // IDE DEL COMENTARIO
     }
@@ -29,10 +29,11 @@ export function NewComment({ isFirstComment }: Props) {
 
     const optCom = {
       avatar,
-      comment_num: -1,
-      comment: commentText,
+      comment_id: -1,
+      text: commentText,
       gif_id: id,
-      username,
+      user_name: username,
+      userId,
     }
 
     addComment(optCom)
@@ -45,8 +46,6 @@ export function NewComment({ isFirstComment }: Props) {
         },
         body: JSON.stringify(infoToSend),
       })
-
-      console.log({ response })
 
       if (response.status === 201) {
         // Confirmamos que el comentario se ha enviado

@@ -8,8 +8,8 @@ interface Props {
   comment: string
 }
 
-export function Comment({ ID_USER_QUE_DE_LA_BASE_DE_DATOS, username, avatar, comment }: Props) {
-  // const { ID_USER } = useMe()
+export function Comment({ username, avatar, comment }: Props) {
+  // const { username } = useMe()
 
   return (
     <li className="relative flex w-2/3 items-center border border-white/70">

@@ -1,9 +1,10 @@
 export interface Comment {
   avatar: string
-  comment_num: number
-  comment: string
+  comment_id: number
+  text: string
   gif_id: string | undefined
-  username: string
+  user_name: string
+  user_id: string
 }
 
 type CommentsResponse = Comment[]

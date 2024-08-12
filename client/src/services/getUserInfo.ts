@@ -15,7 +15,5 @@ interface UserInfo {
 export async function getUserInfo({ user_id }: GetUserInfo): Promise<UserInfo> {
   const resp = await fetch(`/api/user/${user_id}`)
   const data = await resp.json()
-
-  console.log(data)
   return data
 }

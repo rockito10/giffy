@@ -1,8 +1,9 @@
 import { Router } from "express"
-import { getGifByIdController, getGifsController } from "../controllers/search.controller"
+import { fetchGifByIdController, fetchGifsController } from "../controllers/search.controller"
 
 export const searchRoutes = Router()
 
-searchRoutes.get("/:query/:next", getGifsController)
-searchRoutes.get("/:query", getGifsController)
-searchRoutes.get("/:gifId", getGifByIdController)
+searchRoutes.get("/gif/:gifId", fetchGifByIdController)
+
+searchRoutes.get("/:query", fetchGifsController)
+searchRoutes.get("/:query/:next", fetchGifsController)

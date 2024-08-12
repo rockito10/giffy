@@ -13,8 +13,6 @@ export function Grid({ data }: Props) {
 
   if (!gifs) return null
 
-  console.log({ gifs })
-
   return (
     <ResponsiveMasonry
       className="w-full"

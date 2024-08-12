@@ -15,7 +15,7 @@ export default function GifsDetails() {
     service: () => getGifDetails({ id }),
   })
 
-  console.log({ data }, "PEPE", { id })
+ 
 
   if (error) return <div>Error: {error}</div>
 
@@ -69,12 +69,3 @@ export default function GifsDetails() {
   )
 }
 
-{
-  /* <div className="flex gap-4">
-          {["Instagram", "Twitter", "Facebook"].map((tag) => (
-            <button className="rounded-lg border px-2 py-1 transition-colors hover:bg-white/90 hover:text-black">
-              {tag}
-            </button>
-          ))}
-        </div> */
-}

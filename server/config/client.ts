@@ -16,23 +16,23 @@ import { PrismaClient } from "@prisma/client"
 
 export const prisma = new PrismaClient()
 
-async function createUser() {
-  try {
-    const newUser = await prisma.user.create({
-      data: {
-        user_id: "10",
-        user_name: "PEPE",
-        password: "1234",
-        avatar: "https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg"
-      },
-    })
-    console.log("User created:", newUser)
-  } catch (error) {
-    console.error("Error creating user:", error)
-  } finally {
-    await prisma.$disconnect()
-  }
-}
+// async function createUser() {
+//   try {
+//     const newUser = await prisma.user.create({
+//       data: {
+//         user_id: "10",
+//         user_name: "PEPE",
+//         password: "1234",
+//         avatar: "https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg"
+//       },
+//     })
+//     console.log("User created:", newUser)
+//   } catch (error) {
+//     console.error("Error creating user:", error)
+//   } finally {
+//     await prisma.$disconnect()
+//   }
+// }
 
 // createUser()
 
@@ -49,8 +49,7 @@ async function createUser() {
 //     {
 //       user_id: "1",
 //       user_name: "peparda",
-
-//       password: "8887",
+//        password: "8887",
 //       avatar:
 //         "https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg",
 //     },
@@ -77,7 +76,7 @@ async function createUser() {
 //     },
 //   ],
 // })
-
+// 
 // await prisma.gif.createMany({
 //   data: [
 //     { gif_id: "5364668726146715938", gif_likes: 0 },
@@ -85,35 +84,36 @@ async function createUser() {
 //     { gif_id: "2886510168956344697", gif_likes: 0 },
 //   ],
 // })
-
+// 
 // await prisma.liked.createMany({
 //   data: [
 //     { user_id: "1", gif_id: "5364668726146715938" },
 //     { user_id: "1", gif_id: "6079604226118308780" },
-//     { user_id: "aabh1", gif_id: "6079604226118308780" },
-//     { user_id: "aabh1", gif_id: "2886510168956344697" },
+//     { user_id: "2", gif_id: "6079604226118308780" },
+//     { user_id: "2", gif_id: "2886510168956344697" },
 //   ],
 // })
-
+// // 
 // await prisma.comment.createMany({
 //   data: [
 //     {
 //       comment_id: 1,
 //       gif_id: "5364668726146715938",
-//       user_id: "aabh1",
+//       user_id: "2",
 //       text: "Qué gif de porquería.",
 //     },
 //     {
 //       comment_id: 2,
 //       gif_id: "5364668726146715938",
-//       user_id: "aabh1",
+//       user_id: "2",
 //       text: "Qué gif de porquería.",
 //     },
 //     {
 //       comment_id: 3,
 //       gif_id: "5364668726146715938",
-//       user_id: "aabh1",
+//       user_id: "2",
 //       text: "Qué gif de porquería.",
 //     },
-//     { comment_id: 1, gif_id: "6079604226118308780", user_id: "AsfG8", text: "Hermoso gif." },
+//     { comment_id: 1, gif_id: "6079604226118308780", user_id: "2", text: "Hermoso gif." },
 //   ],
+// })

@@ -14,14 +14,14 @@ export function Comments({ data }: CommentsProps) {
       <ul className="space-y-8">
         {/* Optimistic comments */}
 
-        {optComments?.map(({ comment_num, avatar, username, comment }) => (
-          <Comment key={comment_num} avatar={avatar} comment={comment} username={username} />
+        {optComments?.map(({ comment_id, avatar, user_name, text }) => (
+          <Comment key={comment_id} avatar={avatar} comment={text} username={user_name} />
         ))}
 
         {/* Database comments */}
-        {data?.map(({ comment_num, username, avatar, comment }) => (
-          <div key={comment_num}>
-            <Comment avatar={avatar} comment={comment} username={username} />
+        {data?.map(({ comment_id, user_name, avatar, text }) => (
+          <div key={comment_id}>
+            <Comment avatar={avatar} comment={text} username={user_name} />
           </div>
         ))}
       </ul>

@@ -7,8 +7,6 @@ interface GetGifs {
 }
 
 export async function getSearch({ query, next, signal }: GetGifs): Promise<MappedGifs> {
-  console.log({ URL })
-
   try {
     const resp = await fetch(`/api/search/${query}/${next}`, { signal })
     const data = await resp.json()
