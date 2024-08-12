@@ -3,11 +3,11 @@ import type { UserInfo } from "../types/types"
 import { useFetch } from "./useFetch"
 
 export function useMe() {
-  const { data } = useFetch<UserInfo>({ service: () => getUserInfo({ id: "AsfG8" }) })
+  const { data } = useFetch<UserInfo>({ service: () => getUserInfo({ user_id: "10" }) })
 
   return {
-    username: data?.name,
-    avatar: data?.img,
-    id: data?.id,
+    username: data?.user_name,
+    avatar: data?.avatar,
+    id: data?.user_id,
   }
 }

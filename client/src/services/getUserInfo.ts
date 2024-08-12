@@ -3,17 +3,17 @@
 type Id = string
 
 interface GetUserInfo {
-  id: Id
+  user_id: Id
 }
 
 interface UserInfo {
-  img: string | null
-  name: string
-  id: Id
+  avatar: string | null
+  user_name: string
+  user_id: Id
 }
 
-export async function getUserInfo({ id }: GetUserInfo): Promise<UserInfo> {
-  const resp = await fetch(`/api/user/${id}`)
+export async function getUserInfo({ user_id }: GetUserInfo): Promise<UserInfo> {
+  const resp = await fetch(`/api/user/${user_id}`)
   const data = await resp.json()
 
   console.log(data)

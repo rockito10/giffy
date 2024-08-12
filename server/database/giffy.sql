@@ -54,12 +54,12 @@ VALUES
 
 -- OJO, abajo hay solamente 2 likes para el gif 2, pero aún así hay 20 likes en la tabla GIF. En el backend hay que evitar esto.
 
--- INSERT INTO LIKED (user_id, gif_id) 
--- VALUES
--- ('1', '5364668726146715938'),
--- ('1', '6079604226118308780'),
--- ('aabh1', '6079604226118308780'),
--- ('aabh1', '2886510168956344697');
+INSERT INTO LIKED (user_id, gif_id) 
+VALUES
+('1', '5364668726146715938'),
+('1', '6079604226118308780'),
+('aabh1', '6079604226118308780'),
+('aabh1', '2886510168956344697');
 
 
 -- SERIAL no sirve porque la idea es que es una combinación (num, gif, name). 
