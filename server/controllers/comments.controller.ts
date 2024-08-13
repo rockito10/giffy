@@ -1,7 +1,7 @@
 import type { Request, Response } from "express"
 import { prisma } from "../config/client"
-import { giffyDb } from "../database/databaseOps"
-import { postGifComment } from "../helpers/postGifComment"
+// import { giffyDb } from "../database/databaseOps"
+// import { postGifComment } from "../helpers/postGifComment"
 
 export async function getCommentsController(req: Request, res: Response) {
   const { gifId } = req.params
@@ -28,7 +28,7 @@ export async function getCommentsController(req: Request, res: Response) {
   })
 
   if (comments) {
-    console.log({comments})
+    console.log({ comments })
     const mappedComments = comments.map((comment) => {
       return {
         comment_id: comment.comment_id,
@@ -39,85 +39,72 @@ export async function getCommentsController(req: Request, res: Response) {
       }
     })
 
-
     return res.status(200).json(mappedComments)
   }
 
   return res.status(404).json({ message: "Comments not found" })
 }
 
-// export async function fetchGifComments(gifId) {
-//   //: string
-//   const query = `SELECT num, gif_id, usuario.name, text, img FROM comentario JOIN usuario ON usuario.name = comentario.name WHERE gif_id = '${gifId}' ORDER BY num DESC`
-
-//   try {
-//     const comments = await giffyDb.queryDatabase({ query })
-
-//     const mappedComments = comments?.rows.map((comment) => {
-//       return {
-//         comment_num: comment.num,
-//         gif_id: comment.gif_id,
-//         username: comment.name,
-//         comment: comment.text,
-//         avatar: comment.img,
-//       }
-//     })
-
-//     if (!comments) {
-//       return null
-//     }
-
-//     return mappedComments
-//   } catch (err) {
-//     console.error("Error al consultar la base de datos", err)
-//     return { message: "Error al consultar la base de datos" }
-//   }
-// }
-
 export async function sendCommentController(req: Request, res: Response) {
   const { gifId } = req.params
   const { commentText, userId } = req.body
 
-  console.log("========================================")
-  console.log(req.body)
-  console.log("========================================")
-
-  const gifExists =
-    (await prisma.gif.count({
-      where: {
-        gif_id: gifId,
-      },
-    })) !== 0
-
-  if (!gifExists) {
-    await prisma.gif.create({
-      data: {
-        gif_id: gifId,
-        gif_likes: 0,
-      },
-    })
-  }
-  const aggregate = await prisma.comment.aggregate({
+  const maxQuery = await prisma.comment.aggregate({
     _max: {
-      comment_id: true
+      comment_id: true,
     },
     where: {
-      gif_id: gifId
-    }
-  })
-
-  
-  const nextCommentId = (aggregate._max?.comment_id ?? 0) + 1;
-
-  const gifInfo = await prisma.comment.create({
-    data: {
-      comment_id: nextCommentId,
       gif_id: gifId,
-      text: commentText,
-      user_id: userId
-    }
+    },
   })
 
-  res.status(201).json(gifInfo)
+  const nextCommentId = (maxQuery._max?.comment_id ?? 0) + 1
 
+  await createGifWithComment(gifId, { commentText, userId, nextCommentId })
+
+  res.status(201).json({ message: "Comment created" })
+}
+
+// import { prisma } from "../config/client"
+
+interface Comment {
+  nextCommentId: number
+  commentText: string
+  userId: string
+}
+
+export async function createGifWithComment(
+  gifId: string,
+  { commentText, userId, nextCommentId }: Comment,
+) {
+  await prisma.gif.upsert({
+    where: {
+      gif_id: gifId,
+    },
+
+    // Creamos el GIF si no existe
+    create: {
+      gif_id: gifId,
+      gif_likes: 0,
+
+      comment: {
+        create: {
+          comment_id: nextCommentId,
+          text: commentText,
+          user_id: userId,
+        },
+      },
+    },
+
+    // Creamos el comentario asociado al GIF si este existe
+    update: {
+      comment: {
+        create: {
+          comment_id: nextCommentId,
+          text: commentText,
+          user_id: userId,
+        },
+      },
+    },
+  })
 }
