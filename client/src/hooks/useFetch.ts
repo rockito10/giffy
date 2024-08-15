@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react"
 
-interface Props<T> {
-  service: () => Promise<T>
-  // dependencies?: any[]
-}
-
-export function useFetch<T>({ service }: Props<T>) {
+export function useFetch<T>(url: string, options?: RequestInit) {
   const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   const fetchData = async () => {
     setIsLoading(true)
 
     try {
-      const data = await service()
+      // const data = await service()
+      const resp = await fetch(url, options)
+      const data = await resp.json()
       setData(data)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -25,6 +24,7 @@ export function useFetch<T>({ service }: Props<T>) {
 
   useEffect(() => {
     fetchData()
+    // useCallback()
   }, [])
 
   // useEffect Dependencies
@@ -32,5 +32,5 @@ export function useFetch<T>({ service }: Props<T>) {
   // [dependencies]    -> se ejecuta cuando se monta el componente y cuando [dependencies] cambie
   // return () => {}   -> se ejecuta cuando se desmonta el componente
 
-  return { data, isLoading, error }
+  return { data, isLoading, error, fetchData }
 }

@@ -1,6 +1,10 @@
+// import { useEffect, useState } from "react"
 import { useParams } from "wouter"
+// import { useFetch } from "../../hooks/useFetch"
+import { useFetch } from "../../hooks/useFetch"
 import { useMe } from "../../hooks/useMe"
 import { useOptimisticCommentsContext } from "../../hooks/useOptimisticCommentsContext"
+import type { Comment } from "../../types/comments"
 
 interface Props {
   isFirstComment: boolean
@@ -11,12 +15,15 @@ export function NewComment({ isFirstComment }: Props) {
   const { addComment } = useOptimisticCommentsContext()
   const { avatar, username, id: userId } = useMe()
 
+  // const { fetchData } = useFetch(`/api/comments/${id}`)
+
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
     // Post Comment
     const commentText = evt.currentTarget.querySelector("textarea")?.value
-    if (!commentText) return
+    if (!commentText || !avatar || !username || !userId) return
+    //
 
     const infoToSend = {
       commentText,
@@ -27,13 +34,13 @@ export function NewComment({ isFirstComment }: Props) {
 
     // ACTUALIZACION OPTIMISTA (Add comment to UI)
 
-    const optCom = {
+    const optCom: Comment = {
       avatar,
-      comment_id: -1,
+      comment_id: -1, //cambiar esto
       text: commentText,
       gif_id: id,
       user_name: username,
-      userId,
+      user_id: userId,
     }
 
     addComment(optCom)

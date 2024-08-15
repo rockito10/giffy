@@ -11,10 +11,7 @@ export default function GifsDetails() {
   const { id } = useParams()
 
   // Get Gif Details (Tenor)
-  const { data, isLoading, error } = useFetch<MappedGif>({
-    service: () => getGifDetails({ id }),
-  })
-
+  const { data, isLoading, error } = useFetch<MappedGif>(`/api/search/gif/${id}`)
  
 
   if (error) return <div>Error: {error}</div>
@@ -54,7 +51,7 @@ export default function GifsDetails() {
 
           <span>Share: Facebook | Twitter | Instagram</span>
 
-          <LikeButton />
+          <LikeButton gifId={id} />
         </section>
 
         {/*  */}

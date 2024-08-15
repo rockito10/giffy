@@ -42,7 +42,7 @@ interface MappedGif {
 }
 
 export interface UserInfo {
-  img: string
-  name: string
-  id: number
+  avatar: string
+  user_name: string
+  user_id: string
 }

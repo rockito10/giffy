@@ -1,4 +1,3 @@
-import { useMe } from "../../hooks/useMe"
 import { Avatar } from "../Avatar"
 import { DeleteComment } from "./DeleteComment"
 
