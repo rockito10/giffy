@@ -5,17 +5,26 @@ import { Link, useParams } from "wouter"
 import { CommentSection } from "../components/Comments/CommentSection"
 import { LikeButton } from "../components/LikeButton"
 import { useFetch } from "../hooks/useFetch"
-import { getGifDetails } from "../services/getGifDetails"
+import type { LikesResponse } from "../types/response"
+import { useQuery } from "@tanstack/react-query"
+
+const fetchGifById = (id: string) => fetch(`/api/search/gif/${id}`).then((res) => res.json())
 
 export default function GifsDetails() {
   const { id } = useParams()
 
   // Get Gif Details (Tenor)
-  const { data, isLoading, error } = useFetch<MappedGif>(`/api/search/gif/${id}`)
+  // const { data, isLoading, error } = useFetch<MappedGif>(`/api/search/gif/${id}`)
 
-  const { data: likesNumber } = useFetch<number>(`/api/likes/${id}`)
+  // Queries
+  const { data, isLoading, error } = useQuery({
+    queryKey: [id],
+    queryFn: () => fetchGifById(id as string),
+  })
 
-  if (error) return <div>Error: {error}</div>
+  // const { data: likesInfo } = useFetch<LikesResponse>(`/api/likes/${id}`)
+
+  if (error) return <div>Error: {error.message}</div>
 
   if (isLoading) return <div>Loading...</div>
 
@@ -52,7 +61,7 @@ export default function GifsDetails() {
 
           <span>Share: Facebook | Twitter | Instagram</span>
 
-          <LikeButton gifId={id} initialLikes={likesNumber} />
+          {/* <LikeButton gifId={id} likesInfo={likesInfo} /> */}
         </section>
 
         {/*  */}

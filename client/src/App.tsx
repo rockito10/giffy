@@ -1,12 +1,15 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AppRoutes } from "./routes/App.routes"
+import { GiffyContextProvider } from "./contexts/GiffyContext"
 
-function App() {
+const queryClient = new QueryClient()
+
+export function App() {
   return (
-    <>
-      {/* <h2>APP</h2> */}
-      <AppRoutes></AppRoutes>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <GiffyContextProvider>
+        <AppRoutes />
+      </GiffyContextProvider>
+    </QueryClientProvider>
   )
 }
-
-export default App

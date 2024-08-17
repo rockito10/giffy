@@ -76,7 +76,7 @@ export const prisma = new PrismaClient()
 //     },
 //   ],
 // })
-// 
+//
 // await prisma.gif.createMany({
 //   data: [
 //     { gif_id: "5364668726146715938", gif_likes: 0 },
@@ -84,7 +84,7 @@ export const prisma = new PrismaClient()
 //     { gif_id: "2886510168956344697", gif_likes: 0 },
 //   ],
 // })
-// 
+//
 // await prisma.liked.createMany({
 //   data: [
 //     { user_id: "1", gif_id: "5364668726146715938" },
@@ -93,7 +93,7 @@ export const prisma = new PrismaClient()
 //     { user_id: "2", gif_id: "2886510168956344697" },
 //   ],
 // })
-// // 
+// //
 // await prisma.comment.createMany({
 //   data: [
 //     {

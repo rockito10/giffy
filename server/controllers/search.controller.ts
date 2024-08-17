@@ -2,7 +2,6 @@ import type { Request, Response } from "express"
 import { TENOR_API } from "../config/env"
 import { dataMapper, gifResponseMapper } from "../utils/gifResponseMapper"
 
-
 // Por Query
 
 export async function fetchGifsController(req: Request, res: Response) {

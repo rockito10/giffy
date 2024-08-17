@@ -1,19 +1,18 @@
 import { useState } from "react"
-import { useParams } from "wouter"
-import { useFetch } from "../hooks/useFetch"
 import { useMe } from "../hooks/useMe"
+import type { LikesResponse } from "../types/response"
 
 interface Props {
   gifId: string | undefined
-  initialLikes: number | null
+  likesInfo: LikesResponse | null
 }
 
-export function LikeButton({ gifId, initialLikes }: Props) {
-  // const { data: likes, isLoading, error } = useFetch<number>(`/api/likes/${gifId}`)
+export function LikeButton({ gifId, likesInfo }: Props) {
+  // const { likesNumber: initialLikes, isLiked: isLikedDB } = likesInfo
 
-  const [likesNumber, setLikesNumber] = useState(initialLikes ?? 0)
+  const [likesNumber, setLikesNumber] = useState(likesInfo?.likesNumber ?? 0)
 
-  const [isLiked, setIsLiked] = useState(false)
+  const [isLiked, setIsLiked] = useState(likesInfo?.isLiked)
 
   const { id: userId } = useMe()
 
@@ -57,7 +56,7 @@ export function LikeButton({ gifId, initialLikes }: Props) {
       className="w-fit rounded-md border border-red-950 px-2 py-1 text-red-600 transition-colors hover:bg-red-500 hover:text-black"
       onClick={handleLike}
     >
-      Like {likesNumber}
+      {isLiked ? "Unlike" : "Like"} {likesNumber}
     </button>
   )
 }

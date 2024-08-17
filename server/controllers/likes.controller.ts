@@ -11,7 +11,15 @@ export async function getLikes(req: Request, res: Response) {
       gif_likes: true,
     },
   })
-  res.json(likes?.gif_likes)
+  const isLiked = await prisma.liked.findUnique({
+    where: {
+      user_id_gif_id: {
+        user_id: "10",
+        gif_id: gifId,
+      },
+    },
+  })
+  res.json({ likesNumber: likes?.gif_likes, isLiked: !!isLiked })
 }
 
 export async function postLikes(req: Request, res: Response) {
@@ -33,6 +41,8 @@ export async function postLikes(req: Request, res: Response) {
   })
 
   if (isLiked) {
+    await upsertDecrement(gifId)
+
     await prisma.liked.delete({
       where: {
         user_id_gif_id: {
@@ -41,20 +51,20 @@ export async function postLikes(req: Request, res: Response) {
         },
       },
     })
-    await upsertDecrement(gifId)
   } else {
+    await upsertIncrement(gifId)
+
     await prisma.liked.create({
       data: {
         gif_id: gifId,
         user_id: userId,
       },
     })
-    await upsertInrement(gifId)
   }
 
   return res.status(202).json({ message: "Like received" })
 }
-async function upsertInrement(gifId: string) {
+async function upsertIncrement(gifId: string) {
   await prisma.gif.upsert({
     where: {
       gif_id: gifId,
