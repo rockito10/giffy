@@ -12,7 +12,8 @@ export default function GifsDetails() {
 
   // Get Gif Details (Tenor)
   const { data, isLoading, error } = useFetch<MappedGif>(`/api/search/gif/${id}`)
- 
+
+  const { data: likesNumber } = useFetch<number>(`/api/likes/${id}`)
 
   if (error) return <div>Error: {error}</div>
 
@@ -51,7 +52,7 @@ export default function GifsDetails() {
 
           <span>Share: Facebook | Twitter | Instagram</span>
 
-          <LikeButton gifId={id} />
+          <LikeButton gifId={id} initialLikes={likesNumber} />
         </section>
 
         {/*  */}
@@ -65,4 +66,3 @@ export default function GifsDetails() {
     </div>
   )
 }
-

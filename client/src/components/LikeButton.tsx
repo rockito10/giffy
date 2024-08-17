@@ -1,30 +1,31 @@
 import { useState } from "react"
 import { useParams } from "wouter"
 import { useFetch } from "../hooks/useFetch"
+import { useMe } from "../hooks/useMe"
 
 interface Props {
   gifId: string | undefined
+  initialLikes: number | null
 }
 
-export function LikeButton({ gifId }: Props) {
-  const { data: likes, isLoading, error } = useFetch<number>(`/api/likes/${gifId}`)
+export function LikeButton({ gifId, initialLikes }: Props) {
+  // const { data: likes, isLoading, error } = useFetch<number>(`/api/likes/${gifId}`)
 
-  // const [nroLikes, setLikes] = useState(() => {
-  //   return nroLikes ? parseInt(nroLikes) : 0
-  // })
-
-  // const {id} = useParams()
+  const [likesNumber, setLikesNumber] = useState(initialLikes ?? 0)
 
   const [isLiked, setIsLiked] = useState(false)
 
+  const { id: userId } = useMe()
+
   function handleLike() {
     if (isLiked) {
-      setLikes(likes - 1)
+      setLikesNumber(likesNumber - 1)
       setIsLiked(false)
     } else {
-      setLikes(likes + 1)
+      setLikesNumber(likesNumber + 1)
       setIsLiked(true)
     }
+
     postLike()
   }
 
@@ -32,9 +33,10 @@ export function LikeButton({ gifId }: Props) {
     try {
       const response = await fetch(`/api/likes/${gifId}`, {
         method: "POST",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // }
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
       })
 
       if (response.status === 201) {
@@ -55,7 +57,7 @@ export function LikeButton({ gifId }: Props) {
       className="w-fit rounded-md border border-red-950 px-2 py-1 text-red-600 transition-colors hover:bg-red-500 hover:text-black"
       onClick={handleLike}
     >
-      Like {!likes ? 0 : likes}
+      Like {likesNumber}
     </button>
   )
 }

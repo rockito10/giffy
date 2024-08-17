@@ -29,6 +29,7 @@ export async function getCommentsController(req: Request, res: Response) {
 
   if (comments) {
     console.log({ comments })
+
     const mappedComments = comments.map((comment) => {
       return {
         comment_id: comment.comment_id,
