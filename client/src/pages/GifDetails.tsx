@@ -1,30 +1,27 @@
-import type { MappedGif } from "../types/types"
+// import type { MappedGif } from "../types/types"
 
 import { Link, useParams } from "wouter"
 
 import { CommentSection } from "../components/Comments/CommentSection"
-import { LikeButton } from "../components/LikeButton"
-import { useFetch } from "../hooks/useFetch"
-import type { LikesResponse } from "../types/response"
-import { useQuery } from "@tanstack/react-query"
-
-const fetchGifById = (id: string) => fetch(`/api/search/gif/${id}`).then((res) => res.json())
+// import { LikeButton } from "../components/LikeButton"
+// import { useFetch } from "../hooks/useFetch"
+// import type { LikesResponse } from "../types/response"
+// import { useQuery } from "@tanstack/react-query"
+import { useGetGifById } from "../hooks/useGetGifById"
 
 export default function GifsDetails() {
   const { id } = useParams()
+  const { data, isLoading, error } = useGetGifById(id)
 
-  // Get Gif Details (Tenor)
-  // const { data, isLoading, error } = useFetch<MappedGif>(`/api/search/gif/${id}`)
+  console.log({ data, isLoading, error })
 
-  // Queries
-  const { data, isLoading, error } = useQuery({
-    queryKey: [id],
-    queryFn: () => fetchGifById(id as string),
-  })
-
-  // const { data: likesInfo } = useFetch<LikesResponse>(`/api/likes/${id}`)
-
-  if (error) return <div>Error: {error.message}</div>
+  if (error)
+    return (
+      <div>
+        {" "}
+        {error.name} {error.message}
+      </div>
+    )
 
   if (isLoading) return <div>Loading...</div>
 
@@ -48,7 +45,7 @@ export default function GifsDetails() {
           <div className="flex items-center justify-center gap-x-4 text-xl">
             <span>TAGS: </span>
 
-            {data?.tags.map((tag) => (
+            {data?.tags?.map((tag) => (
               <Link
                 key={tag}
                 className="rounded-lg border px-2 py-1 transition-colors hover:bg-white/90 hover:text-black"

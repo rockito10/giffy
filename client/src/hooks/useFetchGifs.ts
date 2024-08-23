@@ -2,9 +2,12 @@ import { useEffect, useRef } from "react"
 
 import { getSearch } from "../services/getSearch"
 import { useGiffyContext } from "./useGiffyContext"
+import { useParams } from "wouter"
 
 export function useFetchGifs() {
-  const { data, query, setData, concatData } = useGiffyContext()
+  const { data, setData, concatData } = useGiffyContext()
+
+  const { query } = useParams()
 
   const firstUpdate = useRef(true)
 
