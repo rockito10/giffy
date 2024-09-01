@@ -10,7 +10,7 @@ export function useInfiniteGifs() {
 
   const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<MappedGifs>({
     queryKey: [query],
-    queryFn: ({ pageParam }) => getGifs({ query, next: pageParam }),
+    queryFn: ({ pageParam = "" }) => getGifs({ query, next: pageParam }),
     getNextPageParam: (lastPage) => lastPage.next as string | undefined,
     initialPageParam: { next: "" },
     select: (data) => {
