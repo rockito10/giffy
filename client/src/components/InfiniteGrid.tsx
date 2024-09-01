@@ -1,24 +1,14 @@
-import { useEffect } from "react"
-
-import { useFetchGifs } from "../hooks/useFetchGifs"
-import { useInView } from "../hooks/useInView"
 import { Grid } from "./Grid"
+import { useInfiniteGifs } from "../hooks/useInfiniteGifs"
 
 export function InfiniteGrid() {
-  const { data, getMoreGifs } = useFetchGifs()
 
-  const { inView, ref } = useInView({
-    rootMargin: "0px 0px 500px 0px",
-  })
-
-  useEffect(() => {
-    getMoreGifs()
-  }, [inView])
+  const { data, ref } = useInfiniteGifs()
 
   return (
     <>
       <div className="flex flex-col items-center justify-center">
-        <Grid data={data} />
+        <Grid data={data?.pages[0]} />
         <br />
         <div ref={ref} className="border">
           {/* Observer */}

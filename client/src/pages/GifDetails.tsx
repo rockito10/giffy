@@ -1,24 +1,14 @@
-// import type { MappedGif } from "../types/types"
-
 import { Link, useParams } from "wouter"
-
 import { CommentSection } from "../components/Comments/CommentSection"
-// import { LikeButton } from "../components/LikeButton"
-// import { useFetch } from "../hooks/useFetch"
-// import type { LikesResponse } from "../types/response"
-// import { useQuery } from "@tanstack/react-query"
 import { useGetGifById } from "../hooks/useGetGifById"
 
 export default function GifsDetails() {
   const { id } = useParams()
-  const { data, isLoading, error } = useGetGifById(id)
-
-  console.log({ data, isLoading, error })
+  const { data, isLoading, error } = useGetGifById(id as string)
 
   if (error)
     return (
       <div>
-        {" "}
         {error.name} {error.message}
       </div>
     )

@@ -5,7 +5,7 @@ import type { MappedGifs } from "../types/types"
 import { Frame } from "./Frame"
 
 interface Props {
-  data: MappedGifs | null
+  data: MappedGifs | undefined
 }
 
 export function Grid({ data }: Props) {

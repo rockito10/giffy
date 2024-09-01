@@ -1,6 +1,6 @@
 interface Props {
   name: string
-  src: string
+  src: string | undefined
 }
 
 export function Avatar({ name, src }: Props) {
