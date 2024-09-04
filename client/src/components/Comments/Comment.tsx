@@ -1,3 +1,4 @@
+import { useParams } from "wouter"
 import { Avatar } from "../Avatar"
 import { DeleteComment } from "./DeleteComment"
 
@@ -5,10 +6,13 @@ interface Props {
   username: string
   avatar: string
   comment: string
+  commentId: number
 }
 
-export function Comment({ username, avatar, comment }: Props) {
+export function Comment({ username, avatar, comment, commentId }: Props) {
   // const { username } = useMe()
+
+  const { id } = useParams()
 
   return (
     <li className="relative flex w-2/3 items-center border border-white/70">
@@ -23,13 +27,13 @@ export function Comment({ username, avatar, comment }: Props) {
         {/* ... */}
 
         <span>{comment}</span>
-        <span className="absolute -bottom-4 -right-4 z-10">
-          <DeleteComment />
-          {
-            // ID_USER === ID_USER_QUE_DE_LA_BASE_DE_DATOS && <DeleteComment />prima
-          }
-        </span>
       </div>
+      <span className="absolute -bottom-4 -right-4 z-10">
+        <DeleteComment commentId={commentId} gifId={id!} />
+        {
+          // ID_USER === ID_USER_QUE_DE_LA_BASE_DE_DATOS && <DeleteComment />prima
+        }
+      </span>
     </li>
   )
 }

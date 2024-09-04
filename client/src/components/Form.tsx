@@ -2,7 +2,7 @@ import { useLocation } from "wouter"
 import { useGiffyContext } from "../hooks/useGiffyContext"
 
 export function Form() {
-  const { setQuery } = useGiffyContext()
+  const { setQuery, query } = useGiffyContext()
 
   const [location, setLocation] = useLocation()
 
@@ -12,8 +12,8 @@ export function Form() {
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = evt.target.value
-    setQuery(newQuery)
     setLocation(`/search/${newQuery}`)
+    setQuery(newQuery)
   }
 
   return (
@@ -23,7 +23,7 @@ export function Form() {
           className="flex-1 rounded-bl-lg rounded-tl-lg border px-4 py-2"
           placeholder="Dragon Ball, Breaking Bad..."
           type="text"
-          value={location.split("/search/")[1]}
+          value={query ?? location.split("/search/")[1]}
           onChange={handleChange}
         />
 

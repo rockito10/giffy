@@ -9,8 +9,8 @@ export async function getGifById(id: string) {
 // --------------------------------------------------
 
 interface Params {
-  query: string
-  next: string
+  query: string | undefined
+  next: string | undefined | unknown
 }
 
 export async function getGifs({ query, next }: Params): Promise<MappedGifs> {
@@ -18,5 +18,16 @@ export async function getGifs({ query, next }: Params): Promise<MappedGifs> {
   const data: MappedGifs = await resp.json()
   return data
 }
+
+// --------------------------------------------------
+
+export async function getUser(id: number) {
+  const resp = await fetch(`/api/user/${id}`)
+  return resp.json()
+}
+
+// --------------------------------------------------
+
+export const fetchComments = (id: string) => fetch(`/api/comments/${id}`).then((res) => res.json())
 
 // --------------------------------------------------

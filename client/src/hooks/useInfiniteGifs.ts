@@ -1,8 +1,8 @@
-import { useParams } from "wouter"
 import { useInfiniteQuery } from "@tanstack/react-query"
+import { useEffect } from "react"
+import { useParams } from "wouter"
 import { getGifs } from "../services/services"
 import type { MappedGifs } from "../types/types"
-import { useEffect } from "react"
 import { useInView } from "./useInView"
 
 export function useInfiniteGifs() {

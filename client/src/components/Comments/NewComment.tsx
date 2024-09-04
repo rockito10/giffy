@@ -1,7 +1,5 @@
 // import { useEffect, useState } from "react"
 import { useParams } from "wouter"
-// import { useFetch } from "../../hooks/useFetch"
-import { useFetch } from "../../hooks/useFetch"
 import { useMe } from "../../hooks/useMe"
 import { useOptimisticCommentsContext } from "../../hooks/useOptimisticCommentsContext"
 import type { Comment } from "../../types/comments"

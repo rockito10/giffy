@@ -1,8 +1,12 @@
+import { useQuery } from "@tanstack/react-query"
 import type { UserInfo } from "../types/types"
-import { useFetch } from "./useFetch"
+import { getUser } from "../services/services"
 
 export function useMe() {
-  const { data } = useFetch<UserInfo>(`/api/user/${10}`)
+  const { data } = useQuery<UserInfo>({
+    queryKey: ["me"],
+    queryFn: () => getUser(10),
+  })
 
   return {
     username: data?.user_name,

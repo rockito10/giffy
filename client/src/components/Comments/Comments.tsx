@@ -15,13 +15,24 @@ export function Comments({ data }: CommentsProps) {
         {/* Optimistic comments */}
 
         {optComments?.map(({ comment_id, avatar, user_name, text }) => (
-          <Comment key={comment_id} avatar={avatar} comment={text} username={user_name} />
+          <Comment
+            key={comment_id}
+            avatar={avatar}
+            comment={text}
+            commentId={comment_id}
+            username={user_name}
+          />
         ))}
 
         {/* Database comments */}
         {data?.map(({ comment_id, user_name, avatar, text }) => (
           <div key={comment_id}>
-            <Comment avatar={avatar} comment={text} username={user_name} />
+            <Comment
+              avatar={avatar}
+              comment={text}
+              commentId={comment_id}
+              username={user_name}
+            />
           </div>
         ))}
       </ul>

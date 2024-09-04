@@ -6,11 +6,13 @@ import type { Comment } from "../types/comments"
 interface OptimisticCommentsContextType {
   comments: Comment[]
   addComment: (data: Comment) => void
+  removeComment: (data: Comment) => void
 }
 
 export const OptimisticCommentsContext = createContext<OptimisticCommentsContextType>({
   comments: [],
   addComment: () => {},
+  removeComment: () => {},
 })
 
 // ---------- Provider ----------
@@ -28,11 +30,14 @@ export function OptimisticCommentsContextProvider({ children }: Props) {
     })
   }
 
+  const removeComment = (data: Comment) => {}
+
   return (
     <OptimisticCommentsContext.Provider
       value={{
         comments,
         addComment,
+        removeComment,
       }}
     >
       {children}
