@@ -109,3 +109,35 @@ export async function createGifWithComment(
     },
   })
 }
+
+// interface deleteCommentProps {
+//   userId: string
+//   gifId: string
+//   commentId: number
+// }
+
+export async function deleteCommentController(req: Request, res: Response) {
+  const { gifId } = req.params
+  const { commentId, userId } = req.body
+
+  console.table({
+    "GIF ID": gifId,
+    "Comment ID": commentId,
+    "User ID": userId,
+  })
+  // console.log(req.params)
+
+  await prisma.comment.delete({
+    where: {
+      gif_id_user_id_comment_id: {
+        gif_id: gifId,
+        user_id: userId,
+        comment_id: commentId,
+      },
+    },
+  })
+  // console.log("dfksafkdsakfkaskfkaskfkakdfakfkdsakfdksafkaksdfk",pepe)
+
+  // return res.status(404).json({ message: "Comments not found" })
+  // res.status(201).json({ message: "Comment deleted" })
+}
