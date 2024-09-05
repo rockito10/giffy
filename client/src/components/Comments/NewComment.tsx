@@ -10,8 +10,11 @@ interface Props {
 
 export function NewComment({ isFirstComment }: Props) {
   const { id } = useParams()
-  const { addComment } = useOptimisticCommentsContext()
+
+  const { addComment, commentCount: nextCommentId } = useOptimisticCommentsContext()
   const { avatar, username, id: userId } = useMe()
+
+  // const commentId = comments.length + commentCount + 1
 
   // const { fetchData } = useFetch(`/api/comments/${id}`)
 
@@ -34,12 +37,14 @@ export function NewComment({ isFirstComment }: Props) {
 
     const optCom: Comment = {
       avatar,
-      comment_id: -1, //cambiar esto
+      comment_id: nextCommentId,
       text: commentText,
-      gif_id: id,
+      gif_id: id!,
       user_name: username,
       user_id: userId,
     }
+
+    console.log("optCom", optCom)
 
     addComment(optCom)
 
@@ -77,6 +82,7 @@ export function NewComment({ isFirstComment }: Props) {
         <p className="w-fit px-2 py-1">Add a comment</p>
       )}
       <div className="flex w-2/3 flex-col items-start gap-4">
+        {nextCommentId}
         <textarea
           className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"
           placeholder="Your comment here!"

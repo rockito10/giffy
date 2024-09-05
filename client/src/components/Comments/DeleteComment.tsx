@@ -1,4 +1,5 @@
 import { useMe } from "../../hooks/useMe"
+import { useOptimisticCommentsContext } from "../../hooks/useOptimisticCommentsContext"
 
 interface deleteCommentProps {
   gifId: string
@@ -8,7 +9,12 @@ interface deleteCommentProps {
 export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
   const { id: userId } = useMe()
 
+  const { removeComment } = useOptimisticCommentsContext()
+
   const deleteComment = async () => {
+    removeComment(commentId)
+    console.log("userId", userId)
+		
     await fetch(`/api/comments/${gifId}`, {
       method: "DELETE",
       headers: {

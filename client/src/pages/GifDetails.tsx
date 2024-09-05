@@ -3,8 +3,8 @@ import { CommentSection } from "../components/Comments/CommentSection"
 import { useGetGifById } from "../hooks/useGetGifById"
 
 export default function GifsDetails() {
-  const { id } = useParams()
-  const { data, isLoading, error } = useGetGifById(id as string)
+  const { id: gifId } = useParams()
+  const { data, isLoading, error } = useGetGifById(gifId as string)
 
   if (error)
     return (
@@ -57,7 +57,7 @@ export default function GifsDetails() {
       {/* ... */}
 
       <div>
-        <CommentSection gifId={id} />
+        <CommentSection />
       </div>
     </div>
   )

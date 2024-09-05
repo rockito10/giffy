@@ -21,7 +21,7 @@ export async function getGifs({ query, next }: Params): Promise<MappedGifs> {
 
 // --------------------------------------------------
 
-export async function getUser(id: number) {
+export async function getUser(id: string) {
   const resp = await fetch(`/api/user/${id}`)
   return resp.json()
 }

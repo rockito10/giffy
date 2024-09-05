@@ -3,5 +3,8 @@ import { getGifById } from "../services/services"
 import type { MappedGif } from "../types/types"
 
 export function useGetGifById(id: string) {
-  return useQuery<MappedGif>({ queryKey: [id], queryFn: () => getGifById(id) })
+  return useQuery<MappedGif>({
+    queryKey: ["details", id],
+    queryFn: () => getGifById(id),
+  })
 }
