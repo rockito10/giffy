@@ -87,6 +87,7 @@ export function NewComment({ isFirstComment }: Props) {
           className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"
           placeholder="Your comment here!"
         />
+        {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
         <button className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black">
           Comment
         </button>
