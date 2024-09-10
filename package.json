@@ -1,25 +1,19 @@
 {
-  "name": "giffy",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "dev": "pnpm --recursive dev",
-    "format": "prettier --write ."
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-n": "^17.10.2",
-    "eslint-plugin-react": "7.34.4",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.9",
-    "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.6"
-  }
+	"name": "giffy",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"check": "biome check --write .",
+		"dev": "pnpm --recursive dev",
+		"format": "biome format --write .",
+		"lint": "biome lint --write ."
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"prisma": "^5.19.1"
+	}
 }
