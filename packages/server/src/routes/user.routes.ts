@@ -4,7 +4,7 @@ import { Router } from 'express'
 
 export const userRoutes = Router()
 
-userRoutes.get('/', (_req, _res, next) => {
+userRoutes.use('/', (_req, _res, next) => {
 	next(BAD_REQUEST('User ID is required'))
 })
 

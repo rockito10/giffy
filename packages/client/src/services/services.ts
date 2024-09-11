@@ -1,4 +1,4 @@
-import type { ListOfGifs } from '@/types/new'
+import type { ListOfGifs } from '@/types/types'
 
 // function createURL(path: string, { pos }: { pos: string }) {
 // 	const params = new URLSearchParams({ pos })

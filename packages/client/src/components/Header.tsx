@@ -7,6 +7,8 @@ export function Header() {
 
 	if (!username) return null
 
+	console.log('username', username)
+
 	const handleChangeUser = () => {
 		if (getSavedUserId() === '3' || getSavedUserId() === '2') {
 			setUserId('10')

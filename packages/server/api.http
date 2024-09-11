@@ -18,3 +18,8 @@ GET http://localhost:3000/api/user/999
 ### GET List of Gifs (200 OK)
 
 GET  http://localhost:3000/api/search/dragon?pos=CBQQj5O069a4iAMaHgoKAD-_xHrzZGiiuBIQ13oCKGpr_iLYBRHtAAAAADAU
+
+
+### GET List of Gifs (400 Bad Request)
+
+GET  http://localhost:3000/api/search/

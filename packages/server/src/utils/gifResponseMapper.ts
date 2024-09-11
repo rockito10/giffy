@@ -1,13 +1,15 @@
-import type { Gif, GifResponse, MappedGif, MappedGifs } from '@/types/types'
+import type { Gif, GifResponse, ListOfGifs, ListOfGifsResponse } from '@/types/types'
 
-export function gifResponseMapper(response: GifResponse): MappedGifs {
+export function gifResponseMapper(response: ListOfGifsResponse): ListOfGifs {
 	return {
 		gifs: response.results.map((gif) => dataMapper(gif)),
 		next: response.next,
 	}
 }
 
-export function dataMapper(data: Gif): MappedGif {
+// GIF
+
+export function dataMapper(data: GifResponse): Gif {
 	// console.log(data.media_formats.tinygif, data.media_formats.tinygif.url)
 	return {
 		alt: data.content_description,

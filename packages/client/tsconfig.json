@@ -12,7 +12,8 @@
 		/* Paths */
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["src/*"],
+			"@shared-types/*": ["../server/src/types/types.d.ts"]
 		}
 	}
 }
