@@ -3,9 +3,16 @@
 	"organizeImports": {
 		"enabled": true
 	},
+	"formatter": {
+		"lineWidth": 100
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		}
+	},
 	"javascript": {
 		"formatter": {
-			"lineWidth": 100,
 			"quoteStyle": "single",
 			"semicolons": "asNeeded"
 		}

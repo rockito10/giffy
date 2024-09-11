@@ -1,6 +1,4 @@
-// --------------------------------------------------
-
-import { MappedGifs } from '@/types/types'
+import type { ListOfGifs } from '@/types/new'
 
 // function createURL(path: string, { pos }: { pos: string }) {
 // 	const params = new URLSearchParams({ pos })
@@ -20,11 +18,9 @@ interface Params {
 	pos?: string
 }
 
-export async function getListOfGifs({ query, pos }: Params): Promise<MappedGifs> {
+export async function getListOfGifs({ query, pos }: Params) {
 	const resp = await fetch(`/api/search/${query}}?pos=${pos}`)
-	const data: MappedGifs = await resp.json()
-	console.log(data)
-
+	const data: ListOfGifs = await resp.json()
 	return data
 }
 

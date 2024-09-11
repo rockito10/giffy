@@ -1,14 +1,14 @@
-import type { MappedGifs } from '@/types/types'
+import type { ListOfGifs } from '@/types/new'
 import { createContext, useState } from 'react'
 
 // ---------- Context ----------
 
 interface GiffyContextType {
-	data: MappedGifs
+	data: ListOfGifs
 	query: string
-	setData: (data: MappedGifs) => void
+	setData: (data: ListOfGifs) => void
 	setQuery: (query: string) => void
-	concatData: (newGifs: MappedGifs) => void
+	concatData: (newGifs: ListOfGifs) => void
 }
 
 export const GiffyContext = createContext<GiffyContextType>({
@@ -27,9 +27,9 @@ interface Props {
 
 export function GiffyContextProvider({ children }: Props) {
 	const [query, setQuery] = useState('')
-	const [data, setData] = useState<MappedGifs>({ gifs: [], next: '' })
+	const [data, setData] = useState<ListOfGifs>({ gifs: [], next: '' })
 
-	const concatData = (newData: MappedGifs) => {
+	const concatData = (newData: ListOfGifs) => {
 		setData((prevData) => {
 			return {
 				gifs: [...prevData.gifs, ...newData.gifs],

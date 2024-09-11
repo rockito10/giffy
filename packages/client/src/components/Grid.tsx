@@ -1,11 +1,10 @@
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
-import type { MappedGifs } from '../types/types'
-
+import type { ListOfGifs } from '@/types/new'
 import { Frame } from './Frame'
 
 interface Props {
-	data: MappedGifs | undefined
+	data: ListOfGifs | undefined
 }
 
 export function Grid({ data }: Props) {

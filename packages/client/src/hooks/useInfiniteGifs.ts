@@ -1,4 +1,4 @@
-import type { MappedGifs } from '@/types/types'
+import type { ListOfGifs } from '@/types/new'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useParams } from 'wouter'
@@ -6,7 +6,7 @@ import { useInView } from './useInView'
 
 const fetchListOfGifs = async ({ query, pos }: { query: string; pos: string }) => {
 	const resp = await fetch(`/api/search/${query}}?pos=${pos}`)
-	const data: MappedGifs = await resp.json()
+	const data: ListOfGifs = await resp.json()
 
 	return data
 }
@@ -16,7 +16,7 @@ export function useInfiniteGifs() {
 
 	if (!query) return
 
-	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<MappedGifs>({
+	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['search', query],
 		queryFn: ({ pageParam = '' }) => {
 			const pos = typeof pageParam === 'string' ? pageParam : ''
