@@ -1,6 +1,6 @@
-import type { MappedGifs } from '@/types/types'
-
 // --------------------------------------------------
+
+import { MappedGifs } from '@/types/types'
 
 // function createURL(path: string, { pos }: { pos: string }) {
 // 	const params = new URLSearchParams({ pos })
@@ -16,18 +16,23 @@ export async function getGifById(id: string) {
 // --------------------------------------------------
 
 interface Params {
-	query: string | undefined
-	pos: string | undefined | unknown
+	query: string
+	pos?: string
 }
 
-export async function getGifs({ query, pos }: Params): Promise<MappedGifs> {
-
+export async function getListOfGifs({ query, pos }: Params): Promise<MappedGifs> {
 	const resp = await fetch(`/api/search/${query}}?pos=${pos}`)
 	const data: MappedGifs = await resp.json()
 	console.log(data)
 
 	return data
 }
+
+// export const getListOfGifs = async ({ query, pos }: Params) => {
+// 	const URL = `/api/search/${query}?pos=${pos}`
+// 	const res = await fetch(URL)
+// 	return await res.json()
+// }
 
 // --------------------------------------------------
 

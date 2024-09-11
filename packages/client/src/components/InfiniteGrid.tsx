@@ -7,7 +7,7 @@ export function InfiniteGrid() {
 	return (
 		<>
 			<div className="flex flex-col items-center justify-center">
-				<Grid data={data?.pages[0]} />
+				<Grid data={data} />
 				<br />
 				<div ref={ref} className="border">
 					{/* Observer */}

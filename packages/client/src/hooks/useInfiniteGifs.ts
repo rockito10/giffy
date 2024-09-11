@@ -1,23 +1,33 @@
-import { getGifs } from '@/services/services'
 import type { MappedGifs } from '@/types/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useParams } from 'wouter'
 import { useInView } from './useInView'
 
+const fetchListOfGifs = async ({ query, pos }: { query: string; pos: string }) => {
+	const resp = await fetch(`/api/search/${query}}?pos=${pos}`)
+	const data: MappedGifs = await resp.json()
+
+	return data
+}
+
 export function useInfiniteGifs() {
 	const { query } = useParams()
 
-	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<MappedGifs>({
-		queryKey: [query],
-		queryFn: ({ pageParam = '' }) => getGifs({ query, pos: pageParam }),
-		getNextPageParam: (lastPage) => lastPage.next as string | undefined,
-		initialPageParam: { next: '' },
-		select: (data) => {
-			const concatenatedGifs = data.pages.flatMap((page) => page.gifs)
+	if (!query) return
 
+	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<MappedGifs>({
+		queryKey: ['search', query],
+		queryFn: ({ pageParam = '' }) => {
+			const pos = typeof pageParam === 'string' ? pageParam : ''
+			return fetchListOfGifs({ query, pos })
+		},
+		initialPageParam: '',
+		getNextPageParam: (lastPage) => lastPage.next,
+		select: (data) => {
+			const newData = data.pages.flatMap((page) => page.gifs)
 			return {
-				pages: [{ gifs: concatenatedGifs, next: '' }],
+				pages: [{ gifs: newData, next: '' }],
 				pageParams: data.pageParams,
 			}
 		},
@@ -33,5 +43,5 @@ export function useInfiniteGifs() {
 		}
 	}, [inView, fetchNextPage, hasNextPage])
 
-	return { data, ref, error, isLoading }
+	return { data: data?.pages[0], ref, error, isLoading }
 }
