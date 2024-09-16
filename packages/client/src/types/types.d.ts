@@ -51,3 +51,9 @@ export interface MediaFormat {
 	dims: number[]
 	size: number
 }
+
+export interface UserInfo {
+	user_name: string
+	avatar: string
+	user_id: string
+}

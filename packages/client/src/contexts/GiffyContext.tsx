@@ -1,4 +1,4 @@
-import type { ListOfGifs } from '@/types/new'
+import type { ListOfGifs } from '@/types/types'
 import { createContext, useState } from 'react'
 
 // ---------- Context ----------

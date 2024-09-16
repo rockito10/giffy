@@ -4,9 +4,9 @@ import { Router } from 'express'
 
 export const searchRoutes = Router()
 
-searchRoutes.use('/', (_req, _res, next) => {
-	next(BAD_REQUEST('Query is required'))
-})
+// searchRoutes.use('/', (_req, _res, next) => {
+// 	next(BAD_REQUEST('Query is required'))
+// })
 
 searchRoutes.get('/:query', getSearchController)
 // searchRoutes.get('/:query/:next', getListOfGifsController)
