@@ -2,75 +2,54 @@ import { useMe } from "@/hooks/useMe";
 import { useCommentsContext } from "@/hooks/useCommentsContext";
 import type { Comment } from "@/types/comments";
 import { useParams } from "wouter";
+import { useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { postComment } from "@/services/services";
 
 interface Props {
   isFirstComment: boolean;
 }
 
 export function NewComment({ isFirstComment }: Props) {
-  const { id } = useParams();
+  const { id: gifId }: { id: string } = useParams();
 
-  const { addComment, commentCount: nextCommentId } = useCommentsContext();
+  const { addComment, nextCommentId } = useCommentsContext();
   const { avatar, username, id: userId } = useMe();
 
-  // const commentId = comments.length + commentCount + 1
+  const { mutate } = useMutation({
+    mutationFn: postComment,
+  });
 
-  // const { fetchData } = useFetch(`/api/comments/${id}`)
+  // Post Comment
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    // Post Comment
-    const commentText = evt.currentTarget.querySelector("textarea")?.value;
-    if (!commentText || !avatar || !username || !userId) return;
-    //
+    const textarea = textareaRef.current;
 
-    const infoToSend = {
-      commentText,
-      userId,
-      // ID DE PEPE
-      // IDE DEL COMENTARIO
-    };
+    // Comprobaciones
+    if (!textarea || !avatar || !username || !userId) return;
 
-    // ACTUALIZACION OPTIMISTA (Add comment to UI)
+    const commentText = textarea.value;
 
-    const optCom: Comment = {
+    // Crear comentario
+    const comment: Comment = {
       avatar,
       comment_id: nextCommentId,
       text: commentText,
-      gif_id: id!,
+      gif_id: gifId!,
       user_name: username,
       user_id: userId,
     };
 
-    console.log("optCom", optCom);
+    //añadir comentario a la base de datos y a comment section
+    mutate({ commentText, userId, gifId });
+    addComment(comment);
 
-    addComment(optCom);
-
-    try {
-      const response = await fetch(`/api/comments/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(infoToSend),
-      });
-
-      if (response.status === 201) {
-        // Confirmamos que el comentario se ha enviado
-      }
-
-      if (response.status !== 201) {
-        // Mostrar mensaje de error
-      }
-    } catch (error) {
-      // Mostrar mensaje de error
-      console.log("Error al enviar el comentario", error);
-    }
-
-    // Clear textarea
-    const textarea = evt.currentTarget.querySelector("textarea");
-    if (textarea) textarea.value = "";
+    // Limpiar texta
+    textarea.value = "";
   };
 
   return (
@@ -85,11 +64,22 @@ export function NewComment({ isFirstComment }: Props) {
       <div className="flex w-2/3 flex-col items-start gap-4">
         {nextCommentId}
         <textarea
+          ref={textareaRef}
           className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"
           placeholder="Your comment here!"
+          onKeyDown={(evt) => {
+            if (evt.key === "Enter" && !evt.shiftKey) {
+              const form = evt.currentTarget.closest("form"); // Obtener el formulario
+              if (form) {
+                form.requestSubmit(); // Enviar el formulario
+              }
+            }
+          }}
         />
-        {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-        <button className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black">
+        <button
+          className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black"
+          type="button"
+        >
           Comment
         </button>
       </div>

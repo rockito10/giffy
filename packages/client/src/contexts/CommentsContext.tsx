@@ -1,6 +1,4 @@
-import { fetchComments } from "@/services/services";
 import type { Comment } from "@/types/comments";
-import { useQuery } from "@tanstack/react-query";
 import { createContext, useState } from "react";
 
 // ---------- Context ----------
@@ -9,8 +7,8 @@ interface CommentsContextType {
   comments: Comment[];
   addComment: (comment: Comment) => void;
   setComments: (comments: Comment[]) => void;
-  // commentCount: number;
-  //   setCommentCount: (newCommentCount: number) => void;
+  nextCommentId: number;
+  setNextCommentId: (newCommentCount: number) => void;
 }
 
 export const CommentsContext = createContext<CommentsContextType>({
@@ -18,8 +16,8 @@ export const CommentsContext = createContext<CommentsContextType>({
   addComment: () => {},
   setComments: () => {},
   // removeComment: () => {},
-  // commentCount: 0,
-  //   setCommentCount: () => {},
+  nextCommentId: 0,
+  setNextCommentId: () => {},
 });
 
 // ---------- Provider ----------
@@ -30,13 +28,13 @@ interface Props {
 
 export function CommentsContextProvider({ children }: Props) {
   const [comments, setComments] = useState<Comment[] | []>([]);
-  // const [commentCount, setCommentCount] = useState<number>(data ?? 0);
-
+  const [nextCommentId, setNextCommentId] = useState(0);
   const addComment = (comment: Comment) => {
     setComments((prev) => {
+      console.log("PREVIOUS", prev);
       return [...prev, comment];
     });
-    // setCommentCount(commentCount + 1);
+    setNextCommentId(nextCommentId + 1);
   };
 
   //   const addAllComments = (comments: Comment[]) => {
@@ -57,8 +55,8 @@ export function CommentsContextProvider({ children }: Props) {
         setComments,
         addComment,
         // removeComment,
-        // commentCount,
-        // setCommentCount,
+        nextCommentId,
+        setNextCommentId,
       }}
     >
       {children}

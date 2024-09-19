@@ -7,7 +7,7 @@ export function Header() {
 
   if (!username) return null;
 
-  console.log("username", username);
+  // console.log("username", username);
 
   const handleChangeUser = () => {
     if (getSavedUserId() === "1") {

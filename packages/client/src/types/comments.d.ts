@@ -6,5 +6,3 @@ export interface Comment {
 	user_name: string
 	user_id: string
 }
-
-type CommentsResponse = Comment[]

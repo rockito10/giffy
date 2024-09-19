@@ -1,27 +1,36 @@
 import { CommentsContext } from "@/contexts/CommentsContext";
 import { fetchComments } from "@/services/services";
+import { Comment } from "@/types/comments";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect } from "react";
 import { useParams } from "wouter";
 
 export function useCommentsContext() {
-  const { id } = useParams();
+  console.log("USEQUERY");
 
-  if (!id) return;
+  const { id }: { id: string } = useParams();
 
-  // Peticion a la base de datos
-  const { data } = useQuery({
+  const { comments, addComment, setComments, nextCommentId, setNextCommentId } =
+    useContext(CommentsContext);
+
+  const { data } = useQuery<Comment[]>({
+    // CAMBIAR ESTO DE LUGAR
     queryKey: ["comments", id],
     queryFn: () => fetchComments(id),
   });
 
-  const { comments, addComment, setComments } = useContext(CommentsContext);
-
   useEffect(() => {
-    if (data?.length > 0) {
-      setComments(data);
+    if (!data) {
+      return;
     }
-  }, [data]);
+    setComments(data);
 
-  return { comments, addComment };
+    if (data.length === 0) {
+      setNextCommentId(1);
+    } else {
+      setNextCommentId(data[data.length - 1].comment_id + 1); //último comentario
+    }
+  }, []);
+
+  return { comments, addComment, nextCommentId };
 }
