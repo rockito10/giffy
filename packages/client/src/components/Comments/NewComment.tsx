@@ -1,16 +1,12 @@
 import { useMe } from "@/hooks/useMe";
 import { useCommentsContext } from "@/hooks/useCommentsContext";
-import type { Comment } from "@/types/comments";
 import { useParams } from "wouter";
+import { Comment } from "@/types/types";
 import { useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { postComment } from "@/services/services";
 
-interface Props {
-  isFirstComment: boolean;
-}
-
-export function NewComment({ isFirstComment }: Props) {
+export function NewComment() {
   const { id: gifId }: { id: string } = useParams();
 
   const { addComment, nextCommentId } = useCommentsContext();
@@ -54,15 +50,14 @@ export function NewComment({ isFirstComment }: Props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      {isFirstComment ? (
+      {/* {isFirstComment ? (
         <p className="w-fit px-2 py-1">
           No comments yet. Be the first to comment!
         </p>
       ) : (
         <p className="w-fit px-2 py-1">Add a comment</p>
-      )}
+      )} */}
       <div className="flex w-2/3 flex-col items-start gap-4">
-        {nextCommentId}
         <textarea
           ref={textareaRef}
           className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"

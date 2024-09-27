@@ -38,7 +38,7 @@ export async function getCommentsController(req: Request, res: Response) {
       };
     });
 
-    return res.status(200).json(mappedComments);
+    return res.status(200).json({mappedComments, nextCommentId: mappedComments.length+1 });
   }
 
   return res.status(404).json({ message: "Comments not found" });

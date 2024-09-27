@@ -1,4 +1,4 @@
-import { CommentSection } from "@/components/Comments/CommentSection";
+import { CommentContainer } from "@/components/Comments/CommentContainer";
 import { CommentsContextProvider } from "@/contexts/CommentsContext";
 import { useGetGifById } from "@/hooks/useGetGifById";
 import { Link, useParams } from "wouter";
@@ -59,7 +59,7 @@ export default function GifsDetails() {
         {/* ... */}
 
         <div>
-          <CommentSection />
+          <CommentContainer />
         </div>
       </div>
     </CommentsContextProvider>

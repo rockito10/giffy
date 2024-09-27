@@ -11,7 +11,7 @@ interface Props {
   userId: string;
 }
 
-export function Comment({
+export function CommentComponent({
   username,
   avatar,
   comment,

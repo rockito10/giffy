@@ -57,3 +57,22 @@ export interface UserInfo {
 	avatar: string
 	user_id: string
 }
+
+
+// ---------------------------------------------------------
+// GIF Comments
+// ---------------------------------------------------------
+
+export interface Comment {
+	avatar: string
+	comment_id: number
+	text: string
+	gif_id: string
+	user_name: string
+	user_id: string
+}
+
+export interface CommentResponse {
+	mappedComments: Comment[]
+	nextCommentId: number
+}
