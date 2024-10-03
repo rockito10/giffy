@@ -1,83 +1,86 @@
-import { useMe } from "@/hooks/useMe";
-import { useCommentsContext } from "@/hooks/useCommentsContext";
-import { useParams } from "wouter";
-import { Comment } from "@/types/types";
-import { useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { postComment } from "@/services/services";
+import { useCommentsContext } from '@/hooks/useCommentsContext'
+import { useMe } from '@/hooks/useMe'
+import { postComment } from '@/services/services'
+import type { Comment } from '@/types/types'
+import { useMutation } from '@tanstack/react-query'
+import { useRef } from 'react'
+import { useParams } from 'wouter'
 
 export function NewComment() {
-  const { id: gifId }: { id: string } = useParams();
+	const { id: gifId }: { id: string } = useParams()
 
-  const { addComment, nextCommentId } = useCommentsContext();
-  const { avatar, username, id: userId } = useMe();
+	const { addComment, nextCommentId } = useCommentsContext()
+	const { avatar, username, id: userId } = useMe()
 
-  const { mutate } = useMutation({
-    mutationFn: postComment,
-  });
+	const { mutate } = useMutation({
+		mutationFn: postComment,
+	})
 
-  // Post Comment
+	// Post Comment
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+	const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
+		evt.preventDefault()
 
-    const textarea = textareaRef.current;
+		const textarea = textareaRef.current
 
-    // Comprobaciones
-    if (!textarea || !avatar || !username || !userId) return;
+		// Comprobaciones
+		if (!textarea || !avatar || !username || !userId) return
 
-    const commentText = textarea.value;
+		const commentText = textarea.value
 
-    // Crear comentario
-    const comment: Comment = {
-      avatar,
-      comment_id: nextCommentId,
-      text: commentText,
-      gif_id: gifId!,
-      user_name: username,
-      user_id: userId,
-    };
+		if (!commentText.trim()) return // todo: HACER LO MISMO EN EL BACKEND uwu
 
-    //añadir comentario a la base de datos y a comment section
-    mutate({ commentText, userId, gifId });
-    addComment(comment);
+		// Crear comentario
+		const comment: Comment = {
+			avatar,
+			comment_id: nextCommentId,
+			text: commentText,
+			gif_id: gifId,
+			user_name: username,
+			user_id: userId,
+		}
 
-    // Limpiar texta
-    textarea.value = "";
-  };
+		//añadir comentario a la base de datos y a comment section
+		mutate({ commentText, userId, gifId })
+		addComment(comment)
 
-  return (
-    <form onSubmit={handleSubmit}>
-      {/* {isFirstComment ? (
+		// Limpiar texta
+		textarea.value = ''
+	}
+
+	return (
+		<form onSubmit={handleSubmit}>
+			{/* {isFirstComment ? (
         <p className="w-fit px-2 py-1">
           No comments yet. Be the first to comment!
         </p>
       ) : (
         <p className="w-fit px-2 py-1">Add a comment</p>
       )} */}
-      <div className="flex w-2/3 flex-col items-start gap-4">
-        <textarea
-          ref={textareaRef}
-          className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"
-          placeholder="Your comment here!"
-          onKeyDown={(evt) => {
-            if (evt.key === "Enter" && !evt.shiftKey) {
-              const form = evt.currentTarget.closest("form"); // Obtener el formulario
-              if (form) {
-                form.requestSubmit(); // Enviar el formulario
-              }
-            }
-          }}
-        />
-        <button
-          className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black"
-          type="button"
-        >
-          Comment
-        </button>
-      </div>
-    </form>
-  );
+			<div className="flex w-2/3 flex-col items-start gap-4">
+				<textarea
+					ref={textareaRef}
+					className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"
+					placeholder="Your comment here!"
+					onKeyDown={(evt) => {
+						if (evt.key === 'Enter' && !evt.shiftKey) {
+							const form = evt.currentTarget.closest('form') // Obtener el formulario
+							evt.preventDefault() // Evitar que se haga un salto de línea
+							if (form) {
+								form.requestSubmit() // Enviar el formulario
+							}
+						}
+					}}
+				/>
+				<button
+					className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black"
+					type="button"
+				>
+					Comment
+				</button>
+			</div>
+		</form>
+	)
 }

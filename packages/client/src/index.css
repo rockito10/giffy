@@ -12,3 +12,31 @@ img {
 	width: 100%;
 	max-width: 100%;
 }
+
+.dashed-border {
+	position: relative;
+
+	border: 1px solid rgb(255, 255, 255, 0.5);
+	border-radius: 1rem;
+
+	outline: 3px dashed rgb(255, 255, 255);
+	outline-offset: -14px;
+
+	transition: outline 0.3s ease;
+
+	&:hover {
+		cursor: crosshair;
+		outline: 3px dashed rgb(189, 69, 219);
+	}
+}
+
+.dashed-border::after {
+	content: "DRAG HERE";
+	font-size: 2rem;
+	font-family: Arial, sans-serif;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

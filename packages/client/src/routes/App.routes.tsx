@@ -7,6 +7,7 @@ const HomePage = lazy(() => import('../pages/HomePage'))
 const GifsDetails = lazy(() => import('../pages/GifDetails'))
 const SearchPage = lazy(() => import('../pages/SearchPage'))
 const Page404 = lazy(() => import('../pages/Page404'))
+const UploadPage = lazy(() => import('../pages/UploadPage'))
 
 export function AppRoutes() {
 	return (
@@ -16,6 +17,7 @@ export function AppRoutes() {
 					<Route component={HomePage} path="/" />
 					<Route component={SearchPage} path="/search/:query" />
 					<Route component={GifsDetails} path="/gif/:id" />
+					<Route component={UploadPage} path="/upload" />
 
 					{/* ERROR 404 */}
 					<Route component={Page404} />

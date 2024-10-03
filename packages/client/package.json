@@ -9,6 +9,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@formkit/drag-and-drop": "^0.1.6",
 		"@tanstack/react-query": "^5.51.23",
 		"prop-types": "^15.8.1",
 		"react": "^18.3.1",

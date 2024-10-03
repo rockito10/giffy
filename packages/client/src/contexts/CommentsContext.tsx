@@ -32,7 +32,7 @@ export function CommentsContextProvider({ children }: Props) {
 	const [nextCommentId, setNextCommentId] = useState(0)
 	const addComment = (comment: Comment) => {
 		setComments((prev) => {
-			return [...prev, comment]
+			return [comment, ...prev]
 		})
 		setNextCommentId(nextCommentId + 1)
 	}
