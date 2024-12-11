@@ -15,7 +15,7 @@ export function AppRoutes() {
 			<Suspense fallback={<div>Loading...</div>}>
 				<Switch>
 					<Route component={HomePage} path="/" />
-					<Route component={SearchPage} path="/search/:query" />
+					<Route component={SearchPage} path="/search/:query?" />
 					<Route component={GifsDetails} path="/gif/:id" />
 					<Route component={UploadPage} path="/upload" />
 

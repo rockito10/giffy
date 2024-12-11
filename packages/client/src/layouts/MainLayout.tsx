@@ -6,12 +6,12 @@ interface Props {
 
 export function MainLayout({ children }: Props) {
 	return (
-		<div>
+		<div className="flex flex-col h-dvh">
 			<div className="sticky top-0 z-[100]">
 				<Header />
 			</div>
-			<main className="p-8">{children}</main>
-			<footer className="h-96 border">
+			<main className="p-8 flex-grow">{children}</main>
+			<footer className="h-32 border">
 				<p>
 					Con 34 años, en 1812, tras haber alcanzado el grado de teniente coronel, y luego de una
 					escala en Londres, retornó a Buenos Aires, donde se puso al servicio de la independencia
