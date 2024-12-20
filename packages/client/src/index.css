@@ -13,7 +13,19 @@ img {
 	max-width: 100%;
 }
 
-.dashed-border {
+textarea {
+	field-sizing: content;
+}
+
+.tag-input{
+	width: 22ch;
+}
+
+.tag-input:invalid{
+	border:1px solid red;
+}
+
+.drag-and-drop {
 	position: relative;
 
 	border: 1px solid rgb(255, 255, 255, 0.5);
@@ -26,11 +38,23 @@ img {
 
 	&:hover {
 		cursor: crosshair;
-		outline: 3px dashed rgb(189, 69, 219);
+		outline: 3px dashed rgb(168 85 247 / 0.7);
 	}
 }
+/* 
+.drag-and-drop::after {
+	content: "DRAG HERE";
+	font-size: clamp(1rem, 3vw, 3rem);
+	font-family: Arial, sans-serif;
+	white-space: nowrap;
 
-.dashed-border::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}  */
+
+.drag-and-drop-text{
 	content: "DRAG HERE";
 	font-size: clamp(1rem, 3vw, 3rem);
 	font-family: Arial, sans-serif;

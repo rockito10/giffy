@@ -4,6 +4,7 @@ import express, { json } from 'express'
 import { commentsRoutes } from './routes/comments.routes'
 import { likesRoutes } from './routes/likes.routes'
 import { searchRoutes } from './routes/search.routes'
+import { uploadRoutes } from './routes/upload.routes'
 import { userRoutes } from './routes/user.routes'
 
 // APP
@@ -26,6 +27,7 @@ app.use('/api/user', userRoutes)
 app.use('/api/search', searchRoutes)
 app.use('/api/comments', commentsRoutes)
 app.use('/api/likes', likesRoutes)
+app.use('/api/upload', uploadRoutes)
 
 // POST-MIDDLEWARES
 // app.use(errorHandlerMiddleware)
