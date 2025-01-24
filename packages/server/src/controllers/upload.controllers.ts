@@ -11,12 +11,20 @@ interface Gif {
 export async function uploadGifController(req: Request, res: Response, next: NextFunction) {
 	const { gif, title, description, tags } = req.body as Gif
 
-	db.gif.create({
-		data: {
-			comment: {},
-			gif_id: 'giffy-00001',
-			gif_likes: 0,
-			liked: {},
-		},
-	})
+	console.log(gif, title, description, tags)
+
+	try {
+		db.custom_gif.create({
+			data: {
+				// gif_id: crypto.randomUUID(),
+				title,
+				url: 'https://media.tenor.com/-Y2YOay3_JoAAAAC/its-friday-dancing.gif',
+				description,
+				tags,
+			},
+		})
+		return res.status(202).json({ message: 'Gif created' })
+	} catch (error) {
+		return res.status(500).json({ message: 'Error creating gif' })
+	}
 }

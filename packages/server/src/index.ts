@@ -1,10 +1,10 @@
 import cors from 'cors'
 import express, { json } from 'express'
+import { db } from './config/db'
 // import { errorHandlerMiddleware } from './middlewares/errorHandler.middleware'
 import { commentsRoutes } from './routes/comments.routes'
 import { likesRoutes } from './routes/likes.routes'
 import { searchRoutes } from './routes/search.routes'
-import { uploadRoutes } from './routes/upload.routes'
 import { userRoutes } from './routes/user.routes'
 
 // APP
@@ -27,7 +27,27 @@ app.use('/api/user', userRoutes)
 app.use('/api/search', searchRoutes)
 app.use('/api/comments', commentsRoutes)
 app.use('/api/likes', likesRoutes)
-app.use('/api/upload', uploadRoutes)
+// app.use('/api/upload', uploadRoutes)
+app.post('/api/upload', async (_req, res) => {
+	const { gif, title, description, tags } = _req.body
+
+	console.log(gif, title, description, tags)
+
+	const response = await db.custom_gif.create({
+		data: {
+			gif_id: `giffy-${crypto.randomUUID()}`,
+			title,
+			url: 'https://media.tenor.com/-Y2YOay3_JoAAAAC/its-friday-dancing.gif',
+			description,
+			tags,
+		},
+	})
+
+	if (response) {
+		return res.status(202).json({ message: 'Gif created' })
+	}
+	return res.status(500).json({ message: 'Error creating gif' })
+})
 
 // POST-MIDDLEWARES
 // app.use(errorHandlerMiddleware)

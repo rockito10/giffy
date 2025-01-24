@@ -8,10 +8,20 @@ datasource db {
 }
 
 model gif {
+  //gif interactions
   gif_id    String    @id @default(uuid())
   gif_likes Int       @default(0) @db.Integer
   liked     liked[]
   comment   comment[]
+}
+
+model custom_gif {
+  //gif information
+  gif_id      String   @id @default(uuid())
+  title       String
+  url         String
+  description String
+  tags        String[]
 }
 
 model user {

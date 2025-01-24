@@ -4,4 +4,7 @@ import { userRoutes } from './user.routes'
 
 export const uploadRoutes = Router()
 
-userRoutes.get('/', uploadGifController)
+userRoutes.get('/', (_req, res) => {
+  res.json({ message: 'asdfdasfdasfdsa!' })
+})
+userRoutes.post('/', uploadGifController)

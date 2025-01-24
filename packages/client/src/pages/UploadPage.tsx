@@ -2,9 +2,10 @@ import { useRef, useState } from 'react'
 
 export default function UploadPage() {
 	const reader = new FileReader()
-	const [src, setSrc] = useState('')
+	const [base64Data, setBase64Data] = useState('')
 	const [tags, setTag] = useState<string[]>([])
 	const tagRef = useRef<HTMLInputElement | null>(null)
+	const formRef = useRef<HTMLFormElement | null>(null)
 
 	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
@@ -12,7 +13,7 @@ export default function UploadPage() {
 
 		if (file) {
 			reader.onload = () => {
-				setSrc(reader.result as string) // Guardar la imagen en base64 en el estado
+				setBase64Data(reader.result as string) // Guardar la imagen en base64 en el estado
 			}
 			reader.readAsDataURL(file) // Leer el archivo como una URL base64
 		}
@@ -47,6 +48,35 @@ export default function UploadPage() {
 		})
 	}
 
+	const handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		evt.preventDefault()
+
+		const title = (formRef.current?.querySelector('#form-title') as HTMLInputElement).value
+		const description = (formRef.current?.querySelector('#form-description') as HTMLInputElement)
+			?.value
+
+		if (!title || !base64Data) return
+
+		const data = {
+			gif: '2',
+			title,
+			description,
+			tags,
+		}
+
+		try {
+			await fetch('/api/upload', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			})
+		} catch (error) {
+			console.log("fdsakfdsakfkdsakfd", error)
+		}
+	}
+
 	return (
 		<div>
 			<div className="flex gap-8 md:flex-row flex-col md:items-center items-start">
@@ -58,12 +88,12 @@ export default function UploadPage() {
 						onDrop={handleOnDrop}
 						onDragOver={handleOnDragOver}
 					>
-						{!src && <span className="drag-and-drop-text">DRAG HERE</span>}
+						{!base64Data && <span className="drag-and-drop-text">DRAG HERE</span>}
 					</div>
 
-					{src && (
+					{base64Data && (
 						<img
-							src={src}
+							src={base64Data}
 							alt={'imagen'}
 							className="absolute top-1/2 left-1/2 w-3/4 -translate-x-1/2 -translate-y-1/2 rounded-md max-h-[90%] object-contain -z-10"
 						/>
@@ -71,14 +101,16 @@ export default function UploadPage() {
 				</div>
 
 				{/* --------------- FORM ---------------*/}
-				<form className="space-y-4 p-4 w-full">
+				<form className="space-y-4 p-4 w-full" ref={formRef}>
 					<input
 						type="text"
 						className="w-full rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white max-w-[50vw]"
 						placeholder="Add title!"
 						required
+						id="form-title"
 					/>
 					<textarea
+						id="form-description"
 						className="w-full resize-none rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white max-w-[50vw]"
 						placeholder="Add a description!"
 					/>
@@ -115,10 +147,12 @@ export default function UploadPage() {
 							)
 						})}
 					</div>
+					{/* --------------- */}
 
-					{src && (
+					{base64Data && (
 						<button
 							type="submit"
+							onClick={handleSubmit}
 							className="border border-purple-500/70 bg-purple-500 p-2 hover:bg-purple-600 transition-colors rounded-lg"
 						>
 							Upload

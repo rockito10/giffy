@@ -40,6 +40,8 @@ CREATE TABLE COMMENT (
     FOREIGN KEY (user_id) REFERENCES USER_(user_id) ON DELETE CASCADE
 );
 
+
+
 INSERT INTO USER_ (user_id, user_name, password, avatar)
 VALUES ('1', 'peparda', '8887', 'https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg'),
 	('aabh1', 'pepe', 'pepe1234', 'https://media.gq.com.mx/photos/5f6ce732bc946e88f6c96320/16:9/w_2560%2Cc_limit/goky%2520ultra%2520instinto.jpg'),
