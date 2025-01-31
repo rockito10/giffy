@@ -6,8 +6,11 @@
 	"scripts": {
 		"check": "biome check --write .",
 		"dev": "pnpm --recursive dev",
+		"dev:server": "cd packages/server && pnpm dev",
+		"dev:client": "cd packages/client && pnpm dev",
 		"format": "biome format --write .",
-		"lint": "biome lint --write ."
+		"lint": "biome lint --write .",
+		"regenerate_db": "cd packages/server && pnpm prisma migrate dev && pnpm prisma db execute --file seed.sql --schema schema.prisma"
 	},
 	"keywords": [],
 	"author": "",

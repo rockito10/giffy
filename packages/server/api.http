@@ -23,3 +23,17 @@ GET  http://localhost:3000/api/search/dragon?pos=CBQQj5O069a4iAMaHgoKAD-_xHrzZGi
 ### GET List of Gifs (400 Bad Request)
 
 GET  http://localhost:3000/api/search/
+
+# ------------------------------------------------
+
+### POST Upload Gif (200 OK)
+
+POST http://localhost:3000/api/upload/
+Content-Type: application/json
+
+{
+  "title": "My Gif",
+  "url": "https://media.giphy.com/media/3o7TKz9bX9v9KzCnXK/giphy.gif",
+  "tags": ["tag1", "tag2"],
+  "description": "My Gif Description"
+}

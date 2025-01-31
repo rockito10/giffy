@@ -53,4 +53,10 @@ model comment {
   gif  gif  @relation(fields: [gif_id], references: [gif_id], onDelete: Cascade)
 
   @@id([gif_id, user_id, comment_id])
+
+
 }
+
+// CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+// ALTER TABLE custom_gif 
+// ALTER COLUMN gif_id SET DEFAULT ('giffy-' || uuid_generate_v4());

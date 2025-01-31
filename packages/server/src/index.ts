@@ -1,5 +1,8 @@
 import cors from 'cors'
-import express, { json } from 'express'
+import express from 'express'
+import multer from 'multer'
+
+import { json } from 'express'
 import { db } from './config/db'
 // import { errorHandlerMiddleware } from './middlewares/errorHandler.middleware'
 import { commentsRoutes } from './routes/comments.routes'
@@ -28,10 +31,18 @@ app.use('/api/search', searchRoutes)
 app.use('/api/comments', commentsRoutes)
 app.use('/api/likes', likesRoutes)
 // app.use('/api/upload', uploadRoutes)
-app.post('/api/upload', async (_req, res) => {
-	const { gif, title, description, tags } = _req.body
 
-	console.log(gif, title, description, tags)
+const upload = multer({ dest: 'uploads/' })
+
+app.post('/api/upload', upload.single('file'), async (req, res) => {
+	const { title, description, tags } = req.body
+	// const tags = JSON.parse(req.body.tags);
+	const file = req.file
+
+	// console.log(title, description, tags)
+
+	//  CHEQUEAR QUE FILE ES UN GIF CON UN CONSOLE
+	console.log(file)
 
 	const response = await db.custom_gif.create({
 		data: {
@@ -39,14 +50,14 @@ app.post('/api/upload', async (_req, res) => {
 			title,
 			url: 'https://media.tenor.com/-Y2YOay3_JoAAAAC/its-friday-dancing.gif',
 			description,
-			tags,
+			tags: JSON.parse(tags),
 		},
 	})
 
-	if (response) {
-		return res.status(202).json({ message: 'Gif created' })
-	}
-	return res.status(500).json({ message: 'Error creating gif' })
+	// if (response) {
+	// 	return res.status(202).json({ message: 'Gif created' })
+	// }
+	// return res.status(500).json({ message: 'Error creating gif' })
 })
 
 // POST-MIDDLEWARES

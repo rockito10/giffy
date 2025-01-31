@@ -17,12 +17,12 @@ textarea {
 	field-sizing: content;
 }
 
-.tag-input{
+.tag-input {
 	width: 22ch;
 }
 
-.tag-input:invalid{
-	border:1px solid red;
+.tag-input:invalid {
+	border: 1px solid red;
 }
 
 .drag-and-drop {
@@ -54,7 +54,7 @@ textarea {
 	transform: translate(-50%, -50%);
 }  */
 
-.drag-and-drop-text{
+.drag-and-drop-text {
 	content: "DRAG HERE";
 	font-size: clamp(1rem, 3vw, 3rem);
 	font-family: Arial, sans-serif;
@@ -64,4 +64,4 @@ textarea {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-} 
+}

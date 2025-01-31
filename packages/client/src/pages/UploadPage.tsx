@@ -2,7 +2,8 @@ import { useRef, useState } from 'react'
 
 export default function UploadPage() {
 	const reader = new FileReader()
-	const [base64Data, setBase64Data] = useState('')
+	const [gif, setGif] = useState<File | null>(null)
+	const [base64Data, setBase64Data] = useState<string>('') // Guardar la imagen en base64 en el estado
 	const [tags, setTag] = useState<string[]>([])
 	const tagRef = useRef<HTMLInputElement | null>(null)
 	const formRef = useRef<HTMLFormElement | null>(null)
@@ -11,8 +12,13 @@ export default function UploadPage() {
 		e.preventDefault()
 		const file = e.dataTransfer.files[0]
 
+		if (file.type !== 'image/gif') {
+			return
+		}
+
 		if (file) {
 			reader.onload = () => {
+				setGif(file) // Guardar la imagen en base64 en el estado
 				setBase64Data(reader.result as string) // Guardar la imagen en base64 en el estado
 			}
 			reader.readAsDataURL(file) // Leer el archivo como una URL base64
@@ -55,26 +61,50 @@ export default function UploadPage() {
 		const description = (formRef.current?.querySelector('#form-description') as HTMLInputElement)
 			?.value
 
-		if (!title || !base64Data) return
+		if (!title || !gif) return
 
-		const data = {
-			gif: '2',
-			title,
-			description,
-			tags,
-		}
+		// const data = {
+		// 	gif: '2',
+		// 	title,
+		// 	description,
+		// 	tags,
+		// }
+
+		// try {
+		// 	await fetch('/api/upload', {
+		// 		method: 'POST',
+		// 		headers: {
+		// 			'Content-Type': 'application/json',
+		// 		},
+		// 		body: JSON.stringify(data),
+		// 	})
+		// } catch (error) {
+		// 	console.log('fdsakfdsakfkdsakfd', error)
+		// }
+
+		// upload gif
+
+		const formData = new FormData()
+		formData.append('file', gif)
+		formData.append('title', title)
+		formData.append('description', description)
+		formData.append('tags', JSON.stringify(tags))
 
 		try {
-			await fetch('/api/upload', {
+			const uploadResponse = await fetch('/api/upload', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
+				body: formData,
 			})
+
+			if (!uploadResponse.ok) throw new Error('Upload failed')
+			console.log('File uploaded successfully')
 		} catch (error) {
-			console.log("fdsakfdsakfkdsakfd", error)
+			console.error('Error:', error)
 		}
+
+		// formRef.current?.reset()
+		// setTag([])
+		// setGif(null)
 	}
 
 	return (
@@ -88,10 +118,10 @@ export default function UploadPage() {
 						onDrop={handleOnDrop}
 						onDragOver={handleOnDragOver}
 					>
-						{!base64Data && <span className="drag-and-drop-text">DRAG HERE</span>}
+						{!gif && <span className="drag-and-drop-text">DRAG HERE</span>}
 					</div>
 
-					{base64Data && (
+					{gif && (
 						<img
 							src={base64Data}
 							alt={'imagen'}
@@ -149,7 +179,7 @@ export default function UploadPage() {
 					</div>
 					{/* --------------- */}
 
-					{base64Data && (
+					{gif && (
 						<button
 							type="submit"
 							onClick={handleSubmit}
