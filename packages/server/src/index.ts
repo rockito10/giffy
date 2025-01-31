@@ -1,9 +1,9 @@
+import fs from 'node:fs/promises'
 import cors from 'cors'
 import express from 'express'
-import multer from 'multer'
-
 import { json } from 'express'
 import { db } from './config/db'
+import { multerMiddleware } from './middlewares/multer.middleware'
 // import { errorHandlerMiddleware } from './middlewares/errorHandler.middleware'
 import { commentsRoutes } from './routes/comments.routes'
 import { likesRoutes } from './routes/likes.routes'
@@ -32,32 +32,37 @@ app.use('/api/comments', commentsRoutes)
 app.use('/api/likes', likesRoutes)
 // app.use('/api/upload', uploadRoutes)
 
-const upload = multer({ dest: 'uploads/' })
+app.post('/api/upload', multerMiddleware, async (req, res) => {
+	const { file, body } = req
+	const { title, description, tags } = body
 
-app.post('/api/upload', upload.single('file'), async (req, res) => {
-	const { title, description, tags } = req.body
-	// const tags = JSON.parse(req.body.tags);
-	const file = req.file
+	if (!file) return
 
-	// console.log(title, description, tags)
-
-	//  CHEQUEAR QUE FILE ES UN GIF CON UN CONSOLE
-	console.log(file)
+	const id = `giffy-${crypto.randomUUID()}`
 
 	const response = await db.custom_gif.create({
 		data: {
-			gif_id: `giffy-${crypto.randomUUID()}`,
+			gif_id: id,
 			title,
-			url: 'https://media.tenor.com/-Y2YOay3_JoAAAAC/its-friday-dancing.gif',
+			url: `uploads/${id}.gif`,
 			description,
 			tags: JSON.parse(tags),
 		},
 	})
 
-	// if (response) {
-	// 	return res.status(202).json({ message: 'Gif created' })
-	// }
-	// return res.status(500).json({ message: 'Error creating gif' })
+	fs.rename(`./uploads/${file.originalname}`, `./uploads/${id}.gif`)
+		.then(() => {
+			console.log('File renamed')
+		})
+		.catch((err) => {
+			console.error('Error renaming file', err)
+		})
+
+	//chequear esto, puede que cause problemas
+	if (response) {
+		return res.status(202).json({ message: 'Gif created' })
+	}
+	return res.status(500).json({ message: 'Error creating gif' })
 })
 
 // POST-MIDDLEWARES
