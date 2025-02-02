@@ -24,6 +24,13 @@
 			"correctness": {
 				"noUnusedImports": "warn",
 				"noUnusedVariables": "warn"
+			},
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "safe",
+					"level": "warn",
+					"options": {}
+				}
 			}
 		}
 	},

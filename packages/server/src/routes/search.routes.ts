@@ -8,10 +8,9 @@ export const searchRoutes = Router()
 // 	next(BAD_REQUEST('Query is required'))
 // })
 
+// Promise.allSettled([Promise.resolve(1), Promise.resolve(2)]).then(console.log)
+
 searchRoutes.get('/:query', getSearchController)
-// searchRoutes.get('/:query/:next', getListOfGifsController)
-// searchRoutes.get('/:query/:next/', getListOfGifsController)
-// searchRoutes.get('/:query', getListOfGifsController)
-// searchRoutes.get('/:query/', getListOfGifsController)
+
 
 searchRoutes.get('/gif/:gifId', getGifByIdController)

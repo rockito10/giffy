@@ -5,13 +5,17 @@ interface Props {
 
 export function Avatar({ name, src }: Props) {
 	return (
-		<div className="flex flex-col">
+		<div className="group">
 			<img
 				alt={`Avatar of ${name}`}
-				className="h-14 w-14 rounded-full border-2 object-cover"
+				className="size-16 rounded-full object-cover"
 				src={src ?? '/assets/no-avatar.svg'}
 				title={name}
 			/>
+
+			{/* <span className="opacity-0 transition-opacity group-hover:opacity-100">
+				<span className="rounded-full bg-purple-500 px-4 py-2">{name}</span>
+			</span> */}
 		</div>
 	)
 }

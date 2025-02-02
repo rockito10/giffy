@@ -5,18 +5,24 @@
 	"main": "index.js",
 	"scripts": {
 		"check": "biome check --write .",
-		"dev": "pnpm --recursive dev",
-		"dev:server": "cd packages/server && pnpm dev",
-		"dev:client": "cd packages/client && pnpm dev",
 		"format": "biome format --write .",
 		"lint": "biome lint --write .",
-		"regenerate_db": "cd packages/server && pnpm prisma migrate dev && pnpm prisma db execute --file seed.sql --schema schema.prisma"
+
+		"dev:client": "cd packages/client && pnpm dev",
+		"dev:server": "cd packages/server && pnpm dev",
+		"dev": "pnpm --recursive dev",
+
+		"db:migrate": "cd packages/server && pnpm prisma migrate dev",
+		"db:seed": "cd packages/server && pnpm prisma db execute --file seed.sql --schema schema.prisma",
+		"db:drop": "cd packages/server && pnpm prisma db drop --force",
+		"db:reset": "pnpm db:drop && pnpm db:migrate && pnpm db:seed",
+		"db:view": "cd packages/server && pnpm prisma studio"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
-		"prisma": "^5.19.1"
+		"typescript": "^5.5.4"
 	}
 }

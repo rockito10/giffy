@@ -11,7 +11,7 @@ export function InfiniteGrid() {
 	if (isLoading) return <div>Loading...</div>
 
 	if (data !== undefined && data.gifs.length === 0) {
-		return <div className="text-red-600 font-medium text-3xl text-center">No hay resultados</div>
+		return <div className="text-center font-medium text-3xl text-red-600">No hay resultados</div>
 	}
 
 	return (

@@ -38,6 +38,16 @@ export async function getGifByIdController(
 ) {
   const { gifId } = req.params;
 
+  /*
+  pepe = giffy.dameGifsDe("dragon ball")
+  if (pepe) {
+    [...misGifs, ...gifsDeTenor]
+  }
+
+  
+
+  */
+
   const URL = `${TENOR_API.API_BASE_URL}/posts?key=${TENOR_API.API_KEY}&ids=${gifId}`;
 
   const resp = await fetch(URL);

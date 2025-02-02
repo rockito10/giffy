@@ -32,6 +32,18 @@ app.use('/api/comments', commentsRoutes)
 app.use('/api/likes', likesRoutes)
 // app.use('/api/upload', uploadRoutes)
 
+app.get('/api/pepe', async (req, res) => {
+	const response = await db.custom_gif.findUnique({
+		where: {
+			gif_id: 'd1d9e541-e97e-4420-80ca-3e00fed9da9d',
+		},
+	})
+
+	if (!response) return res.status(404).json({ message: 'Gif not found' })
+
+	res.status(200).json(response)
+})
+
 app.post('/api/upload', multerMiddleware, async (req, res) => {
 	const { file, body } = req
 	const { title, description, tags } = body
@@ -49,6 +61,8 @@ app.post('/api/upload', multerMiddleware, async (req, res) => {
 			tags: JSON.parse(tags),
 		},
 	})
+
+	console.log(response)
 
 	fs.rename(`./uploads/${file.originalname}`, `./uploads/${id}.gif`)
 		.then(() => {

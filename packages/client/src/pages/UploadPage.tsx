@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 
 export default function UploadPage() {
 	const reader = new FileReader()
@@ -54,6 +55,12 @@ export default function UploadPage() {
 		})
 	}
 
+	function resetUploadGif() {
+		formRef.current?.reset()
+		setTag([])
+		setGif(null)
+	}
+
 	const handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		evt.preventDefault()
 
@@ -63,58 +70,71 @@ export default function UploadPage() {
 
 		if (!title || !gif) return
 
-		// const data = {
-		// 	gif: '2',
-		// 	title,
-		// 	description,
-		// 	tags,
-		// }
-
-		// try {
-		// 	await fetch('/api/upload', {
-		// 		method: 'POST',
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 		},
-		// 		body: JSON.stringify(data),
-		// 	})
-		// } catch (error) {
-		// 	console.log('fdsakfdsakfkdsakfd', error)
-		// }
-
-		// upload gif
-
 		const formData = new FormData()
 		formData.append('file', gif)
+		// formData.append('author', gif)
 		formData.append('title', title)
 		formData.append('description', description)
 		formData.append('tags', JSON.stringify(tags))
 
+		// const message = ({ closeToast, toastProps }) => (
+		// 	<div>
+		// 		GIF SUBIDO CON EXITO
+		// 		<button>Retry</button>
+		// 		<button onClick={closeToast}>Close</button>
+		// 	</div>
+		// )
+
 		try {
+			resetUploadGif()
 			const uploadResponse = await fetch('/api/upload', {
 				method: 'POST',
 				body: formData,
 			})
 
+			// popups
+			toast.success('Gif uploaded successfully!', {
+				position: 'top-center',
+				autoClose: 5000,
+				// hideProgressBar: false,
+				// closeOnClick: false,
+				// pauseOnHover: true,
+				// draggable: true,
+				// progress: undefined,
+				// progressClassName: 'bg-purple-500',
+				progressClassName: 'bg-purple-500',
+				theme: 'dark',
+				// theme: 'light',
+			})
+
 			if (!uploadResponse.ok) throw new Error('Upload failed')
-			console.log('File uploaded successfully')
 		} catch (error) {
 			console.error('Error:', error)
-		}
+			// popups
+			toast.error('Error uploading your gif.', {
+				position: 'top-center',
+				autoClose: 5000,
+				// hideProgressBar: false,
 
-		// formRef.current?.reset()
-		// setTag([])
-		// setGif(null)
+				progressClassName: 'bg-purple-500 text-purple-500',
+				// closeOnClick: false,
+				// pauseOnHover: true,
+				// draggable: true,
+				// progress: undefined,
+				theme: 'dark',
+			})
+		}
 	}
 
 	return (
 		<div>
-			<div className="flex gap-8 md:flex-row flex-col md:items-center items-start">
+			<ToastContainer />
+			<div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
 				{/* --------------- DRAG & DROP ---------------*/}
 
 				<div className="relative aspect-square w-1/3 min-w-72">
 					<div
-						className="aspect-square drag-and-drop"
+						className="drag-and-drop aspect-square"
 						onDrop={handleOnDrop}
 						onDragOver={handleOnDragOver}
 					>
@@ -125,23 +145,23 @@ export default function UploadPage() {
 						<img
 							src={base64Data}
 							alt={'imagen'}
-							className="absolute top-1/2 left-1/2 w-3/4 -translate-x-1/2 -translate-y-1/2 rounded-md max-h-[90%] object-contain -z-10"
+							className="-translate-x-1/2 -translate-y-1/2 -z-10 absolute top-1/2 left-1/2 max-h-[90%] w-3/4 rounded-md object-contain"
 						/>
 					)}
 				</div>
 
 				{/* --------------- FORM ---------------*/}
-				<form className="space-y-4 p-4 w-full" ref={formRef}>
+				<form className="w-full space-y-4 p-4" ref={formRef}>
 					<input
 						type="text"
-						className="w-full rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white max-w-[50vw]"
+						className="w-full max-w-[50vw] rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white"
 						placeholder="Add title!"
 						required
 						id="form-title"
 					/>
 					<textarea
 						id="form-description"
-						className="w-full resize-none rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white max-w-[50vw]"
+						className="w-full max-w-[50vw] resize-none rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white"
 						placeholder="Add a description!"
 					/>
 					{/* Agregar Tags */}
@@ -149,28 +169,28 @@ export default function UploadPage() {
 						<input
 							ref={tagRef}
 							type="text"
-							className="w-1/2 rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white tag-input"
+							className="tag-input w-1/2 rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white"
 							placeholder="Add tag"
 							maxLength={20}
 						/>
 						<button
 							type="submit"
 							onClick={handleAddTag}
-							className="border border-white/70 bg-black px-2 py-0.5 hover:bg-white hover:text-black transition-colors rounded-lg"
+							className="rounded-lg border border-white/70 bg-black px-2 py-0.5 transition-colors hover:bg-white hover:text-black"
 						>
 							+
 						</button>
 						{/* --------------- */}
 					</div>
 					{/* Contendor de Tags */}
-					<div className="flex gap-4 flex-wrap">
+					<div className="flex flex-wrap gap-4">
 						{tags.map((tag) => {
 							return (
 								<button
 									type="button"
 									onClick={() => handleDeleteTag(tag)}
 									key={tag}
-									className="rounded-lg border px-2 py-1 transition-colors hover:bg-white/90 hover:text-black cursor-not-allowed"
+									className="cursor-not-allowed rounded-lg border px-2 py-1 transition-colors hover:bg-white/90 hover:text-black"
 								>
 									{tag}
 								</button>
@@ -183,7 +203,7 @@ export default function UploadPage() {
 						<button
 							type="submit"
 							onClick={handleSubmit}
-							className="border border-purple-500/70 bg-purple-500 p-2 hover:bg-purple-600 transition-colors rounded-lg"
+							className="rounded-lg border border-purple-500/70 bg-purple-500 p-2 transition-colors hover:bg-purple-600"
 						>
 							Upload
 						</button>

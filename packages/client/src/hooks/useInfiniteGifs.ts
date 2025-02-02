@@ -5,12 +5,12 @@ import { useEffect } from 'react'
 import { useParams } from 'wouter'
 import { useInView } from './useInView'
 
-
 export function useInfiniteGifs() {
 	const { query } = useParams()
 
-	if (!query) { //caso predeterminado
-		return { data: { gifs: [], next: "0" }, ref: null, error: null, isLoading: false }
+	if (!query) {
+		//caso predeterminado
+		return { data: { gifs: [], next: '0' }, ref: null, error: null, isLoading: false }
 	}
 
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
@@ -19,6 +19,7 @@ export function useInfiniteGifs() {
 			const pos = typeof pageParam === 'string' ? pageParam : ''
 			return getListOfGifs({ query, pos })
 		},
+
 		initialPageParam: '',
 		getNextPageParam: (lastPage) => lastPage.next,
 		select: (data) => {
