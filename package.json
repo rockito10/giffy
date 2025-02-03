@@ -15,8 +15,9 @@
 		"db:migrate": "cd packages/server && pnpm prisma migrate dev",
 		"db:seed": "cd packages/server && pnpm prisma db execute --file seed.sql --schema schema.prisma",
 		"db:drop": "cd packages/server && pnpm prisma db drop --force",
-		"db:reset": "pnpm db:drop && pnpm db:migrate && pnpm db:seed",
-		"db:view": "cd packages/server && pnpm prisma studio"
+		"db:reset": " pnpm db:migrate && pnpm db:seed",
+		"db:view": "cd packages/server && pnpm prisma studio",
+		"db:types": "cd packages/server && pnpm prisma generate"
 	},
 	"keywords": [],
 	"author": "",

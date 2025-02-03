@@ -12,9 +12,12 @@ type Key = 'gif' | 'mp4' | 'tinygif' | 'webp'
 interface Gif {
 	alt: string
 	id: string
-	images: Record<Key, string>
+	// images: Record<Key, string>
+	images: Record<string, string>
 	tags: string[]
 	title: string
+	author: string
+	description: string
 }
 
 // ---------------------------------------------------------

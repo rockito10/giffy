@@ -1,64 +1,56 @@
-import { TENOR_API } from "@/config/env";
-import { dataMapper, gifResponseMapper } from "@/utils/gifResponseMapper";
-import { BAD_REQUEST } from "@/utils/status";
-import type { NextFunction, Request, Response } from "express";
+import { db } from '@/config/db'
+import { TENOR_API } from '@/config/env'
+import { dataMapper, gifResponseMapper } from '@/utils/gifResponseMapper'
+import { BAD_REQUEST, BAD_REQUEST } from '@/utils/status'
+import type { NextFunction, Request, Response } from 'express'
 
 // Por Query
 
-export async function getSearchController(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const { query } = req.params;
-  const { pos } = req.query;
+export async function getSearchController(req: Request, res: Response, next: NextFunction) {
+	const { query } = req.params
+	const { pos } = req.query
 
-  const URL = `${TENOR_API.API_BASE_URL}/search?q=${query}&key=${
-    TENOR_API.API_KEY
-  }&limit=${20}&pos=${pos}`;
+	const URL = `${TENOR_API.API_BASE_URL}/search?q=${query}&key=${
+		TENOR_API.API_KEY
+	}&limit=${20}&pos=${pos}`
 
-  const resp = await fetch(URL);
+	const resp = await fetch(URL)
 
-  if (resp.status === 404) {
-    return next(BAD_REQUEST("Error fetching Gifs"));
-  }
+	if (resp.status === 404) {
+		return next(BAD_REQUEST('Error fetching Gifs'))
+	}
 
-  const data = await resp.json();
-  const mappedGifs = gifResponseMapper(data);
+	const data = await resp.json()
+	const mappedGifs = gifResponseMapper(data)
 
-  return res.status(200).json(mappedGifs);
+	return res.status(200).json(mappedGifs)
 }
 
 // Por ID
 
-export async function getGifByIdController(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const { gifId } = req.params;
+export async function getGifByIdController(req: Request, res: Response, next: NextFunction) {
+	const id = req.params.gifId
 
-  /*
-  pepe = giffy.dameGifsDe("dragon ball")
-  if (pepe) {
-    [...misGifs, ...gifsDeTenor]
-  }
+	const responseByDB = await db.gif.findMany({
+		where: { id },
+	})
 
-  
+	if (responseByDB.length === 0) {
+		return res.status(200).json(responseByDB)
+	}
 
-  */
+	const URL = `${TENOR_API.API_BASE_URL}/posts?key=${TENOR_API.API_KEY}&ids=${id}`
 
-  const URL = `${TENOR_API.API_BASE_URL}/posts?key=${TENOR_API.API_KEY}&ids=${gifId}`;
+	const responseByAPI = await fetch(URL)
 
-  const resp = await fetch(URL);
+	if (responseByAPI.status === 404) {
+		return next(BAD_REQUEST('Error fetching Gif'))
+	}
 
-  if (resp.status === 404) {
-    return next(BAD_REQUEST("Error fetching Gif"));
-  }
+	const data = await responseByAPI.json()
 
-  const data = await resp.json();
+	const mappedGif = dataMapper(data.results[0])
 
-  const mappedGif = dataMapper(data.results[0]);
-
-  return res.status(200).json(mappedGif);
+	return res.status(200).json(mappedGif)
 }
+ 

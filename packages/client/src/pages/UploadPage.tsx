@@ -1,3 +1,4 @@
+import { useMe } from '@/hooks/useMe'
 import { useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
@@ -8,6 +9,7 @@ export default function UploadPage() {
 	const [tags, setTag] = useState<string[]>([])
 	const tagRef = useRef<HTMLInputElement | null>(null)
 	const formRef = useRef<HTMLFormElement | null>(null)
+	const { getUserName } = useMe()
 
 	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
@@ -70,12 +72,17 @@ export default function UploadPage() {
 
 		if (!title || !gif) return
 
+		const author = getUserName()
+
+		if (!author) return
+
 		const formData = new FormData()
 		formData.append('file', gif)
-		// formData.append('author', gif)
+		formData.append('alt', title)
 		formData.append('title', title)
 		formData.append('description', description)
 		formData.append('tags', JSON.stringify(tags))
+		formData.append('author', author)
 
 		// const message = ({ closeToast, toastProps }) => (
 		// 	<div>
@@ -92,6 +99,8 @@ export default function UploadPage() {
 				body: formData,
 			})
 
+			if (!uploadResponse.ok) throw new Error('Upload failed')
+
 			// popups
 			toast.success('Gif uploaded successfully!', {
 				position: 'top-center',
@@ -106,8 +115,6 @@ export default function UploadPage() {
 				theme: 'dark',
 				// theme: 'light',
 			})
-
-			if (!uploadResponse.ok) throw new Error('Upload failed')
 		} catch (error) {
 			console.error('Error:', error)
 			// popups

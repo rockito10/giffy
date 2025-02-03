@@ -2,8 +2,8 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Custom uuid
-ALTER TABLE custom_gif 
-ALTER COLUMN gif_id SET DEFAULT ('giffy-' || uuid_generate_v4());
+ALTER TABLE gif 
+ALTER COLUMN id SET DEFAULT ('giffy-' || uuid_generate_v4());
 
 -- Users
 INSERT INTO "user" (user_id, user_name, password, avatar)

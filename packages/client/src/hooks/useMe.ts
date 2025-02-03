@@ -7,8 +7,16 @@ export function useMe() {
 		localStorage.setItem('userId', id)
 	}
 
+	const setUserName = (username: string) => {
+		localStorage.setItem('username', username)
+	}
+
 	const getUserId = () => {
 		return localStorage.getItem('userId') ?? '1'
+	}
+
+	const getUserName = () => {
+		return localStorage.getItem('username')
 	}
 
 	const { data } = useQuery<UserInfo>({
@@ -22,5 +30,7 @@ export function useMe() {
 		id: data?.user_id,
 		setUserId,
 		getSavedUserId: getUserId,
+		setUserName,
+		getUserName,
 	}
 }

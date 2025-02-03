@@ -27,13 +27,16 @@ GET  http://localhost:3000/api/search/
 # ------------------------------------------------
 
 ### POST Upload Gif (200 OK)
-
 POST http://localhost:3000/api/upload/
 Content-Type: application/json
 
 {
+  "alt": "pepe",
+  "images": { "gif": "https://media.giphy.com/media/3o7TKz9bX9v9KzCnXK/giphy.gif" },
+  "description": "My Gif Description",
   "title": "My Gif",
-  "url": "https://media.giphy.com/media/3o7TKz9bX9v9KzCnXK/giphy.gif",
   "tags": ["tag1", "tag2"],
-  "description": "My Gif Description"
+  "id": "giffy-00001",
+  "autor": "frieren"
 }
+ 

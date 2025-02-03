@@ -34,13 +34,13 @@ export default function GifsDetails() {
 
 					<section className="flex flex-col justify-center gap-8">
 						{/* --- TAGS --- */}
-						<div className="flex items-center justify-center gap-x-4 text-xl">
-							<span>TAGS: </span>
+							<span className='text-3xl text-green-500'>TAGS: </span>
+						<div className="flex items-center flex-wrap gap-x-3 gap-y-4">
 
 							{data?.tags?.map((tag) => (
 								<Link
 									key={tag}
-									className="rounded-lg border px-2 py-1 transition-colors hover:bg-white/90 hover:text-black"
+									className="rounded-full px-4 py-2 transition-colors border hover:bg-white hover:text-black transitions-colors"
 									to={`/search/${tag}`}
 								>
 									{tag}

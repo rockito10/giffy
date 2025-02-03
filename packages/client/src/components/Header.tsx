@@ -6,7 +6,7 @@ import { HomeIcon } from './icons/HomeIcon'
 
 export function Header() {
 	const [location] = useLocation()
-	const { avatar, username, setUserId, getSavedUserId } = useMe()
+	const { avatar, username, setUserId, getSavedUserId, setUserName } = useMe()
 
 	if (!username) return null
 	const isUploadPage = location === '/upload'
@@ -16,8 +16,10 @@ export function Header() {
 	const handleChangeUser = () => {
 		if (getSavedUserId() === '1') {
 			setUserId('2')
+			setUserName('Goku')
 		} else {
 			setUserId('1')
+			setUserName('Frieren')
 		}
 
 		window.location.reload()
