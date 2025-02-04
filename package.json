@@ -8,22 +8,22 @@
 		"format": "biome format --write .",
 		"lint": "biome lint --write .",
 
-		"dev:client": "cd packages/client && pnpm dev",
-		"dev:server": "cd packages/server && pnpm dev",
+		"dev:client": "cd apps/client && pnpm dev",
+		"dev:server": "cd apps/server && pnpm dev",
 		"dev": "pnpm --recursive dev",
 
-		"db:migrate": "cd packages/server && pnpm prisma migrate dev",
-		"db:seed": "cd packages/server && pnpm prisma db execute --file seed.sql --schema schema.prisma",
-		"db:drop": "cd packages/server && pnpm prisma db drop --force",
-		"db:reset": " pnpm db:migrate && pnpm db:seed",
-		"db:view": "cd packages/server && pnpm prisma studio",
-		"db:types": "cd packages/server && pnpm prisma generate"
+		"db:migrate": "cd apps/server && pnpm prisma migrate dev",
+		"db:seed": "cd apps/server && pnpm prisma db execute --file prisma/seed.sql --schema ./prisma/schema.prisma",
+		"db:reset": "pnpm db:migrate && pnpm db:seed",
+		"db:view": "cd apps/server && pnpm prisma studio",
+		"db:types": "cd apps/server && pnpm prisma generate"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
-		"typescript": "^5.5.4"
+		"typescript": "^5.5.4",
+		"@giffy/types": "workspace:*"
 	}
 }
