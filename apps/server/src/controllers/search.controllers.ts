@@ -56,7 +56,11 @@ export async function getGifByIdController(req: Request, res: Response, next: Ne
 		return res.status(200).json({ message: 'Gif not found' })
 	}
 
-	const mappedGif = dataMapper(data?.results[0])
+	const rawGif = data?.results
+
+	if (!rawGif) return res.status(404).json({})
+
+	const mappedGif = dataMapper(rawGif[0])
 
 	return res.status(200).json(mappedGif)
 }

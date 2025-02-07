@@ -1,6 +1,8 @@
 import { useMe } from '@/hooks/useMe'
+import type { UploadResponseJSON } from '@giffy/types'
 import { useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
+import { useLocation } from 'wouter'
 
 export default function UploadPage() {
 	const reader = new FileReader()
@@ -9,6 +11,7 @@ export default function UploadPage() {
 	const [tags, setTag] = useState<string[]>([])
 	const tagRef = useRef<HTMLInputElement | null>(null)
 	const formRef = useRef<HTMLFormElement | null>(null)
+	const [_, setLocation] = useLocation()
 	const { username } = useMe()
 
 	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -115,6 +118,10 @@ export default function UploadPage() {
 				theme: 'dark',
 				// theme: 'light',
 			})
+
+			const { id } = await uploadResponse.json() as UploadResponseJSON
+			// setLocation(`/gif/${id}`)
+			console.log('id:', id)
 		} catch (error) {
 			console.error('Error:', error)
 			// popups

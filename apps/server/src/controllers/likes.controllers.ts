@@ -3,6 +3,10 @@ import type { Request, Response } from 'express'
 
 export async function getLikes(req: Request, res: Response) {
 	const { gifId } = req.params
+
+	const { userID } = req.query
+	// const { userID } = req.body
+	// console.log(req.body, gifId)
 	const likes = await db.gif_interactions.findUnique({
 		where: {
 			gif_id: gifId,
@@ -14,7 +18,7 @@ export async function getLikes(req: Request, res: Response) {
 	const isLiked = await db.liked.findUnique({
 		where: {
 			user_id_gif_id: {
-				user_id: '10',
+				user_id: userID as string,
 				gif_id: gifId,
 			},
 		},

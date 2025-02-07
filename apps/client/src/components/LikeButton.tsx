@@ -2,12 +2,12 @@ import { useMe } from '@/hooks/useMe'
 import type { LikesResponse } from '@/types/response'
 import { useState } from 'react'
 
-interface Props {
+interface Props extends React.HTMLProps<HTMLButtonElement> {
 	gifId: string | undefined
 	likesInfo: LikesResponse | null
 }
 
-export function LikeButton({ gifId, likesInfo }: Props) {
+export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 	// const { likesNumber: initialLikes, isLiked: isLikedDB } = likesInfo
 
 	const [likesNumber, setLikesNumber] = useState(likesInfo?.likesNumber ?? 0)
@@ -51,13 +51,16 @@ export function LikeButton({ gifId, likesInfo }: Props) {
 		}
 	}
 
+	
+
 	return (
 		<button
-			className="w-fit rounded-md border border-red-950 px-2 py-1 text-red-600 transition-colors hover:bg-red-500 hover:text-black"
+		{...props}
 			onClick={handleLike}
 			type="button"
+		 
 		>
-			{isLiked ? 'Unlike' : 'Like'} {likesNumber}
+			{isLiked ? '👎' : '👍'} {likesNumber}
 		</button>
 	)
 }

@@ -15,6 +15,15 @@ export interface Gif {
 	images: Record<ImageFormat, string>
 	tags: string[]
 	title: string
+	author: string
+	description: string
+}
+
+// Response from Giphy API
+
+export interface UploadResponseJSON {
+	message: string
+	id: string
 }
 
 // ---------------------------------------------------------

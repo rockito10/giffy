@@ -69,7 +69,7 @@ app.post(
 			})
 
 		if (response) {
-			return res.status(202).json({ message: 'Gif created' })
+			return res.status(202).json({ message: 'Gif created', id })
 		}
 		return res.status(500).json({ message: 'Error creating gif' })
 	},
