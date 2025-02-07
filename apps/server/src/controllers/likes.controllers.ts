@@ -5,8 +5,7 @@ export async function getLikes(req: Request, res: Response) {
 	const { gifId } = req.params
 
 	const { userID } = req.query
-	// const { userID } = req.body
-	// console.log(req.body, gifId)
+	console.log(gifId, userID)
 	const likes = await db.gif_interactions.findUnique({
 		where: {
 			gif_id: gifId,

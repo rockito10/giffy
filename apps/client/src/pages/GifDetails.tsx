@@ -74,7 +74,7 @@ export default function GifsDetails() {
 						{/* LIKES */}
 
 						<div className="flex gap-4 [&>button]:flex [&>button]:size-1 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-xl [&>button]:border-2 [&>button]:border-[#28242f] [&>button]:p-7 [&>button]:text-center [&>button]:transition-colors [&>button]:hover:text-white">
-							<LikeButton gifId={gifId} likesInfo={likesData} className={likesData.isLiked ? 'bg-green-600' : 'bg-[#28242f]'} />
+							<LikeButton gifId={gifId} likesInfo={likesData} className={'bg-[#28242f]'} />
 			 
 						</div>
 
