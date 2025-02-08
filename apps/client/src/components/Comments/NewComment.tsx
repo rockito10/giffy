@@ -76,7 +76,7 @@ export function NewComment() {
 				/>
 				<button
 					className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black"
-					type="button"
+					type="submit"
 				>
 					Comment
 				</button>

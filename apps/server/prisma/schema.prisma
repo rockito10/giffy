@@ -22,7 +22,8 @@ model gif {
   tags        String[]
   title       String
   description String
-  author      String
+  authorName  String
+  authorId    String
 }
 
 

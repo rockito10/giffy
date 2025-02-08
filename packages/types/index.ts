@@ -15,7 +15,8 @@ export interface Gif {
 	images: Record<ImageFormat, string>
 	tags: string[]
 	title: string
-	author: string
+	authorName: string
+	authorId: string
 	description: string
 }
 

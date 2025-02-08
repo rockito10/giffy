@@ -7,6 +7,7 @@ export function SearchBar() {
 		const newQuery = evt.target.value
 
 		if (newQuery === '') return setLocation('/')
+		// const navigationType = useNavigationType(); // 'PUSH', 'POP', or 'REPLACE' //USAR PARA CUANDO VAS HACIA ATRÁS EN LAS PÁGINAS
 
 		setLocation(`/search/${newQuery}`)
 	}
@@ -18,6 +19,7 @@ export function SearchBar() {
 				placeholder="Dragon Ball, Frieren..."
 				className="w-full rounded-full px-4 py-3 text-black focus:outline-none"
 				onChange={handleChange}
+				id="searchbar"
 			/>
 			<button
 				type="button"

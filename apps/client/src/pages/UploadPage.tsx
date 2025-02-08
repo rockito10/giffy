@@ -12,7 +12,7 @@ export default function UploadPage() {
 	const tagRef = useRef<HTMLInputElement | null>(null)
 	const formRef = useRef<HTMLFormElement | null>(null)
 	const [_, setLocation] = useLocation()
-	const { username } = useMe()
+	const { username, getSavedUserId } = useMe()
 
 	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
@@ -75,25 +75,14 @@ export default function UploadPage() {
 
 		if (!title || !gif) return
 
-		// const author = getUserName()
-
-		// if (!author) return
-
 		const formData = new FormData()
 		formData.append('file', gif)
 		formData.append('alt', title)
 		formData.append('title', title)
 		formData.append('description', description)
 		formData.append('tags', JSON.stringify(tags))
-		formData.append('author', username ?? 'Anonymous')
-
-		// const message = ({ closeToast, toastProps }) => (
-		// 	<div>
-		// 		GIF SUBIDO CON EXITO
-		// 		<button>Retry</button>
-		// 		<button onClick={closeToast}>Close</button>
-		// 	</div>
-		// )
+		formData.append('authorName', username ?? 'Anonymous')
+		formData.append('authorId', getSavedUserId())
 
 		try {
 			resetUploadGif()
@@ -108,33 +97,22 @@ export default function UploadPage() {
 			toast.success('Gif uploaded successfully!', {
 				position: 'top-center',
 				autoClose: 5000,
-				// hideProgressBar: false,
-				// closeOnClick: false,
-				// pauseOnHover: true,
-				// draggable: true,
-				// progress: undefined,
-				// progressClassName: 'bg-purple-500',
+
 				progressClassName: 'bg-purple-500',
 				theme: 'dark',
-				// theme: 'light',
 			})
 
-			const { id } = await uploadResponse.json() as UploadResponseJSON
-			// setLocation(`/gif/${id}`)
-			console.log('id:', id)
+			const { id } = (await uploadResponse.json()) as UploadResponseJSON
+			setLocation(`/gif/${id}`)
 		} catch (error) {
 			console.error('Error:', error)
 			// popups
 			toast.error('Error uploading your gif.', {
 				position: 'top-center',
 				autoClose: 5000,
-				// hideProgressBar: false,
 
 				progressClassName: 'bg-purple-500 text-purple-500',
-				// closeOnClick: false,
-				// pauseOnHover: true,
-				// draggable: true,
-				// progress: undefined,
+
 				theme: 'dark',
 			})
 		}

@@ -8,13 +8,15 @@ interface Props extends React.HTMLProps<HTMLButtonElement> {
 }
 
 export function LikeButton({ gifId, likesInfo, ...props }: Props) {
-	// const { likesNumber: initialLikes, isLiked: isLikedDB } = likesInfo
+	if (!likesInfo) return //no sé por qué esto anda, si saco esto a veces no quiere funcionar el like (pone 0 cuando tiene que ser 1)
 
 	const [likesNumber, setLikesNumber] = useState(likesInfo?.likesNumber ?? 0)
 
 	const [isLiked, setIsLiked] = useState(likesInfo?.isLiked)
 
 	const { id: userId } = useMe()
+
+	// console.log(likesNumber, isLiked)
 
 	function handleLike() {
 		if (isLiked) {
@@ -51,15 +53,8 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 		}
 	}
 
-	
-
 	return (
-		<button
-		{...props}
-			onClick={handleLike}
-			type="button"
-		 
-		>
+		<button {...props} onClick={handleLike} type="button">
 			{isLiked ? '👎' : '👍'} {likesNumber}
 		</button>
 	)

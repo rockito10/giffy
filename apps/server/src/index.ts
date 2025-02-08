@@ -41,7 +41,7 @@ app.post(
 
 	async (req, res, next) => {
 		const { file, body } = req
-		const { title, description, tags, author, alt } = body
+		const { title, description, tags, authorName, authorId, alt } = body
 
 		if (!file) return
 
@@ -54,7 +54,8 @@ app.post(
 				images: { gif: `/api/images/${id}` },
 				description,
 				tags: JSON.parse(tags),
-				author,
+				authorName,
+				authorId,
 				alt,
 			},
 		})

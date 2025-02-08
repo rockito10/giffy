@@ -4,8 +4,6 @@ import { Grid } from './Grid'
 export function InfiniteGrid() {
 	const { data, error, isLoading, ref } = useInfiniteGifs()
 
-	console.log(data, error, isLoading, ref)
-
 	if (error) return <div>Error</div>
 
 	if (isLoading) return <div>Loading...</div>
