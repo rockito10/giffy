@@ -4,7 +4,8 @@
 
 export interface ListOfGifs {
 	gifs: Gif[]
-	next: string
+	page: number
+	pos: string
 }
 
 export type ImageFormat = 'gif' | 'mp4' | 'tinygif' | 'webp'

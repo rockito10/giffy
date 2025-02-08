@@ -15,11 +15,18 @@ export async function getGifById(id: string) {
 
 interface Params {
 	query: string
-	pos?: string
+	pos: string
+	page: number
 }
 
-export async function getListOfGifs({ query, pos }: Params) {
-	const resp = await fetch(`/api/search/${query}}?pos=${pos}`)
+export async function getListOfGifs({ query, pos, page }: Params) {
+	const resp = await fetch(`/api/search/${query}?page=${page}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'X-PosTenor': pos, // Enviar `pos` en el header
+		},
+	})
 	const data: ListOfGifs = await resp.json()
 	return data
 }

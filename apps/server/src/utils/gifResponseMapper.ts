@@ -3,7 +3,8 @@ import type { Gif, GifResponse, ListOfGifs, ListOfGifsResponse } from '@giffy/ty
 export function gifResponseMapper(response: ListOfGifsResponse): ListOfGifs {
 	return {
 		gifs: response.results.map((gif) => dataMapper(gif)),
-		next: response.next,
+		pos: response.next,
+		page: 0,
 	}
 }
 
@@ -22,5 +23,8 @@ export function dataMapper(data: GifResponse): Gif {
 		},
 		tags: data.tags,
 		title: data.title,
+		authorId: "",
+		authorName: "",
+		description: ""
 	}
 }

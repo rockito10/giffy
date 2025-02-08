@@ -2,18 +2,40 @@ import { db } from '@/config/db'
 import { TENOR_API } from '@/config/env'
 import { dataMapper, gifResponseMapper } from '@/utils/gifResponseMapper'
 import { BAD_REQUEST } from '@/utils/status'
-import type { ListOfGifsResponse } from '@giffy/types'
-import type { NextFunction, Request, Response } from 'express'
+import type { Gif, ListOfGifsResponse } from '@giffy/types'
+import { type NextFunction, type Request, type Response, query } from 'express'
 
 // Por Query
 
 export async function getSearchController(req: Request, res: Response, next: NextFunction) {
 	const { query } = req.params
-	const { pos } = req.query
+	const { page } = req.query
+	const pos = req.headers['x-postenor']
+	const page_n = Number(page)
+
+	let dbResponse: Gif[] = []
+
+	dbResponse = await db.gif.findMany({
+		where: {
+			title: {
+				contains: query,
+				mode: 'insensitive',
+			},
+		},
+		skip: 20 * (page_n - 1), // Skip the first 20 results
+		take: 20 * page_n // Take the next 20 results (items 21-40)
+	})
+
+	if (dbResponse.length >= 20)
+		return res.status(200).json({
+			gifs: dbResponse,
+			next: `${page_n + 1}`,
+			pos: pos,
+		})
 
 	const URL = `${TENOR_API.API_BASE_URL}/search?q=${query}&key=${
 		TENOR_API.API_KEY
-	}&limit=${20}&pos=${pos}`
+	}&limit=${40}&pos=${pos}`
 
 	const resp = await fetch(URL)
 
@@ -24,7 +46,15 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 	const data = await resp.json()
 	const mappedGifs = gifResponseMapper(data)
 
-	return res.status(200).json(mappedGifs)
+	console.log({ dbGifs: dbResponse.length, page, tenorGifs: mappedGifs.gifs.length, pos })
+
+	console.log({ newPos: mappedGifs.pos, page })
+
+	return res.status(200).json({
+		gifs: [...dbResponse, ...mappedGifs.gifs],
+		page: `${page_n}`,
+		pos: mappedGifs.pos,
+	})
 }
 
 // Por ID

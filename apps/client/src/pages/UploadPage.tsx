@@ -61,9 +61,9 @@ export default function UploadPage() {
 	}
 
 	function resetUploadGif() {
-		formRef.current?.reset()
-		setTag([])
-		setGif(null)
+		// formRef.current?.reset()
+		// setTag([])
+		// setGif(null)
 	}
 
 	const handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -103,7 +103,7 @@ export default function UploadPage() {
 			})
 
 			const { id } = (await uploadResponse.json()) as UploadResponseJSON
-			setLocation(`/gif/${id}`)
+			// setLocation(`/gif/${id}`)
 		} catch (error) {
 			console.error('Error:', error)
 			// popups

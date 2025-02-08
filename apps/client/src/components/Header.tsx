@@ -35,6 +35,9 @@ export function Header({ ...props }: HeaderProps) {
 						<Link
 							to="/"
 							className="flex gap-1 rounded px-4 py-2 transition-colors hover:text-purple-500"
+							onClick={() => {
+								;(document.getElementById('searchbar') as HTMLInputElement).value = ''
+							}}
 						>
 							<HomeIcon />
 							<span>Home</span>

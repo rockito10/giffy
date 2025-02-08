@@ -1,6 +1,6 @@
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
-import type { ListOfGifs } from '@/types/new'
+import type { ListOfGifs } from '@giffy/types'
 import { Frame } from './Frame'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 export function Grid({ data }: Props) {
 	const gifs = data?.gifs
 
-	if (!gifs) return null
+	if (!gifs || gifs.length === 0) return null
 
 	return (
 		<ResponsiveMasonry
@@ -19,7 +19,7 @@ export function Grid({ data }: Props) {
 		>
 			<Masonry className="space-x-2.5">
 				{gifs.map(({ alt, id, images }) => (
-					<Frame key={id} alt={alt} className="mt-2.5" id={id} src={images.tinygif} />
+					<Frame key={id} alt={alt} className="mt-2.5" id={id} src={images.gif || images.tinygif} />
 				))}
 			</Masonry>
 		</ResponsiveMasonry>
