@@ -62,7 +62,7 @@ export function NewComment() {
 			<div className="flex w-2/3 flex-col items-start gap-4">
 				<textarea
 					ref={textareaRef}
-					className="h-16 w-full resize-none rounded-lg border border-white/70 bg-black p-2 text-white"
+					className="h-16 w-full resize-none rounded-lg border-2 bg-[#28242f] px-4 py-2 text-white focus:outline-none"
 					placeholder="Your comment here!"
 					onKeyDown={(evt) => {
 						if (evt.key === 'Enter' && !evt.shiftKey) {
@@ -75,7 +75,7 @@ export function NewComment() {
 					}}
 				/>
 				<button
-					className="rounded-xl border px-3 py-2 transition-colors hover:bg-white hover:text-black"
+					className="rounded-md border px-3 py-2 transition-colors hover:bg-white hover:text-black"
 					type="submit"
 				>
 					Comment

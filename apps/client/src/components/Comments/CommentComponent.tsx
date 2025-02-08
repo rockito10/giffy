@@ -16,11 +16,11 @@ export function CommentComponent({ username, avatar, comment, commentId, userId 
 	const { id: currentUserId } = useMe()
 
 	return (
-		<li className="relative flex w-2/3 items-center border border-white/70">
+		<li className="relative flex w-2/3 items-center rounded-md bg-[#28242f] p-2 text-white">
 			<div className="flex w-full items-center gap-4">
 				{/* ... */}
 
-				<div className="flex flex-col items-center border-white/50 border-r p-[1vw]">
+				<div className="flex flex-col items-center gap-2 border-gray-500 border-r p-[1vw]">
 					<Avatar name={username} src={avatar} />
 					<h3 className="font-bold text-sm">{username} </h3>
 				</div>
