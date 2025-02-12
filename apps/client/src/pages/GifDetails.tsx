@@ -4,32 +4,13 @@ import { LikeButton } from '@/components/LikeButton'
 import { CommentsContextProvider } from '@/contexts/CommentsContext'
 import { useGetGifById } from '@/hooks/useGetGifById'
 import { useMe } from '@/hooks/useMe'
-import { getUser } from '@/services/services'
-import type { UserInfo } from '@/types/types'
-import { useQuery } from '@tanstack/react-query'
 import { Link, useLocation, useParams } from 'wouter'
 
 export default function GifsDetails() {
 	const { id: gifId } = useParams()
-	const { data, isLoading, error } = useGetGifById(gifId as string)
 	const [_, setLocation] = useLocation()
 	const { getSavedUserId } = useMe()
-	const { data: authorData } = useQuery<UserInfo>({
-		queryKey: ['gifAuthor', gifId],
-		queryFn: () => getUser(authorId),
-	})
-
-	const { data: likesData } = useQuery({
-		queryFn: () => {
-			return fetch(`/api/likes/${gifId}?userID=${getSavedUserId()}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}).then((res) => res.json())
-		},
-		queryKey: ['LIKES', gifId],
-	})
+	const { data, isLoading, error } = useGetGifById(gifId as string, getSavedUserId())
 
 	if (error)
 		return (
@@ -40,9 +21,12 @@ export default function GifsDetails() {
 
 	if (isLoading) return <div>Loading...</div>
 
-	if (!data?.id) return setLocation('/404')
+	const { authorData, likesData, gifData } = data
 
-	const { title, authorName, authorId, description, tags, alt } = data
+	if (!gifData) return setLocation('/404')
+	if (!gifData?.id) return setLocation('/404')
+
+	const { alt, description, images, title, authorId, authorName, tags } = gifData
 
 	return (
 		<CommentsContextProvider>
@@ -53,7 +37,7 @@ export default function GifsDetails() {
 						<img
 							alt="gif"
 							className="w-full rounded-2xl border-4 border-[#28242f]"
-							src={`${data?.images?.gif}`}
+							src={`${images?.gif}`}
 						/>
 					</div>
 

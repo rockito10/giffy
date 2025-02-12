@@ -3,7 +3,7 @@ import { TENOR_API } from '@/config/env'
 import { dataMapper, gifResponseMapper } from '@/utils/gifResponseMapper'
 import { BAD_REQUEST } from '@/utils/status'
 import type { Gif, ListOfGifsResponse } from '@giffy/types'
-import { type NextFunction, type Request, type Response, query } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 
 // Por Query
 
@@ -15,18 +15,26 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 
 	let dbResponse: Gif[] = []
 
+	console.log(query.split(' ')[0])
+
+	const isOneWord = !query.includes(' ')
+	const processedQuery = isOneWord
+		? query.slice(0, Math.ceil(query.length / 2)) // Si es una sola palabra, toma el 50%
+		: query.split(' ')[0] // Si son varias palabras, toma la primera
+
 	dbResponse = await db.gif.findMany({
 		where: {
 			title: {
-				contains: query,
+				equals: isOneWord ? query : query.split(' ')[0],
 				mode: 'insensitive',
 			},
 		},
 		skip: 20 * (page_n - 1), // Skip the first 20 results
-		take: 20 * page_n // Take the next 20 results (items 21-40)
+		take: 20 * page_n, // Take the next 20 results (items 21-40)
 	})
 
 	if (dbResponse.length >= 20)
+		//skip in case of having 20 gifs in db
 		return res.status(200).json({
 			gifs: dbResponse,
 			next: `${page_n + 1}`,
@@ -45,10 +53,6 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 
 	const data = await resp.json()
 	const mappedGifs = gifResponseMapper(data)
-
-	console.log({ dbGifs: dbResponse.length, page, tenorGifs: mappedGifs.gifs.length, pos })
-
-	console.log({ newPos: mappedGifs.pos, page })
 
 	return res.status(200).json({
 		gifs: [...dbResponse, ...mappedGifs.gifs],
