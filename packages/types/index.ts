@@ -62,3 +62,10 @@ export interface MediaFormat {
 	dims: number[]
 	size: number
 }
+
+export interface LoginInfo {
+	id: string
+	username: string
+	avatar: string
+
+}

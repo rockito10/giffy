@@ -39,4 +39,15 @@ Content-Type: application/json
   "id": "giffy-00001",
   "autor": "frieren"
 }
+
+# ------------------------------------------------
+
+### LOGIN FRIEREN
+POST http://localhost:3000/api/auth/login/
+Content-Type: application/json
+
+{
+  "username": "Goku",
+  "password": "4321"
+}
  

@@ -1,3 +1,4 @@
+import type { UserInfo } from '@/types/types'
 import type { ListOfGifs } from '@giffy/types'
 
 // function createURL(path: string, { pos }: { pos: string }) {
@@ -39,7 +40,9 @@ export async function getListOfGifs({ query, pos, page }: Params) {
 
 // --------------------------------------------------
 
-export async function getUser(id: string) {
+
+export async function getUser(id: string | null): Promise<UserInfo> {
+	if (!id) return { avatar: '', user_name: 'Guest', user_id: '0' }
 	const resp = await fetch(`/api/user/${id}`)
 	return resp.json()
 }

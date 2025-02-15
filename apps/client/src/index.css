@@ -73,3 +73,17 @@ textarea {
 	--toastify-color-progress-success: #d8b4fe;
 	--toastify-color-progress-error: #d8b4fe;
 }
+
+.text-gradient {
+	background: linear-gradient(
+		278deg,
+		#00ccff /* Celeste */,
+		#9933ff /* Morado */,
+		#ff6666 /* Rojo */,
+		#fff35c /* Amarillo */,
+		#00ff99 /* Verde */
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	display: inline-block;
+}

@@ -1,21 +1,20 @@
 interface Props {
-	name: string
-	src: string | undefined
+	name: string | null
+	src: string | null
 }
 
 export function Avatar({ name, src }: Props) {
+	console.log('Avatar', { name, src })
 	return (
-		<div className="group">
+		<div className="relative flex items-center justify-center gap-2">
+			<span className="-bottom-6 absolute rounded-md bg-[#28242f] px-4 py-1">
+				{name || 'Guest'}
+			</span>
 			<img
-				alt={`Avatar of ${name}`}
+				alt={`Avatar of ${name ?? 'Guest'}`}
 				className="size-16 rounded-full object-cover"
-				src={src ?? '/assets/no-avatar.svg'}
-				title={name}
+				src={src || '/assets/no-avatar.svg'}
 			/>
-
-			{/* <span className="opacity-0 transition-opacity group-hover:opacity-100">
-				<span className="rounded-full bg-purple-500 px-4 py-2">{name}</span>
-			</span> */}
 		</div>
 	)
 }
