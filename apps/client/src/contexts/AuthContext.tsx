@@ -11,15 +11,15 @@ type AuthContextType = {
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const [isAuthenticated, setIsAuthenticated] = useState(
-		() => !!localStorage.getItem('isAuthenticated'),
-	)
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+		return JSON.parse(localStorage.getItem('isAuthenticated') || 'false')
+	})
 	const { setUserId, setUserName } = useMe()
 
 	const login = (id: string, username: string) => {
+		setIsAuthenticated(true)
 		setUserId(id)
 		setUserName(username)
-		setIsAuthenticated(true)
 
 		localStorage.setItem('isAuthenticated', JSON.stringify(true))
 		location.href = '/home'
@@ -30,6 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		setUserId('')
 		setUserName('')
 		localStorage.setItem('isAuthenticated', JSON.stringify(false))
+		location.href = '/home'
 	}
 
 	return (

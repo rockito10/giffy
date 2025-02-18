@@ -5,16 +5,11 @@ import type { Request, Response } from 'express'
 export async function postLogin(req: Request, res: Response) {
 	const { username, password } = req.body
 
-	console.log('username', username)
-	console.log('password', password)
-
 	const user = await db.user.findUnique({
 		where: {
 			user_name: username,
 		},
 	})
-
-	console.log(user)
 	// Invalid credentials
 	if (!user || user.password !== password) {
 		return res.status(400).json({ message: 'Invalid credentials' })

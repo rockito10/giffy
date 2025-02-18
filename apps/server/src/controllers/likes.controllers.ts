@@ -1,71 +1,90 @@
 import { db } from '@/config/db'
+import { TENOR_API } from '@/config/env'
+import { tenorResponseMapper } from '@/utils/gifResponseMapper'
+import type { GifResponse, ListOfGifsResponse } from '@giffy/types'
 import type { Request, Response } from 'express'
 
 export async function getLikes(req: Request, res: Response) {
 	const { gifId } = req.params
 
 	const { userID } = req.query
-	console.log(gifId, userID)
-	const likes = await db.gif_interactions.findUnique({
-		where: {
-			gif_id: gifId,
-		},
-		select: {
-			gif_likes: true,
-		},
-	})
-	const isLiked = await db.liked.findUnique({
-		where: {
-			user_id_gif_id: {
-				user_id: userID as string,
+
+	if (!userID || userID === '') {
+		// Manejar el caso en el que `userId` no esté presente
+		// return res.status(400).json({ error: 'User ID is required' })
+		return
+	}
+
+	try {
+		const likes = await db.gif_interactions.findUnique({
+			where: {
 				gif_id: gifId,
 			},
-		},
-	})
-	res.json({ likesNumber: likes?.gif_likes, isLiked: !!isLiked })
+			select: {
+				gif_likes: true,
+			},
+		})
+		const isLiked = await db.liked.findUnique({
+			where: {
+				user_id_gif_id: {
+					user_id: userID as string,
+					gif_id: gifId,
+				},
+			},
+		})
+		res.json({ likesNumber: likes?.gif_likes, isLiked: !!isLiked })
+	} catch (error) {
+		console.error(error)
+		res.status(404).json({ error: 'Data not found' })
+	}
 }
 
 export async function postLikes(req: Request, res: Response) {
 	const { gifId } = req.params
-	const userId: string = req.body.userId
+	const userID: string = req.body.userId
 
-	if (!userId) {
+	if (!userID || userID === '') {
 		// Manejar el caso en el que `userId` no esté presente
-		return res.status(400).json({ error: 'User ID is required' })
+		// return res.status(400).json({ error: 'User ID is required' })
+		return
 	}
 
-	const isLiked = await db.liked.findUnique({
-		where: {
-			user_id_gif_id: {
-				user_id: userId,
-				gif_id: gifId,
-			},
-		},
-	})
-
-	if (isLiked) {
-		await upsertDecrement(gifId)
-
-		await db.liked.delete({
+	try {
+		const isLiked = await db.liked.findUnique({
 			where: {
 				user_id_gif_id: {
+					user_id: userID,
 					gif_id: gifId,
-					user_id: userId,
 				},
 			},
 		})
-	} else {
-		await upsertIncrement(gifId)
 
-		await db.liked.create({
-			data: {
-				gif_id: gifId,
-				user_id: userId,
-			},
-		})
+		if (isLiked) {
+			await upsertDecrement(gifId)
+
+			await db.liked.delete({
+				where: {
+					user_id_gif_id: {
+						gif_id: gifId,
+						user_id: userID,
+					},
+				},
+			})
+		} else {
+			await upsertIncrement(gifId)
+
+			await db.liked.create({
+				data: {
+					gif_id: gifId,
+					user_id: userID,
+				},
+			})
+		}
+		return res.status(202).json({ message: 'Like received' })
+	} catch (error) {
+		console.error(error)
+		return res.status(404).json({ error: 'Data not found' })
 	}
-
-	return res.status(202).json({ message: 'Like received' })
 }
 async function upsertIncrement(gifId: string) {
 	await db.gif_interactions.upsert({
@@ -99,4 +118,77 @@ async function upsertDecrement(gifId: string) {
 			},
 		},
 	})
+}
+
+export async function getLikedGifs(req: Request, res: Response) {
+	const { userID } = req.params
+
+	// Obtener los GIFs liked por el usuario con `user_id` igual a `userID`
+	const gifsIDs = await db.liked.findMany({
+		where: {
+			user_id: userID, // Filtramos por el userID
+		},
+		select: {
+			gif_id: true,
+		},
+	})
+
+	// // Extraer solo los GIFs (sin la información de la relación `liked`)
+	// const mappedGiffyIds = gifsIDs.filter((gif) => gif.gif_id.startsWith('giffy'))
+	// const mappedTenorIds = gifsIDs.filter((gif) => !gif.gif_id.startsWith('giffy'))
+
+	const mappedGiffyIds = []
+	const mappedTenorIds = []
+
+	for (const gif of gifsIDs) {
+		if (gif.gif_id.startsWith('giffy')) {
+			mappedGiffyIds.push(gif.gif_id)
+		} else {
+			mappedTenorIds.push(gif.gif_id)
+		}
+	}
+
+	// const gifs: ListOfGifs | [] = []
+
+	// GIFS FROM DATABASE
+	const giffyGifs = await db.gif.findMany({
+		where: {
+			id: { in: mappedGiffyIds },
+		},
+	})
+
+	// GIFS FROM TENOR
+
+	const tenorGifs = await getTenorGifs(mappedTenorIds)
+
+	// Responder con los GIFs encontrados
+	// res.json(gifsIDs)
+	return res.json({ gifs: [...giffyGifs, ...tenorGifs.gifs], pos: '', page: 0 }).status(200)
+}
+
+async function getTenorGifs(tenorIDs: string[]) {
+	// Obtener los GIFs utilizando Promise.allSettled y filtrar solo los resultados 'fulfilled'
+	const promises = await Promise.allSettled(tenorIDs.map(getTenorGif))
+
+	const mappedPromises = promises
+		.filter((response) => response.status === 'fulfilled' && response.value !== undefined)
+		.flatMap((response) => response.value) as GifResponse[]
+
+	// Si no hay resultados, retornamos un arreglo vacío
+	if (mappedPromises.length === 0) return []
+
+	// Pasamos los resultados a dataMapper y retornamos
+	return tenorResponseMapper(mappedPromises)
+}
+
+async function getTenorGif(tenorID: string) {
+	const URL = `${TENOR_API.API_BASE_URL}/posts?key=${TENOR_API.API_KEY}&ids=${tenorID}`
+
+	const response = await fetch(URL)
+
+	const data: ListOfGifsResponse | null = await response.json()
+
+	const rawGif = data?.results
+
+	return rawGif
 }

@@ -15,7 +15,7 @@ export function useInfiniteGifs() {
 	}
 
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
-		queryKey: ['search', {query, page_n}], // Agregar page_n al queryKey
+		queryKey: ['search', { query, page_n }], // Agregar page_n al queryKey
 		queryFn: ({ pageParam = '' }) => {
 			const pos = typeof pageParam === 'string' ? pageParam : ''
 			return getListOfGifs({ query, pos, page: page_n })

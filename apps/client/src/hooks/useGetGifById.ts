@@ -13,8 +13,6 @@ export function useGetGifById(gifID: string, userID: string) {
 		queryFn: () => getGifById(gifID),
 	})
 
-
-
 	const { data: authorData } = useQuery<UserInfo>({
 		queryKey: ['gifAuthor', gifID],
 		queryFn: () => getUser(gifData?.authorId as string),

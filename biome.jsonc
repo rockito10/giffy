@@ -38,6 +38,12 @@
 					"level": "warn"
 				}
 			}
+			// "suspicious": {
+			// 	"noConsoleLog": {
+			// 		"fix": "safe",
+			// 		"level": "warn"
+			// 	}
+			// }
 		}
 	},
 	"overrides": [

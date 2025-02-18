@@ -39,7 +39,7 @@ app.post(
 	'/api/upload',
 	multerMiddleware,
 
-	async (req, res, next) => {
+	async (req, res, _next) => {
 		const { file, body } = req
 		const { title, description, tags, authorName, authorId, alt } = body
 
@@ -82,8 +82,6 @@ app.post(
 // SERVER
 const port = 3000
 
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`)
-})
+app.listen(port, () => {})
 
 // ------------------------------------------------

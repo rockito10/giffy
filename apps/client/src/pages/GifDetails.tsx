@@ -10,7 +10,7 @@ export default function GifsDetails() {
 	const { id: gifId } = useParams()
 	const [_, setLocation] = useLocation()
 	const { getSavedUserId } = useMe()
-	const { data, isLoading, error } = useGetGifById(gifId as string, getSavedUserId())
+	const { data, isLoading, error } = useGetGifById(gifId as string, getSavedUserId() ?? '0')
 
 	if (error)
 		return (
@@ -23,8 +23,10 @@ export default function GifsDetails() {
 
 	const { authorData, likesData, gifData } = data
 
-	if (!gifData) return setLocation('/404')
-	if (!gifData?.id) return setLocation('/404')
+	if (!gifData || !gifData?.id) {
+		setLocation('/404')
+		return null
+	}
 
 	const { alt, description, images, title, authorId, authorName, tags } = gifData
 

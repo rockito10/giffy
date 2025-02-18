@@ -40,7 +40,6 @@ export async function getListOfGifs({ query, pos, page }: Params) {
 
 // --------------------------------------------------
 
-
 export async function getUser(id: string | null): Promise<UserInfo> {
 	if (!id) return { avatar: '', user_name: 'Guest', user_id: '0' }
 	const resp = await fetch(`/api/user/${id}`)
@@ -79,10 +78,7 @@ export const postComment = async (params: PostCommentParams) => {
 		if (response.status !== 201) {
 			// Mostrar mensaje de error
 		}
-	} catch (error) {
-		// Mostrar mensaje de error
-		console.log('Error al enviar el comentario', error)
-	}
+	} catch (error) {}
 }
 
 // DELETE

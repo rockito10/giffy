@@ -8,6 +8,14 @@ export function gifResponseMapper(response: ListOfGifsResponse): ListOfGifs {
 	}
 }
 
+export function tenorResponseMapper(response: GifResponse[]): ListOfGifs {
+	return {
+		gifs: response.map((gif) => dataMapper(gif)),
+		page: 0,
+		pos: '',
+	}
+}
+
 // GIF
 
 export function dataMapper(data: GifResponse): Gif {
@@ -23,8 +31,8 @@ export function dataMapper(data: GifResponse): Gif {
 		},
 		tags: data.tags,
 		title: data.title,
-		authorId: "",
-		authorName: "",
-		description: ""
+		authorId: '',
+		authorName: '',
+		description: '',
 	}
 }

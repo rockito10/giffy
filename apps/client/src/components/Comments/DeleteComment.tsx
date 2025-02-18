@@ -10,7 +10,7 @@ interface deleteCommentProps {
 
 export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
 	const { id: userId } = useMe()
-  if(!userId) return null
+	if (!userId) return null
 
 	const { removeComment } = useCommentsContext()
 
@@ -18,10 +18,10 @@ export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
 		mutationFn: deleteComment,
 	})
 
-  const handleDeleteComment = () => {
-    mutate({ userId, gifId, commentId })
-    removeComment(commentId)
-  }
+	const handleDeleteComment = () => {
+		mutate({ userId, gifId, commentId })
+		removeComment(commentId)
+	}
 
 	return (
 		<button

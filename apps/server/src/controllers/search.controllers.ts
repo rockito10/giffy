@@ -2,7 +2,7 @@ import { db } from '@/config/db'
 import { TENOR_API } from '@/config/env'
 import { dataMapper, gifResponseMapper } from '@/utils/gifResponseMapper'
 import { BAD_REQUEST } from '@/utils/status'
-import type { Gif, ListOfGifsResponse } from '@giffy/types'
+import type { ListOfGifsResponse } from '@giffy/types'
 import type { NextFunction, Request, Response } from 'express'
 
 // Por Query
@@ -13,16 +13,9 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 	const pos = req.headers['x-postenor']
 	const page_n = Number(page)
 
-	let dbResponse: Gif[] = []
-
-	console.log(query.split(' ')[0])
-
 	const isOneWord = !query.includes(' ')
-	const processedQuery = isOneWord
-		? query.slice(0, Math.ceil(query.length / 2)) // Si es una sola palabra, toma el 50%
-		: query.split(' ')[0] // Si son varias palabras, toma la primera
 
-	dbResponse = await db.gif.findMany({
+	const dbResponse = await db.gif.findMany({
 		where: {
 			title: {
 				equals: isOneWord ? query : query.split(' ')[0],

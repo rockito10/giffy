@@ -18,6 +18,7 @@ export function Comments() {
 
 	const { comments, setComments, setNextCommentId } = useCommentsContext()
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!data) {
 			return

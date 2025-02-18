@@ -31,9 +31,7 @@ export async function uploadGifController(req: Request, res: Response, next: Nex
 	})
 
 	fs.rename(`./uploads/${file.originalname}`, `./uploads/${id}.gif`)
-		.then(() => {
-			console.log('File renamed')
-		})
+		.then(() => {})
 		.catch((err) => {
 			console.error('Error renaming file', err)
 		})

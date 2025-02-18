@@ -1,8 +1,7 @@
-import { useAuth } from '@/hooks/useAuth'
 import { MainLayout } from '@/layouts/MainLayout'
 import { Suspense, lazy } from 'react'
 import { Route, Switch } from 'wouter'
-import { ProtectedRoutes } from './ProtectedRoutes'
+import { ProtectedRoute } from './ProtectedRoute'
 
 // Pages
 const HomePage = lazy(() => import('../pages/HomePage'))
@@ -13,22 +12,23 @@ const UploadPage = lazy(() => import('../pages/UploadPage'))
 const LoginPage = lazy(() => import('../pages/LoginPage'))
 
 export function AppRoutes() {
-	const { isAuthenticated } = useAuth()
-
 	return (
 		<MainLayout>
 			<Suspense fallback={<div>Loading...</div>}>
 				<Switch>
-					<Route component={HomePage} path="/" />
-					<Route component={SearchPage} path="/search/:query?" />
-					<Route component={GifsDetails} path="/gif/:id" />
-					<Route component={LoginPage} path="/login" />
+					{/* Rutas protegidas */}
 
-					<ProtectedRoutes isAuthenticated={isAuthenticated}>
-						<Route component={UploadPage} path="/upload" />
-					</ProtectedRoutes>
+					<Route path="/" component={HomePage} />
+					<Route path="/home" component={HomePage} />
 
-					{/* ERROR 404 */}
+					<Route path="/search/:query?" component={SearchPage} />
+					<Route path="/gif/:id" component={GifsDetails} />
+					<Route path="/login" component={LoginPage} />
+
+					<ProtectedRoute path="/upload" component={UploadPage} />
+
+					{/* Ruta 404 */}
+					{/* <Route component={Page404} /> */}
 					<Route component={Page404} />
 				</Switch>
 			</Suspense>

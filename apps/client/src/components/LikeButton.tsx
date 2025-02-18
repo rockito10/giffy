@@ -47,10 +47,7 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 			if (response.status !== 201) {
 				// Mostrar mensaje de error
 			}
-		} catch (error) {
-			// Mostrar mensaje de error
-			console.log('Error al enviar el like', error)
-		}
+		} catch (error) {}
 	}
 
 	return (

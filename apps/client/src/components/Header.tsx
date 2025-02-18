@@ -12,8 +12,6 @@ export function Header({ ...props }: HeaderProps) {
 	const { logout, isAuthenticated } = useAuth()
 	const username = getUserName()
 
-	console.log({avatar, username: getUserName()})
-
 	const isUploadPage = location === '/upload'
 
 	return (

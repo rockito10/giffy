@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/useAuth'
-import { useMe } from '@/hooks/useMe'
 import type { LoginInfo } from '@giffy/types'
 import type { FormEvent } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
