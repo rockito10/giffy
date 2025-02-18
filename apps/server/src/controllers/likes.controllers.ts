@@ -1,7 +1,7 @@
 import { db } from '@/config/db'
 import { TENOR_API } from '@/config/env'
 import { tenorResponseMapper } from '@/utils/gifResponseMapper'
-import type { GifResponse, ListOfGifsResponse } from '@giffy/types'
+import type { GifResponse, ListOfGifs, ListOfGifsResponse } from '@giffy/types'
 import type { Request, Response } from 'express'
 
 export async function getLikes(req: Request, res: Response) {
@@ -166,16 +166,16 @@ export async function getLikedGifs(req: Request, res: Response) {
 	return res.json({ gifs: [...giffyGifs, ...tenorGifs.gifs], pos: '', page: 0 }).status(200)
 }
 
-async function getTenorGifs(tenorIDs: string[]) {
+async function getTenorGifs(tenorIDs: string[]): Promise<ListOfGifs> {
 	// Obtener los GIFs utilizando Promise.allSettled y filtrar solo los resultados 'fulfilled'
 	const promises = await Promise.allSettled(tenorIDs.map(getTenorGif))
 
-	const mappedPromises = promises
-		.filter((response) => response.status === 'fulfilled' && response.value !== undefined)
-		.flatMap((response) => response.value) as GifResponse[]
-
-	// Si no hay resultados, retornamos un arreglo vacío
-	if (mappedPromises.length === 0) return []
+	const mappedPromises = (
+		promises.filter(
+			(response) => response.status === 'fulfilled' && response.value !== undefined,
+		) as PromiseFulfilledResult<GifResponse[]>[]
+	) // Filtramos solo los resultados 'fulfilled', como son sí o sí fulfilled, no pueden ser undefined ni rejected
+		.flatMap((response) => response.value)
 
 	// Pasamos los resultados a dataMapper y retornamos
 	return tenorResponseMapper(mappedPromises)
