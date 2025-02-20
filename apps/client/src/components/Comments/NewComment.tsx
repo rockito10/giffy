@@ -4,13 +4,16 @@ import { postComment } from '@/services/services'
 import type { Comment } from '@/types/types'
 import { useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
-import { useParams } from 'wouter'
+import { useLocation, useParams } from 'wouter'
 
 export function NewComment() {
 	const { id: gifId }: { id: string } = useParams()
 
 	const { addComment, nextCommentId } = useCommentsContext()
-	const { avatar, username, id: userId } = useMe()
+	const { avatar, getUserName, getSavedUserId } = useMe()
+	const username = getUserName()
+	const userId = getSavedUserId()
+	const [_, setLocation] = useLocation()
 
 	const { mutate } = useMutation({
 		mutationFn: postComment,
@@ -22,6 +25,11 @@ export function NewComment() {
 
 	const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
 		evt.preventDefault()
+
+		if (!userId) {
+			setLocation('/login')
+			return
+		}
 
 		const textarea = textareaRef.current
 

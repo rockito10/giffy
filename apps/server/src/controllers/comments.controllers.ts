@@ -26,8 +26,6 @@ export async function getCommentsController(req: Request, res: Response) {
 	})
 
 	if (comments) {
-		// console.log({ comments })
-
 		const mappedComments = comments.map((comment) => {
 			return {
 				comment_id: comment.comment_id,
@@ -111,13 +109,6 @@ export async function createGifWithComment(
 export async function deleteCommentController(req: Request, res: Response) {
 	const { gifId } = req.params
 	const { commentId, userId } = req.body
-
-	// console.table({
-	//   "GIF ID": gifId,
-	//   "Comment ID": commentId,
-	//   "User ID": userId,
-	// });
-	// console.log(req.params)
 
 	const response = await db.comment.delete({
 		where: {

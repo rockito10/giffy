@@ -3,6 +3,7 @@ import { authRoutes } from './auth-routes'
 import { commentsRoutes } from './comments-routes'
 import { likesRoutes } from './likes-routes'
 import { searchRoutes } from './search-routes'
+import { trendingRoutes } from './trending-routes'
 import { userRoutes } from './user-routes'
 
 export const giffyApiRouter = Router()
@@ -15,3 +16,4 @@ giffyApiRouter.use('/search', searchRoutes)
 giffyApiRouter.use('/comments', commentsRoutes)
 giffyApiRouter.use('/likes', likesRoutes)
 giffyApiRouter.use('/auth/login', authRoutes)
+giffyApiRouter.use('/trending', trendingRoutes)

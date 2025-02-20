@@ -15,6 +15,8 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 
 	const isOneWord = !query.includes(' ')
 
+	if (!page_n) return next(BAD_REQUEST('Missing page or pos'))
+
 	const dbResponse = await db.gif.findMany({
 		where: {
 			title: {

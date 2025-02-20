@@ -50,4 +50,8 @@ Content-Type: application/json
   "username": "Goku",
   "password": "4321"
 }
- 
+
+# ------------------------------------------------
+
+### TRENDING GIFS
+GET http://localhost:3000/api/trending

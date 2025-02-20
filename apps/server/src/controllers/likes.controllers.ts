@@ -162,7 +162,6 @@ export async function getLikedGifs(req: Request, res: Response) {
 	const tenorGifs = await getTenorGifs(mappedTenorIds)
 
 	// Responder con los GIFs encontrados
-	// res.json(gifsIDs)
 	return res.json({ gifs: [...giffyGifs, ...tenorGifs.gifs], pos: '', page: 0 }).status(200)
 }
 

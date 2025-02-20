@@ -1,17 +1,23 @@
-import type { Gif, GifResponse, ListOfGifs, ListOfGifsResponse } from '@giffy/types'
+import type {
+	Gif,
+	GifResponse,
+	ListOfGifs,
+	ListOfGifsResponse,
+	TrendingGifResponse,
+} from '@giffy/types'
 
-export function gifResponseMapper(response: ListOfGifsResponse): ListOfGifs {
+export function gifResponseMapper(response: ListOfGifsResponse | TrendingGifResponse): ListOfGifs {
 	return {
 		gifs: response.results.map((gif) => dataMapper(gif)),
 		pos: response.next,
-		page: 0,
+		page: 1,
 	}
 }
 
 export function tenorResponseMapper(response: GifResponse[]): ListOfGifs {
 	return {
 		gifs: response.map((gif) => dataMapper(gif)),
-		page: 0,
+		page: 1,
 		pos: '',
 	}
 }

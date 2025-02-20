@@ -51,6 +51,13 @@ export interface GifResponse {
 	content_description_source: ContentDescriptionSource
 }
 
+export interface TrendingGifResponse {
+	locale: string
+	results: GifResponse[]
+	next: string
+}
+
+
 export enum ContentDescriptionSource {
 	GenerativeAI = 'GENERATIVE_AI',
 }
@@ -68,7 +75,6 @@ export interface LoginInfo {
 	username: string
 	avatar: string
 }
-
 
 // ---------------------------------------------------------
 // Comments

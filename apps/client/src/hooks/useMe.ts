@@ -16,7 +16,7 @@ export function useMe() {
 
 	return {
 		avatar: data?.avatar,
-		id: data?.user_id,
+		// id: data?.user_id,
 		setUserId,
 		getSavedUserId: getUserId,
 		setUserName,
