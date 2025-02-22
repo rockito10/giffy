@@ -18,12 +18,14 @@ export function useInfiniteTrending() {
 		queryKey: ['trending'], // Agregar page_n al queryKey
 		queryFn: ({ pageParam = '' }) => {
 			const pos = typeof pageParam === 'string' ? pageParam : ''
-			console.log(pageParam)
 			return getTrendingListOfGifs({ pos, page: page_n })
 		},
 
 		initialPageParam: '',
-		getNextPageParam: (lastPage) => lastPage.pos,
+		getNextPageParam: (lastPage) => {
+			if (lastPage.gifs.length < 40) return undefined
+			return lastPage.pos
+		},
 		select: (data) => {
 			const allGifs = data.pages.flatMap((page) => page.gifs)
 			return {

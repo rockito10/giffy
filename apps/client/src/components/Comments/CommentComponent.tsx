@@ -3,7 +3,7 @@ import { useMe } from '@/hooks/useMe'
 import { useParams } from 'wouter'
 import { DeleteComment } from './DeleteComment'
 
-interface Props {
+interface CommentComponentProps {
 	username: string
 	avatar: string
 	comment: string
@@ -11,9 +11,16 @@ interface Props {
 	userId: string
 }
 
-export function CommentComponent({ username, avatar, comment, commentId, userId }: Props) {
+export function CommentComponent({
+	username,
+	avatar,
+	comment,
+	commentId,
+	userId,
+}: CommentComponentProps) {
 	const { id: gifId } = useParams()
-	const { id: currentUserId } = useMe()
+	const { getSavedUserId } = useMe()
+	const currentUserId = getSavedUserId()
 
 	return (
 		<li className="relative flex w-2/3 items-center rounded-md bg-[#28242f] p-2 text-white">

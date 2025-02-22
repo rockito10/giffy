@@ -20,7 +20,7 @@ export function useInfiniteLikedGifs() {
 		queryKey: ['favorites', userID],
 		queryFn: ({ pageParam = 1 }) => {
 			// page param habla de la página actual, el inicial está abajo en initialpageparam, y el siguiente (getNextPageParam) se encarga de actualizarlo
-			return getFavoriteGifs({ page: pageParam, userID })
+			return getFavoriteGifs({ page: pageParam as number, userID })
 		},
 
 		initialPageParam: 1,

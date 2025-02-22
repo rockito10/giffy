@@ -12,7 +12,8 @@ export default function UploadPage() {
 	const tagRef = useRef<HTMLInputElement | null>(null)
 	const formRef = useRef<HTMLFormElement | null>(null)
 	const [_, setLocation] = useLocation()
-	const { username, getSavedUserId } = useMe()
+	const { getSavedUserId, getUserName } = useMe()
+	const username = getUserName()
 
 	const handleOnDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
@@ -61,9 +62,9 @@ export default function UploadPage() {
 	}
 
 	function resetUploadGif() {
-		// formRef.current?.reset()
-		// setTag([])
-		// setGif(null)
+		formRef.current?.reset()
+		setTag([])
+		setGif(null)
 	}
 
 	const handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -81,8 +82,8 @@ export default function UploadPage() {
 		formData.append('title', title)
 		formData.append('description', description)
 		formData.append('tags', JSON.stringify(tags))
-		formData.append('authorName', username ?? 'Anonymous')
-		formData.append('authorId', getSavedUserId())
+		formData.append('authorName', username ?? '')
+		formData.append('authorId', getSavedUserId() ?? '')
 
 		try {
 			resetUploadGif()
@@ -103,7 +104,7 @@ export default function UploadPage() {
 			})
 
 			const { id } = (await uploadResponse.json()) as UploadResponseJSON
-			// setLocation(`/gif/${id}`)
+			setLocation(`/gif/${id}`)
 		} catch (error) {
 			console.error('Error:', error)
 			// popups

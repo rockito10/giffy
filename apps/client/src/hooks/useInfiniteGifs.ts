@@ -14,15 +14,21 @@ export function useInfiniteGifs() {
 		return { data: { gifs: [], pos: '', page: 1 }, ref: null, error: null, isLoading: false }
 	}
 
+	type InfiniteQueryParams = { pos: string; page: string }
+
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['search', { query, page_n }], // Agregar page_n al queryKey
-		queryFn: ({ pageParam = '' }) => {
-			const pos = typeof pageParam === 'string' ? pageParam : ''
-			return getQueryListOfGifs({ query, pos, page: page_n })
+		queryFn: ({ pageParam = { page: 1, pos: '' } }) => {
+			const { page, pos } = pageParam as InfiniteQueryParams
+
+			return getQueryListOfGifs({ query, pos, page: Number(page) })
 		},
 
-		initialPageParam: '',
-		getNextPageParam: (lastPage) => lastPage.page + 1,
+		initialPageParam: { page: 1, pos: '' },
+		getNextPageParam: (lastPage) => {
+			if (lastPage.gifs.length < 40) return undefined
+			return { page: lastPage.page, pos: lastPage.pos }
+		},
 		select: (data) => {
 			const newData = data.pages.flatMap((page) => page.gifs)
 			return {

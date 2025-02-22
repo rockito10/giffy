@@ -1,6 +1,7 @@
 import { useMe } from '@/hooks/useMe'
 import type { LikesResponse } from '@/types/response'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 interface Props extends React.HTMLProps<HTMLButtonElement> {
 	gifId: string | undefined
@@ -18,7 +19,10 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 	const userID = getSavedUserId()
 
 	function handleLike() {
-		if (!userID) return
+		if (!userID) {
+			toastError('You must be logged in to like a gif.')
+			return
+		}	
 		if (isLiked) {
 			setLikesNumber(likesNumber - 1)
 			setIsLiked(false)
@@ -31,7 +35,6 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 	}
 
 	async function postLike() {
-		if (!userID) return
 		try {
 			const response = await fetch(`/api/likes/${gifId}`, {
 				method: 'POST',
@@ -41,14 +44,13 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 				body: JSON.stringify({ userID }),
 			})
 
-			if (response.status === 201) {
-				// Confirmamos que el comentario se ha enviado
+			if (response.status !== 202) {
+				toastError('There was an error while trying to like the gif.')
 			}
-
-			if (response.status !== 201) {
-				// Mostrar mensaje de error
-			}
-		} catch (error) {}
+		} catch (error) {
+			toastError('Unexpected error has occurred')
+			console.log(error)
+		}
 	}
 
 	return (
@@ -56,4 +58,13 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 			{isLiked ? '👎' : '👍'} {likesNumber}
 		</button>
 	)
+}
+
+function toastError(message: string) {
+	toast.error(message, {
+		position: 'top-center',
+		autoClose: 2000,
+		progressClassName: 'bg-purple-500 text-purple-500',
+		theme: 'dark',
+	})
 }

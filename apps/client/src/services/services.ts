@@ -35,7 +35,7 @@ interface GetTrendingParams {
 	page: number
 }
 
-export async function getTrendingListOfGifs({ pos, page }: GetTrendingParams) {
+export async function getTrendingListOfGifs({ pos }: GetTrendingParams) {
 	const resp = await fetch('api/trending', {
 		method: 'GET',
 		headers: {

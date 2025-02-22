@@ -46,6 +46,10 @@ export async function sendCommentController(req: Request, res: Response) {
 	const { gifId } = req.params
 	const { commentText, userId } = req.body
 
+	if (commentText.trim() === '') {
+		return res.status(400).json({ message: 'Comment cannot be empty' })
+	}
+
 	const maxQuery = await db.comment.aggregate({
 		_max: {
 			comment_id: true,

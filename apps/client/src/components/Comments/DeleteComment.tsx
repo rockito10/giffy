@@ -2,6 +2,7 @@ import { useCommentsContext } from '@/hooks/useCommentsContext'
 import { useMe } from '@/hooks/useMe'
 import { deleteComment } from '@/services/services'
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 interface deleteCommentProps {
 	gifId: string
@@ -9,17 +10,24 @@ interface deleteCommentProps {
 }
 
 export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
-	const { id: userId } = useMe()
-	if (!userId) return null
+	const { getSavedUserId } = useMe()
+	const userID = getSavedUserId()
+
+	if (!userID) {
+		return
+	}
 
 	const { removeComment } = useCommentsContext()
 
 	const { mutate } = useMutation({
 		mutationFn: deleteComment,
+		onError: () => {
+			toastError('There was an error while trying to delete the comment.')
+		},
 	})
 
 	const handleDeleteComment = () => {
-		mutate({ userId, gifId, commentId })
+		mutate({ userId: userID, gifId, commentId })
 		removeComment(commentId)
 	}
 
@@ -33,4 +41,13 @@ export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
 			Remove
 		</button>
 	)
+}
+
+function toastError(message: string) {
+	toast.error(message, {
+		position: 'top-center',
+		autoClose: 2000,
+		progressClassName: 'bg-purple-500 text-purple-500',
+		theme: 'dark',
+	})
 }

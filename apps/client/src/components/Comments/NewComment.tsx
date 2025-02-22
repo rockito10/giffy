@@ -4,6 +4,7 @@ import { postComment } from '@/services/services'
 import type { Comment } from '@/types/types'
 import { useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
+import { toast } from 'react-toastify'
 import { useLocation, useParams } from 'wouter'
 
 export function NewComment() {
@@ -27,18 +28,18 @@ export function NewComment() {
 		evt.preventDefault()
 
 		if (!userId) {
-			setLocation('/login')
+			toastError('You must be logged in to comment.')
 			return
 		}
 
 		const textarea = textareaRef.current
 
 		// Comprobaciones
-		if (!textarea || !avatar || !username || !userId) return
+		if (!textarea || !avatar || !username || !userId) return toastError('An unexpected error has ocurred.')
 
 		const commentText = textarea.value
 
-		if (!commentText.trim()) return // todo: HACER LO MISMO EN EL BACKEND uwu
+		if (!commentText.trim()) return 
 
 		// Crear comentario
 		const comment: Comment = {
@@ -54,19 +55,12 @@ export function NewComment() {
 		mutate({ commentText, userId, gifId })
 		addComment(comment)
 
-		// Limpiar texta
+		// Limpiar textarea
 		textarea.value = ''
 	}
 
 	return (
 		<form onSubmit={handleSubmit}>
-			{/* {isFirstComment ? (
-        <p className="w-fit px-2 py-1">
-          No comments yet. Be the first to comment!
-        </p>
-      ) : (
-        <p className="w-fit px-2 py-1">Add a comment</p>
-      )} */}
 			<div className="flex w-2/3 flex-col items-start gap-4">
 				<textarea
 					ref={textareaRef}
@@ -91,4 +85,13 @@ export function NewComment() {
 			</div>
 		</form>
 	)
+}
+
+function toastError(message: string) {
+	toast.error(message, {
+		position: 'top-center',
+		autoClose: 2000,
+		progressClassName: 'bg-purple-500 text-purple-500',
+		theme: 'dark',
+	})
 }
