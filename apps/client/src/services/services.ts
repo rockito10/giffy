@@ -14,13 +14,46 @@ export async function getGifById(id: string) {
 
 // --------------------------------------------------
 
-interface Params {
-	query: string
+interface GetFavoritesParams {
+	page: number
+	userID: string
+}
+
+export async function getFavoriteGifs({ page, userID }: GetFavoritesParams) {
+	const resp = await fetch(`api/likes/user/${userID}?page=${page}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+	const data: ListOfGifs = await resp.json()
+	return data
+}
+
+interface GetTrendingParams {
 	pos: string
 	page: number
 }
 
-export async function getListOfGifs({ query, pos, page }: Params) {
+export async function getTrendingListOfGifs({ pos, page }: GetTrendingParams) {
+	const resp = await fetch('api/trending', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'X-PosTenor': pos, // Enviar `pos` en el header
+		},
+	})
+	const data: ListOfGifs = await resp.json()
+	return data
+}
+
+interface GetQueryParams {
+	pos: string
+	page: number
+	query?: string
+}
+
+export async function getQueryListOfGifs({ query, pos, page }: GetQueryParams) {
 	const resp = await fetch(`/api/search/${query}?page=${page}`, {
 		method: 'GET',
 		headers: {

@@ -10,7 +10,8 @@ export default function GifsDetails() {
 	const { id: gifId } = useParams()
 	const [_, setLocation] = useLocation()
 	const { getSavedUserId } = useMe()
-	const { data, isLoading, error } = useGetGifById(gifId as string, getSavedUserId() ?? '0')
+	console.log(getSavedUserId())
+	const { data, isLoading, error } = useGetGifById(gifId as string, getSavedUserId() ?? "")
 
 	if (error)
 		return (

@@ -1,4 +1,4 @@
-import { getListOfGifs } from '@/services/services'
+import { getQueryListOfGifs } from '@/services/services'
 import type { ListOfGifs } from '@giffy/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
@@ -18,7 +18,7 @@ export function useInfiniteGifs() {
 		queryKey: ['search', { query, page_n }], // Agregar page_n al queryKey
 		queryFn: ({ pageParam = '' }) => {
 			const pos = typeof pageParam === 'string' ? pageParam : ''
-			return getListOfGifs({ query, pos, page: page_n })
+			return getQueryListOfGifs({ query, pos, page: page_n })
 		},
 
 		initialPageParam: '',

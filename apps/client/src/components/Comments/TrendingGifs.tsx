@@ -1,16 +1,14 @@
-import type { ListOfGifs } from '@giffy/types'
-import { useQuery } from '@tanstack/react-query'
-import { Grid } from '../Grid'
+import { useInfiniteTrending } from '@/hooks/useInfiniteTrending'
+import { InfiniteGrid } from '../InfiniteGrid'
 
 export function TrendingGifs({ ...props }) {
-	const { userID } = props
-	const { data } = useQuery<ListOfGifs>({
-		queryKey: ['likes', `${userID}`],
-		queryFn: () => fetch('api/trending').then((res) => res.json()),
-	})
+	// const { userID } = props
+	// const { data } = useQuery<ListOfGifs>({
+	// 	queryKey: ['likes', `${userID}`],
+	// 	queryFn: () => fetch('api/trending').then((res) => res.json()),
+	// })
+	const { data, ref } = useInfiniteTrending()
 	return (
-		<div className="flex flex-col items-center justify-center gap-8">
-			<Grid data={data} />
-		</div>
+			<InfiniteGrid data={data} ref={ref} />
 	)
 }

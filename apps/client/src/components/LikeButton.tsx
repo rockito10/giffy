@@ -14,11 +14,11 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 
 	const [isLiked, setIsLiked] = useState(likesInfo?.isLiked)
 
-	const { id: userId } = useMe()
-
-	// console.log(likesNumber, isLiked)
+	const { getSavedUserId } = useMe()
+	const userID = getSavedUserId()
 
 	function handleLike() {
+		if (!userID) return
 		if (isLiked) {
 			setLikesNumber(likesNumber - 1)
 			setIsLiked(false)
@@ -31,13 +31,14 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 	}
 
 	async function postLike() {
+		if (!userID) return
 		try {
 			const response = await fetch(`/api/likes/${gifId}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ userId }),
+				body: JSON.stringify({ userID }),
 			})
 
 			if (response.status === 201) {

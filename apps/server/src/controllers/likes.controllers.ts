@@ -11,8 +11,7 @@ export async function getLikes(req: Request, res: Response) {
 
 	if (!userID || userID === '') {
 		// Manejar el caso en el que `userId` no esté presente
-		// return res.status(400).json({ error: 'User ID is required' })
-		return
+		return res.status(400).json({ error: 'User ID is required' })
 	}
 
 	try {
@@ -41,12 +40,11 @@ export async function getLikes(req: Request, res: Response) {
 
 export async function postLikes(req: Request, res: Response) {
 	const { gifId } = req.params
-	const userID: string = req.body.userId
+	const userID: string = req.body.userID
 
 	if (!userID || userID === '') {
 		// Manejar el caso en el que `userId` no esté presente
-		// return res.status(400).json({ error: 'User ID is required' })
-		return
+		return res.status(400).json({ error: 'User ID is required' })
 	}
 
 	try {
@@ -122,6 +120,10 @@ async function upsertDecrement(gifId: string) {
 
 export async function getLikedGifs(req: Request, res: Response) {
 	const { userID } = req.params
+	const { page } = req.query
+	const page_n = Number(page)
+
+	if (!page_n) return res.status(400).json({ error: 'Page number is required' })
 
 	// Obtener los GIFs liked por el usuario con `user_id` igual a `userID`
 	const gifsIDs = await db.liked.findMany({
@@ -131,6 +133,8 @@ export async function getLikedGifs(req: Request, res: Response) {
 		select: {
 			gif_id: true,
 		},
+		skip: 20 * (page_n - 1),
+		take: 20 * page_n,
 	})
 
 	// // Extraer solo los GIFs (sin la información de la relación `liked`)
@@ -162,7 +166,13 @@ export async function getLikedGifs(req: Request, res: Response) {
 	const tenorGifs = await getTenorGifs(mappedTenorIds)
 
 	// Responder con los GIFs encontrados
-	return res.json({ gifs: [...giffyGifs, ...tenorGifs.gifs], pos: '', page: 0 }).status(200)
+	return res
+		.json({
+			gifs: [...giffyGifs, ...tenorGifs.gifs],
+			pos: '',
+			page: page_n + 1,
+		})
+		.status(200)
 }
 
 async function getTenorGifs(tenorIDs: string[]): Promise<ListOfGifs> {

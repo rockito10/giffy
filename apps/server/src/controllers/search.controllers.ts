@@ -15,7 +15,7 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 
 	const isOneWord = !query.includes(' ')
 
-	if (!page_n) return next(BAD_REQUEST('Missing page or pos'))
+	if (!page_n) return next(BAD_REQUEST('Missing page'))
 
 	const dbResponse = await db.gif.findMany({
 		where: {
@@ -51,7 +51,7 @@ export async function getSearchController(req: Request, res: Response, next: Nex
 
 	return res.status(200).json({
 		gifs: [...dbResponse, ...mappedGifs.gifs],
-		page: `${page_n}`,
+		page: `${page_n + 1}`,
 		pos: mappedGifs.pos,
 	})
 }
