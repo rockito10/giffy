@@ -1,0 +1,59 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"formatter": {
+		"lineWidth": 100
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "asNeeded"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "warn",
+				"noUnusedVariables": "warn"
+			},
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "safe",
+					"level": "warn",
+					"options": {}
+				}
+			},
+			"style": {
+				"useSelfClosingElements": {
+					"fix": "safe",
+					"level": "warn"
+				}
+			}
+			// "suspicious": {
+			// 	"noConsoleLog": {
+			// 		"fix": "safe",
+			// 		"level": "warn"
+			// 	}
+			// }
+		}
+	},
+	"overrides": [
+		{
+			"include": [".vscode/*", "tsconfig.*.json"],
+			"json": {
+				"parser": {
+					"allowComments": true
+				}
+			}
+		}
+	]
+}
