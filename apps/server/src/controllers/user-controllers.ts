@@ -1,4 +1,4 @@
-import { db } from '@/config/db'
+import { db } from '../config/db'
 import type { Request, Response } from 'express'
 
 export async function getUserController(req: Request, res: Response) {

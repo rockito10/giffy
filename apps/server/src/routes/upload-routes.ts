@@ -1,5 +1,5 @@
-import { uploadGifController } from '@/controllers/upload.controllers'
-import { multerMiddleware } from '@/middlewares/multer.middleware'
+import { uploadGifController } from '../controllers/upload.controllers'
+import { multerMiddleware } from '../middlewares/multer.middleware'
 import { Router } from 'express'
 import { userRoutes } from './user-routes'
 

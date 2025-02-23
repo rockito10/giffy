@@ -1,5 +1,5 @@
-import { TENOR_API } from '@/config/env'
-import { gifResponseMapper } from '@/utils/gifResponseMapper'
+import { TENOR_API } from '../config/env'
+import { gifResponseMapper } from '../utils/gifResponseMapper'
 import type { NextFunction, Request, Response } from 'express'
 
 export async function getTrendingController(req: Request, res: Response, next: NextFunction) {

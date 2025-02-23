@@ -1,4 +1,4 @@
-import { db } from '@/config/db'
+import { db } from '../config/db'
 import type { LoginInfo } from '@giffy/types'
 import type { Request, Response } from 'express'
 

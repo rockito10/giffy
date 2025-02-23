@@ -1,7 +1,7 @@
-import { db } from '@/config/db'
-import { TENOR_API } from '@/config/env'
-import { dataMapper, gifResponseMapper } from '@/utils/gifResponseMapper'
-import { BAD_REQUEST } from '@/utils/status'
+import { db } from '../config/db'
+import { TENOR_API } from '../config/env'
+import { dataMapper, gifResponseMapper } from '../utils/gifResponseMapper'
+import { BAD_REQUEST } from '../utils/status'
 import type { ListOfGifsResponse } from '@giffy/types'
 import type { NextFunction, Request, Response } from 'express'
 

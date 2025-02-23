@@ -1,4 +1,4 @@
-import { getUserController } from '@/controllers/user-controllers'
+import { getUserController } from '../controllers/user-controllers'
 import { Router } from 'express'
 
 export const userRoutes = Router()

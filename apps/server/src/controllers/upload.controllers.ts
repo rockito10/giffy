@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises'
-import { db } from '@/config/db'
+import { db } from '../config/db'
 import type { NextFunction, Request, Response } from 'express'
 
 // interface Gif {

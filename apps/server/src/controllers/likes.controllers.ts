@@ -1,6 +1,6 @@
-import { db } from '@/config/db'
-import { TENOR_API } from '@/config/env'
-import { tenorResponseMapper } from '@/utils/gifResponseMapper'
+import { db } from '../config/db'
+import { TENOR_API } from '../config/env'
+import { tenorResponseMapper } from '../utils/gifResponseMapper'
 import type { GifResponse, ListOfGifs, ListOfGifsResponse } from '@giffy/types'
 import type { Request, Response } from 'express'
 
