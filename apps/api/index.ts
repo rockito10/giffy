@@ -31,7 +31,6 @@ app.get('/api/images/:gifId', (req, res) => {
 	}
 })
 
-
 app.post(
 	'/api/upload',
 	multerMiddleware,
@@ -77,8 +76,17 @@ app.post(
 // NOTHING HERE
 
 // SERVER
-// const port = 3000
+const port = 3500
 
-// app.listen(port, () => {})
+app.listen(port, () => {})
 
 // ------------------------------------------------
+
+// const express = require('express')
+// const app = express()
+
+// app.get('/', (req, res) => res.send('Express on Vercel'))
+
+// app.listen(3500, () => console.log('Server ready on port 3500.'))
+
+// module.exports = app
