@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
+import type { Request, Response } from 'express'
 import { db } from '../config/db'
-import type { NextFunction, Request, Response } from 'express'
 
 // interface Gif {
 // 	gif: string
@@ -9,10 +9,9 @@ import type { NextFunction, Request, Response } from 'express'
 // 	tags: string[]
 // }
 
-export async function uploadGifController(req: Request, res: Response, next: NextFunction) {
-	// export const uploadGifController = async (req: Request, res: Response, next: NextFunction) => {
+export async function uploadGifController(req: Request, res: Response) {
 	const { file, body } = req
-	const { title, description, tags, author, alt } = body
+	const { title, description, tags, authorId, alt, authorName } = body
 
 	if (!file) return
 
@@ -25,7 +24,8 @@ export async function uploadGifController(req: Request, res: Response, next: Nex
 			images: { gif: `/apps/server/uploads/${id}.gif` },
 			description,
 			tags: JSON.parse(tags),
-			author,
+			authorName: authorName,
+			authorId: authorId,
 			alt,
 		},
 	})
