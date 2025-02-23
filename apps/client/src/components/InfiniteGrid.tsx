@@ -13,7 +13,7 @@ export const InfiniteGrid = forwardRef<HTMLDivElement, InfiniteGridProps>(
 	({ data, noResultsMessage = 'No hay resultados' }, ref) => {
 		if (data !== undefined && data.gifs.length === 0) {
 			return (
-				<div className='text-center font-medium text-3xl text-gradient'>{noResultsMessage}</div>
+				<div className="text-center font-medium text-3xl text-gradient">{noResultsMessage}</div>
 			)
 		}
 

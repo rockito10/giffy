@@ -1,13 +1,23 @@
-import type { Gif, GifResponse, MappedGif, MappedGifs } from '@/types/types'
+import type {
+	Gif,
+	GifResponse,
+	ListOfGifs,
+	ListOfGifsResponse,
+	TrendingGifResponse,
+} from '@giffy/types'
 
-export function gifResponseMapper(response: GifResponse): MappedGifs {
+export function gifResponseMapper(response: ListOfGifsResponse | TrendingGifResponse): ListOfGifs {
 	return {
 		gifs: response.results.map((gif) => dataMapper(gif)),
-		next: response.next,
+		pos: response.next,
+		page: 1,
 	}
 }
 
-export function dataMapper(data: Gif): MappedGif {
+
+// GIF
+
+export function dataMapper(data: GifResponse): Gif {
 	return {
 		alt: data.content_description,
 		// original: data.media_formats.gif.url,
@@ -20,5 +30,8 @@ export function dataMapper(data: Gif): MappedGif {
 		},
 		tags: data.tags,
 		title: data.title,
+		authorId: '',
+		authorName: '',
+		description: '',
 	}
 }

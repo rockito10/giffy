@@ -15,17 +15,15 @@ export default function GifsDetails() {
 	const { data, isLoading, error } = useGetGifById(gifId as string, getSavedUserId() ?? '')
 
 	if (error) {
-
 		// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 		useEffect(() => {
-			toastError("Unexpected error has occurred.")
+			toastError('Unexpected error has occurred.')
 		}, [error])
-		
+
 		return (
 			<div>
-				<ToastContainer/>
+				<ToastContainer />
 				{error.name} {error.message}
-					 
 			</div>
 		)
 	}
@@ -108,4 +106,3 @@ function toastError(message: string) {
 		theme: 'dark',
 	})
 }
-

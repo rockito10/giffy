@@ -5,7 +5,7 @@ import type { Comment } from '@/types/types'
 import { useMutation } from '@tanstack/react-query'
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
-import { useLocation, useParams } from 'wouter'
+import { useParams } from 'wouter'
 
 export function NewComment() {
 	const { id: gifId }: { id: string } = useParams()
@@ -14,7 +14,6 @@ export function NewComment() {
 	const { avatar, getUserName, getSavedUserId } = useMe()
 	const username = getUserName()
 	const userId = getSavedUserId()
-	const [_, setLocation] = useLocation()
 
 	const { mutate } = useMutation({
 		mutationFn: postComment,
@@ -35,11 +34,12 @@ export function NewComment() {
 		const textarea = textareaRef.current
 
 		// Comprobaciones
-		if (!textarea || !avatar || !username || !userId) return toastError('An unexpected error has ocurred.')
+		if (!textarea || !avatar || !username || !userId)
+			return toastError('An unexpected error has ocurred.')
 
 		const commentText = textarea.value
 
-		if (!commentText.trim()) return 
+		if (!commentText.trim()) return
 
 		// Crear comentario
 		const comment: Comment = {

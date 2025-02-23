@@ -22,7 +22,7 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 		if (!userID) {
 			toastError('You must be logged in to like a gif.')
 			return
-		}	
+		}
 		if (isLiked) {
 			setLikesNumber(likesNumber - 1)
 			setIsLiked(false)

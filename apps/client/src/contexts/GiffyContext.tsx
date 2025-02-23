@@ -12,7 +12,7 @@ interface GiffyContextType {
 }
 
 export const GiffyContext = createContext<GiffyContextType>({
-	data: { gifs: [], next: '' },
+	data: { gifs: [], pos: '', page: 1 },
 	query: '',
 	setData: () => {},
 	setQuery: () => {},
@@ -27,13 +27,14 @@ interface Props {
 
 export function GiffyContextProvider({ children }: Props) {
 	const [query, setQuery] = useState('')
-	const [data, setData] = useState<ListOfGifs>({ gifs: [], next: '' })
+	const [data, setData] = useState<ListOfGifs>({ gifs: [], pos: '', page: 1 })
 
 	const concatData = (newData: ListOfGifs) => {
 		setData((prevData) => {
 			return {
 				gifs: [...prevData.gifs, ...newData.gifs],
-				next: newData.next,
+				pos: newData.pos,
+				page: newData.page,
 			}
 		})
 	}

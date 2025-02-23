@@ -74,7 +74,6 @@ textarea {
 	--toastify-color-progress-error: #d8b4fe;
 }
 
-
 :root {
 	--border-color: linear-gradient(
 		to right,
@@ -104,7 +103,6 @@ textarea {
 	-webkit-text-fill-color: transparent;
 	display: inline-block;
 }
-
 
 .home-container {
 	background: var(--border-color);

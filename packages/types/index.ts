@@ -57,7 +57,6 @@ export interface TrendingGifResponse {
 	next: string
 }
 
-
 export enum ContentDescriptionSource {
 	GenerativeAI = 'GENERATIVE_AI',
 }

@@ -2,10 +2,9 @@ import { useAuth } from '@/hooks/useAuth'
 import type { LoginInfo } from '@giffy/types'
 import type { FormEvent } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import { Link, useLocation } from 'wouter'
+import { Link } from 'wouter'
 
 export default function LoginPage() {
-	const [_, setLocation] = useLocation()
 	const { login } = useAuth()
 
 	async function handleLogin(evt: FormEvent<HTMLFormElement>): Promise<void> {
