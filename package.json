@@ -9,14 +9,14 @@
 		"lint": "biome lint --write .",
 
 		"dev:client": "cd apps/client && pnpm dev",
-		"dev:server": "cd apps/server && pnpm dev",
+		"dev:server": "cd apps/api && pnpm dev",
 		"dev": "pnpm --recursive dev",
 
-		"db:migrate": "cd apps/server && pnpm prisma migrate dev",
-		"db:seed": "cd apps/server && pnpm prisma db execute --file prisma/seed.sql --schema ./prisma/schema.prisma",
+		"db:migrate": "cd apps/api && pnpm prisma migrate dev",
+		"db:seed": "cd apps/api && pnpm prisma db execute --file prisma/seed.sql --schema ./prisma/schema.prisma",
 		"db:reset": "pnpm db:migrate && pnpm db:seed",
-		"db:view": "cd apps/server && pnpm prisma studio",
-		"db:types": "cd apps/server && pnpm prisma generate"
+		"db:view": "cd apps/api && pnpm prisma studio",
+		"db:types": "cd apps/api && pnpm prisma generate"
 	},
 	"keywords": [],
 	"author": "",
