@@ -26,7 +26,7 @@ export async function getCommentsController(req: Request, res: Response) {
 	})
 
 	if (comments) {
-		const mappedComments = comments.map((comment) => {
+		const mappedComments = comments.map((comment: any) => {
 			return {
 				comment_id: comment.comment_id,
 				gif_id: comment.gif_id,
