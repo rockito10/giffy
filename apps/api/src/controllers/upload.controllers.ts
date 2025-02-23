@@ -21,7 +21,7 @@ export async function uploadGifController(req: Request, res: Response) {
 		data: {
 			id,
 			title,
-			images: { gif: `/apps/server/uploads/${id}.gif` },
+			images: { gif: `/apps/api/uploads/${id}.gif` },
 			description,
 			tags: JSON.parse(tags),
 			authorName: authorName,
