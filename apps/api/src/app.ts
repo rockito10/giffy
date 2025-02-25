@@ -4,9 +4,9 @@ import path from 'node:path'
 import cors from 'cors'
 import express from 'express'
 import { json } from 'express'
-import { db } from './src/config/db'
-import { multerMiddleware } from './src/middlewares/multer.middleware'
-import { giffyApiRouter } from './src/routes/app-routes'
+import { db } from './config/db'
+import { multerMiddleware } from './middlewares/multer.middleware'
+import { giffyApiRouter } from './routes/app-routes'
 
 // APP
 const app = express()
@@ -71,22 +71,4 @@ app.post(
 		return res.status(500).json({ message: 'Error creating gif' })
 	},
 )
-
-// POST-MIDDLEWARES
-// NOTHING HERE
-
-// SERVER
-// const port = 3500
-
-// app.listen(port, () => {})
-
-// ------------------------------------------------
-
-// const express = require('express')
-// const app = express()
-
-// app.get('/', (req, res) => res.send('Express on Vercel'))
-
-// app.listen(3500, () => console.log('Server ready on port 3500.'))
-
-// module.exports = app
+export default app
