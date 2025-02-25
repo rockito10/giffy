@@ -1,8 +1,8 @@
+import type { GifResponse, ListOfGifs, ListOfGifsResponse } from '@giffy/types'
+import type { Request, Response } from 'express'
 import { db } from '../config/db'
 import { TENOR_API } from '../config/env'
 import { tenorResponseMapper } from '../utils/gifResponseMapper'
-import type { GifResponse, ListOfGifs, ListOfGifsResponse } from '@giffy/types'
-import type { Request, Response } from 'express'
 
 export async function getLikes(req: Request, res: Response) {
 	const { gifId } = req.params
@@ -141,8 +141,8 @@ export async function getLikedGifs(req: Request, res: Response) {
 	// const mappedGiffyIds = gifsIDs.filter((gif) => gif.gif_id.startsWith('giffy'))
 	// const mappedTenorIds = gifsIDs.filter((gif) => !gif.gif_id.startsWith('giffy'))
 
-	const mappedGiffyIds = []
-	const mappedTenorIds = []
+	const mappedGiffyIds: string[] = []
+	const mappedTenorIds: string[] = []
 
 	for (const gif of gifsIDs) {
 		if (gif.gif_id.startsWith('giffy')) {

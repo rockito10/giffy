@@ -1,9 +1,8 @@
+import type { Request, Response } from 'express'
 import { TENOR_API } from '../config/env'
 import { gifResponseMapper } from '../utils/gifResponseMapper'
-import type { NextFunction, Request, Response } from 'express'
 
-export async function getTrendingController(req: Request, res: Response, next: NextFunction) {
-	const { page } = req.query
+export async function getTrendingController(req: Request, res: Response) {
 	const pos = req.headers['x-postenor']
 	// const page_n = Number(page)
 
