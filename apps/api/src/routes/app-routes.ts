@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import express from 'express'
 import { authRoutes } from './auth-routes'
 import { commentsRoutes } from './comments-routes'
 import { likesRoutes } from './likes-routes'
@@ -11,7 +11,7 @@ import { trendingRoutes } from './trending-routes'
 // import { trendingRoutes } from './trending-routes'
 import { userRoutes } from './user-routes'
 
-export const giffyApiRouter = Router()
+export const giffyApiRouter = express.Router()
 
 giffyApiRouter.get('/', (_req, res) => {
 	res.json({ message: 'Giffy API Online' })
