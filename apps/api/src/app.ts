@@ -1,11 +1,11 @@
-import fs_og from 'node:fs'
-import fs_prom from 'node:fs/promises'
-import path from 'node:path'
+// import fs_og from 'node:fs'
+// import fs_prom from 'node:fs/promises'
+// import path from 'node:path'
 import cors from 'cors'
 import express from 'express'
 import { json } from 'express'
-import { db } from './config/db'
-import { multerMiddleware } from './middlewares/multer.middleware'
+// import { db } from './config/db'
+// import { multerMiddleware } from './middlewares/multer.middleware'
 import { giffyApiRouter } from './routes/app-routes'
 
 // APP
@@ -18,57 +18,58 @@ app.use(json()) // JSON es un middleware que parsea el body de las peticiones a 
 // ROUTES
 app.use('/api', giffyApiRouter)
 
-// Ruta para servir imágenes estáticas
-app.get('/api/images/:gifId', (req, res) => {
-	const { gifId } = req.params
-	const imagePath = path.join(process.cwd(), 'public/images', `${gifId}.gif`)
 
-	// Verificar si la imagen existe antes de enviarla
-	if (fs_og.existsSync(imagePath)) {
-		res.sendFile(imagePath)
-	} else {
-		res.status(404).json({ error: 'Gif not found' })
-	}
-})
+// // Ruta para servir imágenes estáticas
+// app.get('/api/images/:gifId', (req, res) => {
+// 	const { gifId } = req.params
+// 	const imagePath = path.join(process.cwd(), 'public/images', `${gifId}.gif`)
 
-app.post(
-	'/api/upload',
-	multerMiddleware,
+// 	// Verificar si la imagen existe antes de enviarla
+// 	if (fs_og.existsSync(imagePath)) {
+// 		res.sendFile(imagePath)
+// 	} else {
+// 		res.status(404).json({ error: 'Gif not found' })
+// 	}
+// })
 
-	async (req, res, _next) => {
-		const { file, body } = req
-		const { title, description, tags, authorName, authorId, alt } = body
+// app.post(
+// 	'/api/upload',
+// 	multerMiddleware,
 
-		if (!file) return
+// 	async (req, res, _next) => {
+// 		const { file, body } = req
+// 		const { title, description, tags, authorName, authorId, alt } = body
 
-		const id = `giffy-${crypto.randomUUID()}`
+// 		if (!file) return
 
-		const response = await db.gif.create({
-			data: {
-				id,
-				title,
-				images: { gif: `/api/images/${id}` },
-				description,
-				tags: JSON.parse(tags),
-				authorName,
-				authorId,
-				alt,
-			},
-		})
+// 		const id = `giffy-${crypto.randomUUID()}`
 
-		fs_prom
-			.rename(`./public/images/${file.originalname}`, `./public/images/${id}.gif`)
-			.then(() => {
-				// console.log('File renamed')
-			})
-			.catch((err) => {
-				console.error('Error renaming file', err)
-			})
+// 		const response = await db.gif.create({
+// 			data: {
+// 				id,
+// 				title,
+// 				images: { gif: `/api/images/${id}` },
+// 				description,
+// 				tags: JSON.parse(tags),
+// 				authorName,
+// 				authorId,
+// 				alt,
+// 			},
+// 		})
 
-		if (response) {
-			return res.status(202).json({ message: 'Gif created', id })
-		}
-		return res.status(500).json({ message: 'Error creating gif' })
-	},
-)
+// 		fs_prom
+// 			.rename(`./public/images/${file.originalname}`, `./public/images/${id}.gif`)
+// 			.then(() => {
+// 				// console.log('File renamed')
+// 			})
+// 			.catch((err) => {
+// 				console.error('Error renaming file', err)
+// 			})
+
+// 		if (response) {
+// 			return res.status(202).json({ message: 'Gif created', id })
+// 		}
+// 		return res.status(500).json({ message: 'Error creating gif' })
+// 	},
+// )
 export default app
