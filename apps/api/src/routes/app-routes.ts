@@ -2,9 +2,10 @@ import express from 'express'
 //
 export const giffyApiRouter = express.Router()
 
-// giffyApiRouter.get('/', (_req, res) => {
-// 	res.json({ message: 'Giffy API Online' })
-// })
+giffyApiRouter.get('/', (_req, res) => {
+	res.json({ message: 'Giffy API Online' })
+})
+
 // giffyApiRouter.use('/user', userRoutes)
 // giffyApiRouter.use('/search', searchRoutes)
 // giffyApiRouter.use('/comments', commentsRoutes)
