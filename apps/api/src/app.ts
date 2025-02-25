@@ -1,9 +1,4 @@
-// import fs_og from 'node:fs'
-// import fs_prom from 'node:fs/promises'
-// import path from 'node:path'
-import cors from 'cors'
 import express from 'express'
-import { json } from 'express'
 // import { db } from './config/db'
 // import { multerMiddleware } from './middlewares/multer.middleware'
 import { giffyApiRouter } from './routes/app-routes'
@@ -12,12 +7,11 @@ import { giffyApiRouter } from './routes/app-routes'
 const app = express()
 
 // PRE-MIDDLEWARES
-app.use(cors())
-app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
+// app.use(cors())
+// app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
 
 // ROUTES
 app.use('/api', giffyApiRouter)
-
 
 // // Ruta para servir imágenes estáticas
 // app.get('/api/images/:gifId', (req, res) => {
