@@ -1,0 +1,107 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("cors"));
+const express_1 = __importStar(require("express"));
+// import { db } from './config/db'
+// import { multerMiddleware } from './middlewares/multer.middleware'
+const app_routes_1 = require("./routes/app-routes");
+// APP
+const app = (0, express_1.default)();
+// PRE-MIDDLEWARES
+app.use((0, cors_1.default)());
+app.use((0, express_1.json)()); // JSON es un middleware que parsea el body de las peticiones a JSON
+// ROUTES
+app.use('/api', app_routes_1.giffyApiRouter);
+app.get('/api/status', (_req, res) => {
+    res.status(200).json({ message: 'Server is running' });
+});
+// // Ruta para servir imágenes estáticas
+// app.get('/api/images/:gifId', (req, res) => {
+// 	const { gifId } = req.params
+// 	const imagePath = path.join(process.cwd(), 'public/images', `${gifId}.gif`)
+// 	// Verificar si la imagen existe antes de enviarla
+// 	if (fs_og.existsSync(imagePath)) {
+// 		res.sendFile(imagePath)
+// 	} else {
+// 		res.status(404).json({ error: 'Gif not found' })
+// 	}
+// })
+// app.post(
+// 	'/api/upload',
+// 	multerMiddleware,
+// 	async (req, res, _next) => {
+// 		const { file, body } = req
+// 		const { title, description, tags, authorName, authorId, alt } = body
+// 		if (!file) return
+// 		const id = `giffy-${crypto.randomUUID()}`
+// 		const response = await db.gif.create({
+// 			data: {
+// 				id,
+// 				title,
+// 				images: { gif: `/api/images/${id}` },
+// 				description,
+// 				tags: JSON.parse(tags),
+// 				authorName,
+// 				authorId,
+// 				alt,
+// 			},
+// 		})
+// 		fs_prom
+// 			.rename(`./public/images/${file.originalname}`, `./public/images/${id}.gif`)
+// 			.then(() => {
+// 				// console.log('File renamed')
+// 			})
+// 			.catch((err) => {
+// 				console.error('Error renaming file', err)
+// 			})
+// 		if (response) {
+// 			return res.status(202).json({ message: 'Gif created', id })
+// 		}
+// 		return res.status(500).json({ message: 'Error creating gif' })
+// 	},
+// )
+exports.default = app;
+// ------------------------------------------------------------------------
+// // app.ts
+// import express from 'express'
+// // import userRouter from './routes/users-routes.js'
+// const app = express()
+// // Middlewares
+// app.use(express.json())
+// // Routes
+// // app.use('/api', userRouter)
+// //
+// // API status
+// app.get('/', (_req, res) => {
+// 	res.status(200).json({ message: 'pepe' })
+// })
+// app.get('/api', (_req, res) => {
+// 	res.status(200).json({ message: 'pepe2' })
+// })
+// export default app

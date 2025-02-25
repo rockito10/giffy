@@ -1,5 +1,5 @@
-import { db } from '../config/db'
 import type { Request, Response } from 'express'
+import { db } from '../config/db'
 
 export async function getUserController(req: Request, res: Response) {
 	const { userID } = req.params
