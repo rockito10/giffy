@@ -1,4 +1,5 @@
-import express from 'express'
+import cors from 'cors'
+import express, { json } from 'express'
 // import { db } from './config/db'
 // import { multerMiddleware } from './middlewares/multer.middleware'
 import { giffyApiRouter } from './routes/app-routes'
@@ -7,8 +8,8 @@ import { giffyApiRouter } from './routes/app-routes'
 const app = express()
 
 // PRE-MIDDLEWARES
-// app.use(cors())
-// app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
+app.use(cors())
+app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
 
 // ROUTES
 app.use('/api', giffyApiRouter)
@@ -16,7 +17,6 @@ app.use('/api', giffyApiRouter)
 app.get('/api/status', (_req, res) => {
 	res.status(200).json({ message: 'Server is running' })
 })
-
 
 // // Ruta para servir imágenes estáticas
 // app.get('/api/images/:gifId', (req, res) => {
@@ -97,6 +97,5 @@ export default app
 // app.get('/api', (_req, res) => {
 // 	res.status(200).json({ message: 'pepe2' })
 // })
-
 
 // export default app
