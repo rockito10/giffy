@@ -1,6 +1,6 @@
 # Modules
 node_modules
-# **/dist/**
+**/dist/**
 
 # Environment
 .env
