@@ -1,4 +1,9 @@
 import express from 'express'
+import { authRoutes } from './auth-routes'
+import { commentsRoutes } from './comments-routes'
+import { likesRoutes } from './likes-routes'
+import { searchRoutes } from './search-routes'
+import { trendingRoutes } from './trending-routes'
 import { userRoutes } from './user-routes'
 //
 export const giffyApiRouter = express.Router()
@@ -8,8 +13,8 @@ giffyApiRouter.get('/', (_req, res) => {
 })
 
 giffyApiRouter.use('/user', userRoutes)
-// giffyApiRouter.use('/search', searchRoutes)
-// giffyApiRouter.use('/comments', commentsRoutes)
-// giffyApiRouter.use('/likes', likesRoutes)
-// giffyApiRouter.use('/auth/login', authRoutes)
-// giffyApiRouter.use('/trending', trendingRoutes)
+giffyApiRouter.use('/search', searchRoutes)
+giffyApiRouter.use('/comments', commentsRoutes)
+giffyApiRouter.use('/likes', likesRoutes)
+giffyApiRouter.use('/auth/login', authRoutes)
+giffyApiRouter.use('/trending', trendingRoutes)
