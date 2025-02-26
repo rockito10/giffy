@@ -1,14 +1,14 @@
 {
-  "version": 2,
-  "functions": {
-    "api/server.ts": {
-      "runtime": "nodejs@22.14.0"
-    }
-  },
-  "routes": [
-    {
-      "src": "/.*",
-      "dest": "/api/server.ts"
-    }
-  ]
+	"version": 2,
+	"functions": {
+		"api/server.ts": {
+			"runtime": "@vercel/node"
+		}
+	},
+	"routes": [
+		{
+			"src": "/.*",
+			"dest": "/api/server.ts"
+		}
+	]
 }
