@@ -11,5 +11,7 @@
 			"src": "/.*",
 			"dest": "/src/server.ts"
 		}
-	]
+	],
+
+	"buildCommand": "pnpm build && db:seed"
 }
