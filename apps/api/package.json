@@ -4,10 +4,10 @@
 	"description": "",
 	"main": "index.ts",
 	"scripts": {
-		"build": "pnpm prisma generate && tsc -b && pnpm prisma db execute --file prisma/seed.sql --schema ./prisma/schema.prisma",
+		"build": "pnpm prisma generate && tsc -b",
 		"dev": "tsx --env-file=.env --watch src/server.ts",
 		"start": "node ./dist/index.js",
-		"instprisma": "pnpm i && db:seed",
+		"instprisma": "pnpm i && pnpm prisma db execute --file prisma/seed.sql --schema ./prisma/schema.prisma",
 
 		"db:migrate": "pnpm prisma migrate dev",
 		"db:seed": "pnpm prisma db execute --file prisma/seed.sql --schema ./prisma/schema.prisma",
