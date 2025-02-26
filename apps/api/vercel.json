@@ -1,14 +1,14 @@
 {
-	"version": 2,
-	"functions": {
-		"src/server.ts": {
-			"runtime": "nodejs@22.14.0"
-		}
-	},
-	"routes": [
-		{
-			"src": "/.*",
-			"dest": "/src/server.ts"
-		}
-	]
+  "version": 2,
+  "functions": {
+    "api/server.ts": {
+      "runtime": "nodejs@22.14.0"
+    }
+  },
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "/api/server.ts"
+    }
+  ]
 }
