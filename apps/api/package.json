@@ -16,6 +16,7 @@
 	},
 	"keywords": [],
 	"author": "",
+
 	"license": "ISC",
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
@@ -24,6 +25,9 @@
 		"@types/node": "^20.14.11",
 		"@types/pg": "^8.11.6",
 		"tsx": "^4.16.5"
+	},
+	"prisma": {
+		"schema": "/prisma/schema.prisma"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.18.0",
