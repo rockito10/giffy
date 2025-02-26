@@ -27,7 +27,7 @@
 		"tsx": "^4.16.5"
 	},
 	"prisma": {
-		"schema": "/prisma/schema.prisma"
+		"schema": "./prisma/schema.prisma"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.18.0",
