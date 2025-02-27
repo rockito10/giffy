@@ -7,8 +7,8 @@ export function SearchBar() {
 
 	useEffect(() => {
 		if (ref.current) {
-            ref.current.value = getLocation.match('/search') ? getLocation.split('/search/')[1] : ''
-        }
+			ref.current.value = getLocation.match('/search') ? getLocation.split('/search/')[1] : ''
+		}
 	}, [])
 
 	const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,13 +29,12 @@ export function SearchBar() {
 	}
 
 	return (
-		<div className="relative w-full">
+		<div className="relative w-full ">
 			<input
 				type="text"
 				placeholder="Dragon Ball, Frieren..."
-				className="w-full rounded-full px-4 py-3 text-black focus:outline-none"
+				className='w-full min-w-40 rounded-full px-4 py-3 text-black focus:outline-none '
 				onChange={handleChange}
-				// value={}
 				id="searchbar"
 				ref={ref}
 			/>
