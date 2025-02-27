@@ -14,7 +14,7 @@ export default function HomePage() {
 			</h2>
 
 			<div className="home-container w-full">
-				<div className="home-box">{userID ? <FavoriteGifs /> : <TrendingGifs />}</div>
+				{<div className="home-box">{userID ? <FavoriteGifs /> : <TrendingGifs />}</div>}
 			</div>
 		</div>
 	)

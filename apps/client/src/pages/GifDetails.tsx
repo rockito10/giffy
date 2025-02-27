@@ -87,9 +87,36 @@ export default function GifsDetails() {
 							<div className="flex gap-4 [&>button]:flex [&>button]:size-1 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-xl [&>button]:border-2 [&>button]:border-[#28242f] [&>button]:p-7 [&>button]:text-center [&>button]:transition-colors [&>button]:hover:text-white">
 								<LikeButton gifId={gifId} likesInfo={likesData} className={'bg-[#28242f]'} />
 							</div>
-
-							{/* --- SHARE --- */}
-							<span>Facebook | Twitter | Instagram</span>
+							<div className="flex gap-4">
+								<button
+									className="share-button url-button"
+									type="button"
+									onClick={() =>
+										navigator.clipboard
+											.writeText(images?.gif)
+											.then(() => toastSuccess('URL copied!'))
+									}
+								>
+									<img
+										src="https://tenor.com/assets/img/icons/link.svg"
+										alt="Share URL"
+										className="url-icon"
+									/>
+								</button>
+								<a
+									className="share-button twitter-button"
+									href={`https://twitter.com/intent/tweet?text=I%20love%20this%20GIF!&url=${images?.gif}`}
+									data-size="large"
+									target="_blank"
+									rel="noreferrer"
+								>
+									<img
+										src="https://tenor.com/assets/img/icons/twitter.svg"
+										alt="Twitter"
+										className="twitter-icon"
+									/>
+								</a>
+							</div>
 							<CommentContainer />
 						</section>
 					</div>
@@ -100,6 +127,15 @@ export default function GifsDetails() {
 }
 function toastError(message: string) {
 	toast.error(message, {
+		position: 'top-center',
+		autoClose: 2000,
+		progressClassName: 'bg-purple-500 text-purple-500',
+		theme: 'dark',
+	})
+}
+
+function toastSuccess(message: string) {
+	toast.success(message, {
 		position: 'top-center',
 		autoClose: 2000,
 		progressClassName: 'bg-purple-500 text-purple-500',

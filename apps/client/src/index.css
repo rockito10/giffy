@@ -126,3 +126,34 @@ textarea {
 		background-position: 100% 0%;
 	}
 }
+
+.share-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%; /* Hace que el botón sea circular */
+	transition: background-color 0.3s ease;
+
+	img {
+		width: 4rem; /* Tamaño del icono dentro del botón */
+		height: 4rem;
+	}
+}
+
+.twitter-button {
+	background-color: #1da1f2; /* Azul de Twitter */
+
+	&:hover {
+		background-color: #0d8bf2; /* Azul más oscuro al hacer hover */
+	}
+}
+
+.url-button {
+	background-color: #fafafa; /* Verde de Material Design */
+
+	&:hover {
+		background-color: #acaaaa; /* Verde más oscuro al hacer hover */
+	}
+}
