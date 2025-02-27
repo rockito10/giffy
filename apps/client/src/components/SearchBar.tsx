@@ -1,7 +1,15 @@
+import { useEffect, useRef } from 'react'
 import { useLocation } from 'wouter'
 
 export function SearchBar() {
 	const [getLocation, setLocation] = useLocation()
+	const ref = useRef<HTMLInputElement>(null)
+
+	useEffect(() => {
+		if (ref.current) {
+            ref.current.value = getLocation.match('/search') ? getLocation.split('/search/')[1] : ''
+        }
+	}, [])
 
 	const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		const newQuery = evt.target.value
@@ -27,8 +35,9 @@ export function SearchBar() {
 				placeholder="Dragon Ball, Frieren..."
 				className="w-full rounded-full px-4 py-3 text-black focus:outline-none"
 				onChange={handleChange}
-				// value={getLocation.match('/search') ? getLocation.split('/search/')[1] : ''}
+				// value={}
 				id="searchbar"
+				ref={ref}
 			/>
 			<button
 				type="button"
