@@ -8,7 +8,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: 'https://giffy-server.vercel.app',
+				target: 'https://giffy-server.vercel.app/api',
 				changeOrigin: true,
 			},
 		},
