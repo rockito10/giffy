@@ -12,7 +12,7 @@ import { giffyApiRouter } from './routes/app-routes'
 // APP
 const app = express()
 
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5175']
 
 const ORIGIN = process.env.ORIGIN
 
@@ -21,6 +21,7 @@ if (ORIGIN) {
 }
 
 // PRE-MIDDLEWARES
+
 app.use(
 	cors({
 		origin: allowedOrigins,
@@ -30,6 +31,14 @@ app.use(
 		credentials: true,
 	}),
 )
+
+app.use((req, res, next) => {
+	if (!allowedOrigins.includes(req.headers.origin)) {
+		return res.status(403).json({ error: 'CORS policy does not allow this origin.' })
+	}
+	next()
+})
+
 app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
 
 // ROUTES
