@@ -7,12 +7,14 @@ import { db } from './config/db'
 import { multerMiddleware } from './middlewares/multer.middleware'
 // import { db } from './config/db'
 // import { multerMiddleware } from './middlewares/multer.middleware'
+// import { db } from './config/db'
+// import { multerMiddleware } from './middlewares/multer.middleware'
 import { giffyApiRouter } from './routes/app-routes'
 
 // APP
 const app = express()
 
-const allowedOrigins = ['http://localhost:5175']
+const allowedOrigins = ['http://localhost:5173']
 
 const ORIGIN = process.env.ORIGIN
 
@@ -31,13 +33,6 @@ app.use(
 		credentials: true,
 	}),
 )
-
-app.use((req, res, next) => {
-	if (!allowedOrigins.includes(req.headers.origin)) {
-		return res.status(403).json({ error: 'CORS policy does not allow this origin.' })
-	}
-	next()
-})
 
 app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
 
