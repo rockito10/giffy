@@ -12,13 +12,21 @@ import { giffyApiRouter } from './routes/app-routes'
 // APP
 const app = express()
 
+const allowedOrigins = ['http://localhost:5173']
+
+const ORIGIN = process.env.ORIGIN
+
+if (ORIGIN) {
+	allowedOrigins.push(ORIGIN)
+}
+
 // PRE-MIDDLEWARES
 app.use(
 	cors({
-		origin: ['http://localhost:5173', 'https://giffy-client-snowy.vercel.app'],
+		origin: allowedOrigins,
 		methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-		allowedHeaders: ['Content-Type',"Authorization"],
-		exposedHeaders: ["Authorization"],
+		allowedHeaders: ['Content-Type', 'Authorization'],
+		exposedHeaders: ['Authorization'],
 		credentials: true,
 	}),
 )
