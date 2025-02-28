@@ -13,7 +13,15 @@ import { giffyApiRouter } from './routes/app-routes'
 const app = express()
 
 // PRE-MIDDLEWARES
-app.use(cors())
+app.use(
+	cors({
+		origin: ['http://localhost:5173', 'https://giffy-client-snowy.vercel.app'],
+		methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+		allowedHeaders: ['Content-Type',"Authorization"],
+		exposedHeaders: ["Authorization"],
+		credentials: true,
+	}),
+)
 app.use(json()) // JSON es un middleware que parsea el body de las peticiones a JSON
 
 // ROUTES

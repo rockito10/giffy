@@ -15,18 +15,18 @@ export default function HomePage() {
 
 			<div className="home-container w-full">
 				{<div className="home-box">{userID ? <FavoriteGifs /> : <TrendingGifs />}</div>}
-
-				
 			</div>
 
-			<h2 className="font-medium text-5xl text-gradient">
-				{userID ? 'TRENDING GIFS' : ''}
-			</h2>
-			<div className="home-container w-full">
-			
-			
-				{<div className="home-box"> {userID ? <TrendingGifs /> : <div />} </div>}
+			{userID ? (
+				<div>
+					<h2 className="font-medium text-5xl text-gradient">{'TRENDING GIFS'}</h2>
+					<div className="home-container w-full">
+						{<div className="home-box"> {userID ? <TrendingGifs /> : <div />} </div>}
+					</div>
 				</div>
+			) : (
+				<div />
+			)}
 		</div>
 	)
 }
