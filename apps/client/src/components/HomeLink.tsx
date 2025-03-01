@@ -10,5 +10,6 @@ export function HomeLink(props: Props) {
         GIFFY
       </span>
     </Link>
+    {""}
   );
 }
