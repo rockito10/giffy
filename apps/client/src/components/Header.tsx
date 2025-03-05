@@ -17,7 +17,7 @@ export function Header({ ...props }: HeaderProps) {
 
   return (
     <header {...props}>
-      <div className="h-[120px] bg-green-500">
+      <div className="h-[120px] bg-black">
         <div className="flex items-center justify-between px-8 py-2 ">
           <div className="flex w-1/2 flex-col items-center gap-4 sm:flex-row">
             {/* <HomeIcon /> */}
