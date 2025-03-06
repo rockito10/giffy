@@ -3,8 +3,8 @@ import path from 'node:path'
 import { v2 as cloudinary } from 'cloudinary'
 import cors from 'cors'
 import express, { json } from 'express'
-import multer from 'multer'
 import { db } from './config/db'
+import { multerMiddleware } from './middlewares/multer.middleware'
 // import { db } from './config/db'
 // import { multerMiddleware } from './middlewares/multer.middleware'
 // import { db } from './config/db'
@@ -14,19 +14,19 @@ import { giffyApiRouter } from './routes/app-routes'
 // APP
 const app = express()
 
-const allowedOrigins = ['http://localhost:5173']
+// const allowedOrigins = ['http://localhost:5173']
 
-const ORIGIN = process.env.ORIGIN
+// const ORIGIN = process.env.ORIGIN
 
-if (ORIGIN) {
-	allowedOrigins.push(ORIGIN)
-}
+// if (ORIGIN) {
+// 	allowedOrigins.push(ORIGIN)
+// }
 ;(async () => {
 	// Configuration
 	cloudinary.config({
 		cloud_name: 'dm5rzwoa3',
 		api_key: '844888962214969',
-		api_secret: '0L-zh1dwqiY-scDAS3jn74JvROc', // Click 'View API Keys' above to copy your API secret
+		api_secret: process.env.CLOUDINARY_API_KEY, // Click 'View API Keys' above to copy your API secret
 	})
 
 	// Upload an image
@@ -56,7 +56,7 @@ if (ORIGIN) {
 
 app.use(
 	cors({
-		origin: allowedOrigins,
+		origin: process.env.ORIGIN,
 		methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 		allowedHeaders: ['Content-Type', 'Authorization'],
 		exposedHeaders: ['Authorization'],
@@ -86,10 +86,7 @@ app.get('/api/images/:gifId', (req, res) => {
 	}
 })
 
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-
-app.post('/api/upload', upload.single('file'), async (req, res, _next) => {
+app.post('/api/upload', multerMiddleware, async (req, res, _next) => {
 	const { file, body } = req
 	const { title, description, tags, authorName, authorId, alt } = body
 
@@ -100,36 +97,34 @@ app.post('/api/upload', upload.single('file'), async (req, res, _next) => {
 	const id = `giffy-${crypto.randomUUID()}`
 
 	try {
+		const uploadOnGiffyDB = async (error, result) => {
+			if (error) {
+				console.log('Error uploading image', error)
+				return res.status(500).json({ message: 'Error creating gif' })
+			}
+
+			// Guardar en la base de datos la URL de Cloudinary
+			const response = await db.gif.create({
+				data: {
+					id,
+					title,
+					images: { gif: result?.secure_url }, // URL de Cloudinary
+					description,
+					tags: JSON.parse(tags),
+					authorName,
+					authorId,
+					alt,
+				},
+			})
+
+			if (response) {
+				return res.status(202).json({ message: 'Gif created', id })
+			}
+		}
 		// Subir el archivo recibido a Cloudinary
 
 		cloudinary.uploader
-			.upload_stream(
-				{ resource_type: 'image', folder: 'gifs', public_id: id },
-				async (error, result) => {
-					if (error) {
-						console.log('Error uploading image', error)
-						return res.status(500).json({ message: 'Error creating gif' })
-					}
-
-					// Guardar en la base de datos la URL de Cloudinary
-					const response = await db.gif.create({
-						data: {
-							id,
-							title,
-							images: { gif: result?.secure_url }, // URL de Cloudinary
-							description,
-							tags: JSON.parse(tags),
-							authorName,
-							authorId,
-							alt,
-						},
-					})
-
-					if (response) {
-						return res.status(202).json({ message: 'Gif created', id })
-					}
-				},
-			)
+			.upload_stream({ resource_type: 'image', folder: 'gifs', public_id: id }, uploadOnGiffyDB)
 			.end(file.buffer)
 	} catch (error) {
 		console.log('Error uploading image', error)
