@@ -37,7 +37,7 @@ export default function GifsDetails() {
 		return null
 	}
 
-	const { alt, description, images, title, authorId, authorName, tags } = gifData
+	const { alt, description, images, title, authorName, tags } = gifData
 
 	return (
 		<div>
@@ -58,10 +58,10 @@ export default function GifsDetails() {
 							{/* --- TITLE --- */}
 							<h1 className="text-3xl">{title || alt}</h1>
 							<div className="flex flex-row items-center gap-2">
-								{authorId && authorData?.avatar && (
-									<Avatar name={authorName} src={authorData?.avatar} />
-								)}
-								{authorName && <h2 className="text-xl">{authorName}</h2>}
+								{/* {authorId && authorData?.avatar && ( */}
+								<Avatar nameless={true} name={authorName} src={authorData?.avatar} />
+								{/* )} */}
+								{<h2 className="text-xl">{authorName || 'Anonymous'}</h2>}
 							</div>
 
 							{description && <p>{description}</p>}

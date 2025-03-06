@@ -19,7 +19,7 @@ export function Grid({ data }: Props) {
 		>
 			<Masonry className="space-x-2.5">
 				{gifs.map(({ alt, id, images }) => (
-					<Frame key={id} alt={alt} className="mt-2.5" id={id} src={images.tinygif || images.gif} />
+					<Frame key={id} alt={alt} className="mt-2.5" id={id} src={images.webp ?? images.gif} />
 				))}
 			</Masonry>
 		</ResponsiveMasonry>
