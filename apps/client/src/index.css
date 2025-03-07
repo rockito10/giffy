@@ -108,15 +108,63 @@ textarea {
 	background: var(--border-color);
 	border-radius: 16px;
 	padding: 8px;
+
+	@media (width > 768px) {
+		padding: 12px;
+	}
+
+	background-size: 1000% 100%;
+	animation: moveGradient 10s linear infinite;
+
+	.home-box {
+		background-color: #111011;
+		border-radius: 16px;
+		padding: 8px;
+
+		@media (width > 768px) {
+			padding: 24px;
+		}
+	}
+
+	/* @media (min-width: 768px) {
+		background: var(--border-color);
+		border-radius: 16px;
+		padding: 8px;
+		background-size: 1000% 100%;
+		animation: moveGradient 10s linear infinite;
+	} */
+}
+
+/* .home-container-mb {
+	background: var(--border-color);
+	border-radius: 16px;
+	padding: 4px;
 	background-size: 1000% 100%;
 	animation: moveGradient 10s linear infinite;
 }
 
-.home-box {
+
+
+@media (min-width: 768px) {
+	.md\:home-box {
+		background-color: #111011;
+		padding: 24px;
+		border-radius: 16px;
+	}
+	.md\:home-box {
+		background: var(--border-color);
+		border-radius: 16px;
+		padding: 8px;
+		background-size: 1000% 100%;
+		animation: moveGradient 10s linear infinite;
+	}
+} */
+
+/* .home-box-mb {
 	background-color: #111011;
-	padding: 24px;
+	padding: 8px;
 	border-radius: 16px;
-}
+} */
 
 @keyframes moveGradient {
 	0% {

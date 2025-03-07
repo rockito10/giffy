@@ -9,11 +9,11 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col items-start gap-8">
-      <h2 className="font-medium text-5xl text-gradient">
+      <h2 className="font-medium text-5xl text-gradient ">
         {userID ? "FAVORITE GIFS" : "TRENDING GIFS"}
       </h2>
 
-      <div className="home-container w-full">
+      <div className="home-container w-full ">
         {
           <div className="home-box">
             {userID ? <FavoriteGifs /> : <TrendingGifs />}

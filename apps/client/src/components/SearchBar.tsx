@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 
-export function SearchBar() {
+interface SearchBarProps extends React.HTMLProps<HTMLDivElement> {}
+
+export function SearchBar({ ...props }: SearchBarProps) {
   const [getLocation, setLocation] = useLocation();
   const ref = useRef<HTMLInputElement>(null);
 
@@ -30,22 +32,24 @@ export function SearchBar() {
   };
 
   return (
-    <div className="relative w-full ">
-      <input
-        type="text"
-        placeholder="Dragon Ball, Frieren..."
-        className="w-full min-w-40 rounded-full px-4 py-3 text-black focus:outline-none "
-        onChange={handleChange}
-        id="searchbar"
-        ref={ref}
-      />
-      <button
-        type="button"
-        className="absolute top-0 right-0 m-1 rounded-full bg-purple-500 px-4 py-2 transition-colors hover:bg-purple-700"
-        onClick={handleSearch}
-      >
-        <span className="font-medium text-white">Search</span>
-      </button>
+    <div {...props}>
+      <div className="relative w-full ">
+        <input
+          type="text"
+          placeholder="Dragon Ball, Frieren..."
+          className="w-full min-w-40 rounded-full px-2 md:px-4 py-2 md:py-3 text-black focus:outline-none "
+          onChange={handleChange}
+          id="searchbar"
+          ref={ref}
+        />
+        <button
+          type="button"
+          className="absolute top-0 right-0 m-1 rounded-full bg-purple-500 px-2 md:px-4 py-1 md:py-2 transition-colors hover:bg-purple-700"
+          onClick={handleSearch}
+        >
+          <span className="font-medium text-white">Search</span>
+        </button>
+      </div>
     </div>
   );
 }
