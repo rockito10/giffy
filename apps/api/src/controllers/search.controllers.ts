@@ -1,9 +1,9 @@
-import { db } from '../config/db'
-import { TENOR_API } from '../config/env'
-import { dataMapper, gifResponseMapper } from '../utils/gifResponseMapper'
-import { BAD_REQUEST } from '../utils/status'
 import type { ListOfGifsResponse } from '@giffy/types'
 import type { NextFunction, Request, Response } from 'express'
+import { db } from '../config/db'
+import { TENOR_API } from '../config/env'
+import { dataMapper, gifResponseMapper, mapDbGif } from '../utils/gifResponseMapper'
+import { BAD_REQUEST } from '../utils/status'
 
 // Por Query
 
@@ -63,10 +63,22 @@ export async function getGifByIdController(req: Request, res: Response, next: Ne
 
 	// Buscar en la base de datos
 
-	const responseByDB = await db.gif.findUnique({ where: { id } })
+	const responseByDB = await db.gif.findUnique({
+		where: { id },
+		include: {
+			user: {
+				select: {
+					avatar: true,
+					user_id: true,
+					user_name: true,
+				},
+			},
+		},
+	})
 
 	if (responseByDB) {
-		return res.status(200).json(responseByDB)
+		const mappedGif = mapDbGif(responseByDB)
+		return res.status(200).json(mappedGif)
 	}
 
 	// Buscar en la API

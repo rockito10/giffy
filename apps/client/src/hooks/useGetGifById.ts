@@ -1,5 +1,4 @@
-import { getGifById, getUser } from '@/services/services'
-import type { UserInfo } from '@/types/types'
+import { getGifById } from '@/services/services'
 import type { Gif } from '@giffy/types'
 import { useQuery } from '@tanstack/react-query'
 
@@ -13,10 +12,10 @@ export function useGetGifById(gifID: string, userID: string) {
 		queryFn: () => getGifById(gifID),
 	})
 
-	const { data: authorData } = useQuery<UserInfo>({
-		queryKey: ['gifAuthor', gifID],
-		queryFn: () => getUser(gifData?.authorId as string),
-	})
+	// const { data: authorData } = useQuery<UserInfo>({
+	// 	queryKey: ['gifAuthor', gifID],
+	// 	queryFn: () => getUser(gifData?.authorId as string),
+	// })
 
 	const { data: likesData } = useQuery({
 		queryFn: () => {
@@ -30,5 +29,5 @@ export function useGetGifById(gifID: string, userID: string) {
 		queryKey: ['LIKES', gifID],
 	})
 
-	return { data: { gifData, authorData, likesData }, isLoading, error }
+	return { data: { gifData, likesData }, isLoading, error }
 }

@@ -24,6 +24,8 @@ model gif {
   description String
   authorName  String
   authorId    String
+
+  user user @relation(fields: [authorId], references: [user_id], onDelete: Cascade)
 }
 
 
@@ -35,6 +37,8 @@ model user {
   avatar    String?
   liked     liked[]
   comment   comment[]
+
+  gif gif[]
 }
 
 model liked {

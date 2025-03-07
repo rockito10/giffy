@@ -30,14 +30,16 @@ export default function GifsDetails() {
 
 	if (isLoading) return <div>Loading...</div>
 
-	const { authorData, likesData, gifData } = data
+	const { likesData, gifData } = data
 
 	if (!gifData || !gifData?.id) {
 		setLocation('/404')
 		return null
 	}
 
-	const { alt, description, images, title, authorName, tags } = gifData
+	const { alt, description, images, title, tags, authorData } = gifData
+
+	const { authorAvatar, authorName } = authorData
 
 	return (
 		<div>
@@ -59,7 +61,7 @@ export default function GifsDetails() {
 							<h1 className="text-3xl">{title || alt}</h1>
 							<div className="flex flex-row items-center gap-2">
 								{/* {authorId && authorData?.avatar && ( */}
-								<Avatar nameless={true} name={authorName} src={authorData?.avatar} />
+								<Avatar nameless={true} name={authorName} src={authorAvatar} />
 								{/* )} */}
 								{<h2 className="text-xl">{authorName || 'Anonymous'}</h2>}
 							</div>

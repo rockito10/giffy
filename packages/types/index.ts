@@ -16,9 +16,14 @@ export interface Gif {
 	images: Record<ImageFormat, string>
 	tags: string[]
 	title: string
+	authorData: AuthorData
+	description: string
+}
+
+export interface AuthorData {
 	authorName: string
 	authorId: string
-	description: string
+	authorAvatar: string
 }
 
 // Response from Giphy API

@@ -5,6 +5,7 @@ import type {
 	ListOfGifsResponse,
 	TrendingGifResponse,
 } from '@giffy/types'
+import type { JsonValue } from '@prisma/client/runtime/library'
 
 export function gifResponseMapper(response: ListOfGifsResponse | TrendingGifResponse): ListOfGifs {
 	return {
@@ -24,6 +25,39 @@ export function tenorResponseMapper(response: GifResponse[]): ListOfGifs {
 
 // GIF
 
+type GifAndUserFromDb = {
+	user: {
+		user_id: string
+		user_name: string
+		avatar: string | null
+	}
+} & {
+	alt: string
+	id: string
+	images: JsonValue
+	tags: string[]
+	title: string
+	description: string
+	authorName: string
+	authorId: string
+}
+
+export function mapDbGif(responseByDB: GifAndUserFromDb) {
+	return {
+		alt: responseByDB.alt,
+		id: responseByDB.id,
+		images: responseByDB.images,
+		tags: responseByDB.tags,
+		title: responseByDB.title,
+		authorData: {
+			authorName: responseByDB.user.user_name,
+			authorId: responseByDB.user.user_id,
+			authorAvatar: responseByDB.user.avatar,
+		},
+		description: responseByDB.description,
+	}
+}
+
 export function dataMapper(data: GifResponse): Gif {
 	return {
 		alt: data.content_description,
@@ -37,8 +71,8 @@ export function dataMapper(data: GifResponse): Gif {
 		},
 		tags: data.tags,
 		title: data.title,
-		authorId: '',
-		authorName: '',
+
+		authorData: { authorId: '', authorName: '', authorAvatar: '' },
 		description: '',
 	}
 }
