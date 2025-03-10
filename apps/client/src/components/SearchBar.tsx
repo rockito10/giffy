@@ -33,7 +33,7 @@ export function SearchBar({ ...props }: SearchBarProps) {
 
   return (
     <div {...props}>
-      <div className="relative w-full ">
+      <div className="relative w-full">
         <input
           type="text"
           placeholder="Dragon Ball, Frieren..."

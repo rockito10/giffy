@@ -12,11 +12,6 @@ export function useGetGifById(gifID: string, userID: string) {
 		queryFn: () => getGifById(gifID),
 	})
 
-	// const { data: authorData } = useQuery<UserInfo>({
-	// 	queryKey: ['gifAuthor', gifID],
-	// 	queryFn: () => getUser(gifData?.authorId as string),
-	// })
-
 	const { data: likesData } = useQuery({
 		queryFn: () => {
 			return fetch(`/api/likes/${gifID}?userID=${userID}`, {

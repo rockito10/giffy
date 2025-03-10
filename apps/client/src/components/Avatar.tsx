@@ -1,23 +1,28 @@
-interface Props {
+import type { HTMLAttributes } from 'react'
+
+interface Props extends HTMLAttributes<HTMLDivElement> {
 	name?: string | null | undefined
 	src: string | null | undefined
-	nameless?: boolean
+	usernameClasses?: string
 }
 
-export function Avatar({ name, src, nameless }: Props) {
+export function Avatar({ name, src, usernameClasses, ...props }: Props) {
 	return (
-		<div className="relative flex items-center justify-center gap-2">
-			{nameless ? null : (
-				<span className="-bottom-6 absolute rounded-md bg-[#28242f] px-4 py-1">
-					{name || 'Guest'}
-				</span>
-			)}
-			<img
-				alt={`Avatar of ${name ?? 'Guest'}`}
-				className="size-16 rounded-full object-cover"
-				src={src || '/assets/no-avatar.svg'}
-				loading="lazy"
-			/>
+		<div {...props}>
+			<div className="relative flex items-center justify-center gap-2">
+				<div className={usernameClasses}>
+					<span className="-bottom-6 absolute rounded-md bg-[#28242f] px-4 py-1">
+						{name || 'Guest'}
+					</span>
+				</div>
+
+				<img
+					alt={`Avatar of ${name ?? 'Guest'}`}
+					className="size-16 rounded-full object-cover"
+					src={src || '/assets/no-avatar.svg'}
+					loading="lazy"
+				/>
+			</div>
 		</div>
 	)
 }

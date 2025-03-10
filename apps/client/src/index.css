@@ -166,6 +166,10 @@ textarea {
 	border-radius: 16px;
 } */
 
+textarea {
+	field-sizing: content;
+}
+
 @keyframes moveGradient {
 	0% {
 		background-position: 0% 0%;
@@ -175,33 +179,17 @@ textarea {
 	}
 }
 
-.share-button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 3.5rem;
-	height: 3.5rem;
-	border-radius: 50%; /* Hace que el botón sea circular */
-	transition: background-color 0.3s ease;
-
-	img {
-		width: 4rem; /* Tamaño del icono dentro del botón */
-		height: 4rem;
-	}
-}
-
-.twitter-button {
-	background-color: #1da1f2; /* Azul de Twitter */
+.button {
+	background-color: #111011;
+	color: #ffffff;
+	border: 1px solid #ffffff;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s;
 
 	&:hover {
-		background-color: #0d8bf2; /* Azul más oscuro al hacer hover */
-	}
-}
-
-.url-button {
-	background-color: #fafafa; /* Verde de Material Design */
-
-	&:hover {
-		background-color: #acaaaa; /* Verde más oscuro al hacer hover */
+		background-color: #ffffff;
+		color: #111011;
 	}
 }

@@ -61,10 +61,11 @@ export function NewComment() {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<div className="flex w-2/3 flex-col items-start gap-4">
+			<div className="flex flex-col items-start gap-4">
 				<textarea
 					ref={textareaRef}
-					className="h-16 w-full resize-none rounded-lg border-2 bg-[#28242f] px-4 py-2 text-white focus:outline-none"
+					className='box-border h-16 w-full max-w-[40ch] resize-none break-words rounded-lg border-2 border-b bg-[#28242f] px-4 py-2 text-white focus:outline-none md:max-w-[80ch]'
+					maxLength={100}
 					placeholder="Your comment here!"
 					onKeyDown={(evt) => {
 						if (evt.key === 'Enter' && !evt.shiftKey) {

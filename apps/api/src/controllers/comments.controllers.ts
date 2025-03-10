@@ -1,5 +1,5 @@
-import { db } from '../config/db'
 import type { Request, Response } from 'express'
+import { db } from '../config/db'
 
 export async function getCommentsController(req: Request, res: Response) {
 	const { gifId } = req.params
@@ -114,19 +114,23 @@ export async function deleteCommentController(req: Request, res: Response) {
 	const { gifId } = req.params
 	const { commentId, userId } = req.body
 
-	const response = await db.comment.delete({
-		where: {
-			gif_id_user_id_comment_id: {
-				gif_id: gifId,
-				user_id: userId,
-				comment_id: commentId,
+	try {
+		const response = await db.comment.delete({
+			where: {
+				gif_id_user_id_comment_id: {
+					gif_id: gifId,
+					user_id: userId,
+					comment_id: commentId,
+				},
 			},
-		},
-	})
+		})
 
-	if (response) {
-		return res.status(200).json({ message: 'Comment deleted' })
+		if (response) {
+			return res.status(200).json({ message: 'Comment deleted' })
+		}
+
+		return res.status(404).json({ message: 'Comments not found' })
+	} catch {
+		return res.status(400).json({ message: 'Error deleting comment' })
 	}
-
-	return res.status(404).json({ message: 'Comments not found' })
 }

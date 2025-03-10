@@ -23,18 +23,18 @@ export function CommentComponent({
 	const currentUserId = getSavedUserId()
 
 	return (
-		<li className="relative flex w-2/3 items-center rounded-md bg-[#28242f] p-2 text-white">
+		<li className="relative flex items-center rounded-md bg-[#28242f] p-2 text-white">
 			<div className="flex w-full items-center gap-4">
 				{/* ... */}
 
-				<div className="flex flex-col items-center gap-2 border-gray-500 border-r p-[1vw]">
-					<Avatar name={username} src={avatar} />
-					<h3 className="font-bold text-sm">{username} </h3>
+				<div className="z-50 flex flex-col items-center gap-2 border-gray-500 border-r p-[1vw]">
+					<Avatar name={username} src={avatar} usernameClasses='hidden' />
+					<h3 className="text-sm">{username} </h3>
 				</div>
 
 				{/* ... */}
 
-				<span>{comment}</span>
+				<span className="w-1/2 break-words md:w-4/5">{comment}</span>
 			</div>
 			<span className="-bottom-4 -right-4 absolute z-10">
 				{/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
