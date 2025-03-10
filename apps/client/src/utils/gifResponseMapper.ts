@@ -14,9 +14,7 @@ export function gifResponseMapper(response: ListOfGifsResponse | TrendingGifResp
 	}
 }
 
-
 // GIF
-
 export function dataMapper(data: GifResponse): Gif {
 	return {
 		alt: data.content_description,
@@ -30,8 +28,8 @@ export function dataMapper(data: GifResponse): Gif {
 		},
 		tags: data.tags,
 		title: data.title,
-		authorId: '',
-		authorName: '',
+
+		authorData: { authorId: '', authorName: '', authorAvatar: '' },
 		description: '',
 	}
 }
