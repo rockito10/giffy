@@ -51,7 +51,7 @@ export default function GifsDetails() {
 				<div className="flex flex-col gap-8 md:flex-row">
 					{/* <div className="flex flex-col gap-8 "> */}
 					{/* --- GIF DESKTOP --- */}
-					<div className='hidden max-w-[50%] flex-shrink-0 flex-col gap-y-4 md:flex '>
+					<div className="hidden max-w-[50%] flex-shrink-0 flex-col gap-y-4 md:flex ">
 						<img alt="gif" className="w-full rounded-2xl border-4 border-[#28242f]" src={src} />
 					</div>
 
@@ -63,12 +63,12 @@ export default function GifsDetails() {
 						<div className="block w-full flex-shrink-0 flex-col gap-y-4 md:hidden md:w-1/3 ">
 							<img alt="gif" className="w-full rounded-2xl border-4 border-[#28242f]" src={src} />
 						</div>
-						<div className="flex flex-row items-center gap-2">
+						<div className="flex flex-row items-center gap-3">
 							<Avatar
 								usernameClasses="hidden"
 								name={authorName}
 								src={authorAvatar}
-								className="scale-[85%] md:scale-100"
+								className="size-16 md:scale-100"
 							/>
 							{<h2 className="md:text-xl">{authorName || 'Anonymous'}</h2>}
 						</div>
@@ -115,7 +115,7 @@ export default function GifsDetails() {
 
 								{/* TWITTER BUTTON */}
 								<Button
-									href={`https://twitter.com/intent/tweet?text=I%20love%20this%20GIF!&url="${images?.gif}"`}
+									href={`https://twitter.com/intent/tweet?text=I%20love%20this%20GIF!&url=${images?.gif}`}
 								>
 									<img
 										src="https://tenor.com/assets/img/icons/twitter.svg"

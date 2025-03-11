@@ -28,7 +28,7 @@ export function CommentComponent({
 				{/* ... */}
 
 				<div className="z-50 flex flex-col items-center gap-2 border-gray-500 border-r p-[1vw]">
-					<Avatar name={username} src={avatar} usernameClasses='hidden' />
+					<Avatar name={username} src={avatar} className="size-20" />
 					<h3 className="text-sm">{username} </h3>
 				</div>
 

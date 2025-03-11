@@ -1,5 +1,5 @@
 import { useInfiniteLikedGifs } from '@/hooks/useInfiniteLikedGifs'
-import { InfiniteGrid } from '../InfiniteGrid'
+import { InfiniteGrid } from './InfiniteGrid'
 
 export function FavoriteGifs() {
 	const { data, ref } = useInfiniteLikedGifs()

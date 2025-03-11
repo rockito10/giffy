@@ -18,7 +18,6 @@ export function gifResponseMapper(response: ListOfGifsResponse | TrendingGifResp
 export function dataMapper(data: GifResponse): Gif {
 	return {
 		alt: data.content_description,
-		// original: data.media_formats.gif.url,
 		id: data.id,
 		images: {
 			gif: data.media_formats.gif?.url,

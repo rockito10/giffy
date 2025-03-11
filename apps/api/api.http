@@ -55,3 +55,8 @@ Content-Type: application/json
 
 ### TRENDING GIFS
 GET http://localhost:3000/api/trending
+
+# ------------------------------------------------
+
+### USER GIFS
+GET http://localhost:3000/api/user/1/gifs?page=1

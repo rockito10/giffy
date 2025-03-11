@@ -1,5 +1,5 @@
 import { useInfiniteTrending } from '@/hooks/useInfiniteTrending'
-import { InfiniteGrid } from '../InfiniteGrid'
+import { InfiniteGrid } from './InfiniteGrid'
 
 export function TrendingGifs() {
 	const { data, ref } = useInfiniteTrending()

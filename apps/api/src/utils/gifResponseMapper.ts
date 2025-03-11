@@ -61,7 +61,6 @@ export function mapDbGif(responseByDB: GifAndUserFromDb) {
 export function dataMapper(data: GifResponse): Gif {
 	return {
 		alt: data.content_description,
-		// original: data.media_formats.gif.url,
 		id: data.id,
 		images: {
 			gif: data.media_formats.gif?.url,

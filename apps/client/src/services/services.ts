@@ -14,12 +14,23 @@ export async function getGifById(id: string) {
 
 // --------------------------------------------------
 
-interface GetFavoritesParams {
+interface GetFavoritesAndUploadedParams {
 	page: number
 	userID: string
 }
 
-export async function getFavoriteGifs({ page, userID }: GetFavoritesParams) {
+export async function getUploadedGifs({ page, userID }: GetFavoritesAndUploadedParams) {
+	const resp = await fetch(`api/user/${userID}/gifs?page=${page}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+	const data: ListOfGifs = await resp.json()
+	return data
+}
+
+export async function getFavoriteGifs({ page, userID }: GetFavoritesAndUploadedParams) {
 	const resp = await fetch(`api/likes/user/${userID}?page=${page}`, {
 		method: 'GET',
 		headers: {

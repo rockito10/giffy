@@ -10,6 +10,7 @@ const SearchPage = lazy(() => import('../pages/SearchPage'))
 const Page404 = lazy(() => import('../pages/Page404'))
 const UploadPage = lazy(() => import('../pages/UploadPage'))
 const LoginPage = lazy(() => import('../pages/LoginPage'))
+const UploadedGifsPage = lazy(() => import('../pages/UploadedGifsPage'))
 
 export function AppRoutes() {
 	return (
@@ -26,6 +27,8 @@ export function AppRoutes() {
 					<Route path="/login" component={LoginPage} />
 
 					<ProtectedRoute path="/upload" component={UploadPage} />
+
+					<ProtectedRoute path="/uploaded" component={UploadedGifsPage} />
 
 					{/* Ruta 404 */}
 					{/* <Route component={Page404} /> */}

@@ -9,20 +9,20 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export function Avatar({ name, src, usernameClasses, ...props }: Props) {
 	return (
 		<div {...props}>
-			<div className="relative flex items-center justify-center gap-2">
+			{/* <div className="relative flex items-center justify-center gap-2">
 				<div className={usernameClasses}>
 					<span className="-bottom-6 absolute rounded-md bg-[#28242f] px-4 py-1">
 						{name || 'Guest'}
 					</span>
-				</div>
+				</div> */}
 
 				<img
 					alt={`Avatar of ${name ?? 'Guest'}`}
-					className="size-16 rounded-full object-cover"
+					className="rounded-full object-cover aspect-square"
 					src={src || '/assets/no-avatar.svg'}
 					loading="lazy"
 				/>
-			</div>
+			{/* </div> */}
 		</div>
 	)
 }
