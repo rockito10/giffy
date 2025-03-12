@@ -1,5 +1,6 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { ToastContainer } from 'react-toastify'
 
 interface Props {
 	children: React.ReactNode
@@ -7,13 +8,11 @@ interface Props {
 
 export function MainLayout({ children }: Props) {
 	return (
-		// <div className="grid h-dvh grid-rows-[auto,1fr,auto] sticky inset-0 z-10">
-		<>
+		<div className="flex min-h-dvh flex-col">
+			<ToastContainer autoClose={5000} position="top-center" theme="dark" />
 			<Header className="sticky top-0 left-0 z-10" />
-
-			<main className="flex-grow p-4 md:p-8 min-w-[320px]">{children}</main>
+			<main className="flex-grow p-4 md:p-8">{children}</main>
 			<Footer />
-		</>
-		// </div>
+		</div>
 	)
 }

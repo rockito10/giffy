@@ -3,19 +3,12 @@ import type { ListOfGifs } from '@giffy/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useInView } from './useInView'
-import { useMe } from './useMe'
 
-export function useInfiniteLikedGifs() {
-	// const { page = '1' } = useParams()
-	// const page_n = Number(page) || 1
-	const { getSavedUserId } = useMe()
-	const userID = getSavedUserId() ?? ''
+type FavoriteGifsProps = {
+	userID: string
+}
 
-	// if (!query) {
-	// 	// Caso predeterminado
-	// 	return { data: { gifs: [], pos: '', page: 1 }, ref: null, error: null, isLoading: false }
-	// }
-
+export function useInfiniteLikedGifs({ userID }: FavoriteGifsProps) {
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['favorites', userID],
 		queryFn: ({ pageParam = 1 }) => {
@@ -53,6 +46,8 @@ export function useInfiniteLikedGifs() {
 			fetchNextPage()
 		}
 	}, [inView, fetchNextPage, hasNextPage])
+
+	console.log('userId', userID, data)
 
 	return { data: data?.pages[0], ref, error, isLoading }
 }

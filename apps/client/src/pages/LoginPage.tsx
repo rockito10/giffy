@@ -1,7 +1,7 @@
 import { useAuth } from '@/hooks/useAuth'
 import type { LoginInfo } from '@giffy/types'
 import type { FormEvent } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { Link } from 'wouter'
 
 export default function LoginPage() {
@@ -27,25 +27,11 @@ export default function LoginPage() {
 		})
 
 		if (!response.ok) {
-			toast.error('Invalid credentials', {
-				position: 'top-center',
-				autoClose: 5000,
-
-				progressClassName: 'bg-purple-500 text-purple-500',
-
-				theme: 'dark',
-			})
+			toast.error('Invalid credentials')
 			return
 		}
 
-		toast.info('Login successful', {
-			position: 'top-center',
-			autoClose: 5000,
-
-			progressClassName: 'bg-purple-500 text-purple-500',
-
-			theme: 'dark',
-		})
+		toast.info('Login successful')
 
 		const { data } = (await response.json()) as { data: LoginInfo }
 
@@ -54,7 +40,6 @@ export default function LoginPage() {
 
 	return (
 		<div className="text-white">
-			<ToastContainer />
 			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					{/* <img alt="Your Company" src="/public/favicon.png" className="mx-auto h-10 w-auto" /> */}

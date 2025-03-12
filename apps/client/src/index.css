@@ -196,3 +196,13 @@ textarea {
 
 
 /* ----------------------------------------------- */
+
+input {
+	&:user-valid {
+		border-color: #16a34a;
+	}
+
+	&:user-invalid {
+		border-color: #ef4444;
+	}
+}

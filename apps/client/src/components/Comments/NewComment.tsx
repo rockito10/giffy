@@ -27,7 +27,7 @@ export function NewComment() {
 		evt.preventDefault()
 
 		if (!userId) {
-			toastError('You must be logged in to comment.')
+			toast.error('You must be logged in to comment.')
 			return
 		}
 
@@ -35,7 +35,7 @@ export function NewComment() {
 
 		// Comprobaciones
 		if (!textarea || !avatar || !username || !userId)
-			return toastError('An unexpected error has ocurred.')
+			return toast.error('An unexpected error has ocurred.')
 
 		const commentText = textarea.value
 
@@ -64,7 +64,7 @@ export function NewComment() {
 			<div className="flex flex-col items-start gap-4">
 				<textarea
 					ref={textareaRef}
-					className='box-border h-16 w-full max-w-[40ch] resize-none break-words rounded-lg border-2 border-b bg-[#28242f] px-4 py-2 text-white focus:outline-none md:max-w-[80ch]'
+					className="box-border h-16 w-full max-w-[40ch] resize-none break-words rounded-lg border-2 border-b bg-[#28242f] px-4 py-2 text-white focus:outline-none md:max-w-[80ch]"
 					maxLength={100}
 					placeholder="Your comment here!"
 					onKeyDown={(evt) => {
@@ -88,11 +88,4 @@ export function NewComment() {
 	)
 }
 
-function toastError(message: string) {
-	toast.error(message, {
-		position: 'top-center',
-		autoClose: 2000,
-		progressClassName: 'bg-purple-500 text-purple-500',
-		theme: 'dark',
-	})
-}
+ 

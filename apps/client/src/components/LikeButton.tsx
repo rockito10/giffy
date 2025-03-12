@@ -20,7 +20,7 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 
 	function handleLike() {
 		if (!userID) {
-			toastError('You must be logged in to like a gif.')
+			toast.error('You must be logged in to like a gif.')
 			return
 		}
 		if (isLiked) {
@@ -45,10 +45,10 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 			})
 
 			if (response.status !== 202) {
-				toastError('There was an error while trying to like the gif.')
+				toast.error('There was an error while trying to like the gif.')
 			}
 		} catch (error) {
-			toastError('Unexpected error has occurred')
+			toast.error('Unexpected error has occurred')
 			console.log(error)
 		}
 	}
@@ -58,13 +58,4 @@ export function LikeButton({ gifId, likesInfo, ...props }: Props) {
 			{isLiked ? '👎' : '👍'} {likesNumber}
 		</button>
 	)
-}
-
-function toastError(message: string) {
-	toast.error(message, {
-		position: 'top-center',
-		autoClose: 2000,
-		progressClassName: 'bg-purple-500 text-purple-500',
-		theme: 'dark',
-	})
 }

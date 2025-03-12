@@ -20,7 +20,7 @@ interface GetFavoritesAndUploadedParams {
 }
 
 export async function getUploadedGifs({ page, userID }: GetFavoritesAndUploadedParams) {
-	const resp = await fetch(`api/user/${userID}/gifs?page=${page}`, {
+	const resp = await fetch(`/api/user/${userID}/gifs?page=${page}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export async function getUploadedGifs({ page, userID }: GetFavoritesAndUploadedP
 }
 
 export async function getFavoriteGifs({ page, userID }: GetFavoritesAndUploadedParams) {
-	const resp = await fetch(`api/likes/user/${userID}?page=${page}`, {
+	const resp = await fetch(`/api/likes/user/${userID}?page=${page}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ interface GetTrendingParams {
 }
 
 export async function getTrendingListOfGifs({ pos }: GetTrendingParams) {
-	const resp = await fetch('api/trending', {
+	const resp = await fetch('/api/trending', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

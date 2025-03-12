@@ -63,9 +63,10 @@ export function AuthenticationButton({ ...props }: React.HTMLAttributes<HTMLDivE
 
 export function Header({ ...props }: HeaderProps) {
 	const [location] = useLocation()
-	const { avatar, getUserName } = useMe()
+	const { avatar, getUserName, getSavedUserId } = useMe()
 
 	const username = getUserName()
+	const userID = getSavedUserId()
 
 	const isUploadPage = location === '/upload'
 
@@ -118,7 +119,7 @@ export function Header({ ...props }: HeaderProps) {
 
 			{/* ---------- DESKTOP ---------- */}
 
-			<div className="hidden bg-black md:block py-2">
+			<div className="hidden bg-black py-2 md:block">
 				<div className="flex items-center justify-between px-8 py-2 ">
 					<div className="flex w-full items-center gap-4">
 						<HomeLink />
@@ -136,12 +137,12 @@ export function Header({ ...props }: HeaderProps) {
 								</Link>
 							)}
 
-							<AuthenticationButton className="rounded-full bg-purple-500 px-4 py-2 transition-colors hover:bg-purple-700 " />
+							<AuthenticationButton className="whitespace-nowrap rounded-full bg-purple-500 px-4 py-2 transition-colors hover:bg-purple-700" />
 						</div>
 
-						<Link to="/uploaded" className="group">
+						<Link to={username ? `/user/${userID}` : '/login'} className="group">
 							<Avatar name={username} src={avatar} className="aspect-square size-16" />
-							<div className="relative flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+							<div className="relative flex items-center justify-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
 								<span className="-bottom-6 absolute rounded-md bg-[#28242f] px-4 py-1">
 									{username || 'Guest'}
 								</span>

@@ -6,7 +6,7 @@ import { CommentsContextProvider } from '@/contexts/CommentsContext'
 import { useGetGifById } from '@/hooks/useGetGifById'
 import { useMe } from '@/hooks/useMe'
 import { useEffect } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { Link, useLocation, useParams } from 'wouter'
 
 export default function GifsDetails() {
@@ -18,12 +18,11 @@ export default function GifsDetails() {
 	if (error) {
 		// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 		useEffect(() => {
-			toastError('Unexpected error has occurred.')
+			toast.error('Unexpected error has occurred.')
 		}, [error])
 
 		return (
 			<div>
-				<ToastContainer />
 				{error.name} {error.message}
 			</div>
 		)
@@ -40,13 +39,30 @@ export default function GifsDetails() {
 
 	const { alt, description, images, title, tags, authorData } = gifData
 
-	const { authorAvatar, authorName } = authorData
+	const { authorAvatar, authorName, authorId } = authorData
 
 	const src = images?.gif
 
+	const LinkAvatar = authorId ? (
+		<Link to={`/user/${authorId}`}>
+			<Avatar
+				usernameClasses="hidden"
+				name={authorName}
+				src={authorAvatar}
+				className="size-16 md:scale-100"
+			/>
+		</Link>
+	) : (
+		<Avatar
+			usernameClasses="hidden"
+			name={authorName}
+			src={authorAvatar}
+			className="size-16 md:scale-100"
+		/>
+	)
+
 	return (
 		<div>
-			<ToastContainer />
 			<CommentsContextProvider>
 				<div className="flex flex-col gap-8 md:flex-row">
 					{/* <div className="flex flex-col gap-8 "> */}
@@ -64,12 +80,7 @@ export default function GifsDetails() {
 							<img alt="gif" className="w-full rounded-2xl border-4 border-[#28242f]" src={src} />
 						</div>
 						<div className="flex flex-row items-center gap-3">
-							<Avatar
-								usernameClasses="hidden"
-								name={authorName}
-								src={authorAvatar}
-								className="size-16 md:scale-100"
-							/>
+							{LinkAvatar}
 							{<h2 className="md:text-xl">{authorName || 'Anonymous'}</h2>}
 						</div>
 
@@ -103,7 +114,7 @@ export default function GifsDetails() {
 									onClick={() =>
 										navigator.clipboard
 											.writeText(images?.gif)
-											.then(() => toastSuccess('URL copied!'))
+											.then(() => toast.success('URL copied!'))
 									}
 								>
 									<img
@@ -137,21 +148,4 @@ export default function GifsDetails() {
 			</CommentsContextProvider>
 		</div>
 	)
-}
-function toastError(message: string) {
-	toast.error(message, {
-		position: 'top-center',
-		autoClose: 2000,
-		progressClassName: 'bg-purple-500 text-purple-500',
-		theme: 'dark',
-	})
-}
-
-function toastSuccess(message: string) {
-	toast.success(message, {
-		position: 'top-center',
-		autoClose: 2000,
-		progressClassName: 'bg-purple-500 text-purple-500',
-		theme: 'dark',
-	})
 }

@@ -3,11 +3,14 @@ import type { ListOfGifs } from '@giffy/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useInView } from './useInView'
-import { useMe } from './useMe'
 
-export function useInfiniteUploadedGifs() {
-	const { getSavedUserId } = useMe()
-	const userID = getSavedUserId() ?? ''
+type UploadedGifsProps = {
+	userID: string
+}
+
+export function useInfiniteUploadedGifs({ userID }: UploadedGifsProps) {
+	// const { getSavedUserId } = useMe()
+	// const userID = getSavedUserId() ?? ''
 
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['uploaded', userID],

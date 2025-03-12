@@ -9,11 +9,6 @@ export function useInfiniteTrending() {
 	const { page = '1' } = useParams()
 	const page_n = Number(page) || 1
 
-	// if (!query) {
-	// 	// Caso predeterminado
-	// 	return { data: { gifs: [], pos: '', page: 1 }, ref: null, error: null, isLoading: false }
-	// }
-
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['trending'], // Agregar page_n al queryKey
 		queryFn: ({ pageParam = '' }) => {

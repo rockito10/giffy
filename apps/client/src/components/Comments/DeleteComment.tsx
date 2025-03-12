@@ -22,7 +22,7 @@ export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
 	const { mutate } = useMutation({
 		mutationFn: deleteComment,
 		onError: () => {
-			toastError('There was an error while trying to delete the comment.')
+			toast.error('There was an error while trying to delete the comment.')
 		},
 	})
 
@@ -41,13 +41,4 @@ export function DeleteComment({ commentId, gifId }: deleteCommentProps) {
 			Remove
 		</button>
 	)
-}
-
-function toastError(message: string) {
-	toast.error(message, {
-		position: 'top-center',
-		autoClose: 2000,
-		progressClassName: 'bg-purple-500 text-purple-500',
-		theme: 'dark',
-	})
 }

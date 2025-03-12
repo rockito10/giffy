@@ -1,7 +1,7 @@
 import { useMe } from '@/hooks/useMe'
 import type { UploadResponseJSON } from '@giffy/types'
 import { useRef, useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useLocation } from 'wouter'
 
 export default function UploadPage() {
@@ -71,10 +71,19 @@ export default function UploadPage() {
 		evt.preventDefault()
 
 		const title = (formRef.current?.querySelector('#form-title') as HTMLInputElement).value
+
 		const description = (formRef.current?.querySelector('#form-description') as HTMLInputElement)
 			?.value
 
-		if (!title || !gif) return
+		if (!gif) {
+			toast.error('You have to input a Gif file.')
+			return
+		}
+
+		if (!title) {
+			toast.error('Gif must have a title.')
+			return
+		}
 
 		const formData = new FormData()
 		formData.append('file', gif)
@@ -95,34 +104,22 @@ export default function UploadPage() {
 			if (!uploadResponse.ok) throw new Error('Upload failed')
 
 			// popups
-			toast.success('Gif uploaded successfully!', {
-				position: 'top-center',
-				autoClose: 5000,
-
-				progressClassName: 'bg-purple-500',
-				theme: 'dark',
-			})
+			toast.success('Gif uploaded successfully!')
+			// progressClassName: 'bg-purple-500',
 
 			const { id } = (await uploadResponse.json()) as UploadResponseJSON
 			setLocation(`/gif/${id}`)
 		} catch (error) {
 			console.error('Error:', error)
 			// popups
-			toast.error('Error uploading your gif.', {
-				position: 'top-center',
-				autoClose: 5000,
-
-				progressClassName: 'bg-purple-500 text-purple-500',
-
-				theme: 'dark',
-			})
+			toast.error('Error uploading your gif.')
+			// progressClassName: 'bg-purple-500 text-purple-500',
 		}
 	}
 
 	return (
 		<div>
-			<ToastContainer />
-			<div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
+			<div className="flex flex-col items-center gap-8 md:flex-row">
 				{/* --------------- DRAG & DROP ---------------*/}
 
 				<div className="relative aspect-square w-1/3 min-w-72">
@@ -144,17 +141,17 @@ export default function UploadPage() {
 				</div>
 
 				{/* --------------- FORM ---------------*/}
-				<form className="w-full space-y-4 p-4" ref={formRef}>
+				<form className="w-4/5 space-y-4 " ref={formRef}>
 					<input
 						type="text"
-						className="w-full max-w-[50vw] rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white"
+						className="w-full max-w-[50vw] rounded-lg border border-gray-500 bg-black px-3 py-2 text-white"
 						placeholder="Add title!"
 						required
 						id="form-title"
 					/>
 					<textarea
 						id="form-description"
-						className="w-full max-w-[50vw] resize-none rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white"
+						className="h-20 w-full resize-none rounded-lg border border-gray-500 bg-black px-3 py-2 text-white"
 						placeholder="Add a description!"
 					/>
 					{/* Agregar Tags */}
@@ -162,14 +159,14 @@ export default function UploadPage() {
 						<input
 							ref={tagRef}
 							type="text"
-							className="tag-input w-1/2 rounded-lg border border-white/70 bg-black px-2 py-0.5 text-white"
+							className="tag-input w-1/2 rounded-lg border border-gray-500 bg-black px-3 py-2 text-white"
 							placeholder="Add tag"
 							maxLength={20}
 						/>
 						<button
 							type="submit"
 							onClick={handleAddTag}
-							className="rounded-lg border border-white/70 bg-black px-2 py-0.5 transition-colors hover:bg-white hover:text-black"
+							className="rounded-lg border border-gray-500 bg-black px-3 py-2 transition-colors hover:bg-white hover:text-black"
 						>
 							+
 						</button>
@@ -183,7 +180,7 @@ export default function UploadPage() {
 									type="button"
 									onClick={() => handleDeleteTag(tag)}
 									key={tag}
-									className="cursor-not-allowed rounded-lg border px-2 py-1 transition-colors hover:bg-white/90 hover:text-black"
+									className="cursor-not-allowed rounded-lg border px-3 py-2ransition-colors hover:bg-white/90 hover:text-black"
 								>
 									{tag}
 								</button>

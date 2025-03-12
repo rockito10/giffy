@@ -28,7 +28,7 @@ export function Frame({ alt, id, src, className }: Props) {
 		// 		/>
 		// 	</button>
 		// </Link>
-		<Link key={id} href={`/gif/${id}`}>
+		<Link key={id} to={`/gif/${id}`}>
 			<img
 				alt={alt}
 				className={`${className} rounded-md transition-transform hover:scale-110`}
