@@ -1,6 +1,6 @@
-interface CopyImageProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface CopyImageProps extends React.SVGProps<SVGSVGElement> {}
 
-export function CopyImage({ children, ...props }: CopyImageProps) {
+export function CopyImage({ ...props }: CopyImageProps) {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

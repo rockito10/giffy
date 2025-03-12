@@ -34,14 +34,14 @@ export function SearchBar({ ...props }: SearchBarProps) {
 				<input
 					type="text"
 					placeholder="Dragon Ball, Frieren..."
-					className="w-full min-w-40 rounded-full px-2 md:px-4 py-2 md:py-3 text-black focus:outline-none"
+					className="w-full min-w-40 rounded-full px-2 py-2 text-black focus:outline-none md:px-4 md:py-3"
 					onChange={handleChange}
 					id="searchbar"
 					ref={ref}
 				/>
 				<button
 					type="button"
-					className="absolute top-0 right-0 m-1 z-0 rounded-full bg-purple-500 px-2 md:px-4 py-1 md:py-2 transition-colors hover:bg-purple-700"
+					className="absolute top-0 right-0 z-0 m-1 rounded-full bg-purple-500 px-2 py-1 transition-colors hover:bg-purple-700 md:px-4 md:py-2"
 					onClick={handleSearch}
 				>
 					<span className="font-medium text-white">Search</span>

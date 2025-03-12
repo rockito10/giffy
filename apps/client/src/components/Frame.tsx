@@ -1,8 +1,8 @@
-import { Link } from 'wouter'
-import { DownloadIcon } from './icons/DownloadIcon'
-import { CopyImage } from './icons/CopyImage'
-import { downloadGif } from '../utils/downloadGif'
 import { toast } from 'react-toastify'
+import { Link } from 'wouter'
+import { downloadGif } from '../utils/downloadGif'
+import { CopyImage } from './icons/CopyImage'
+import { DownloadIcon } from './icons/DownloadIcon'
 
 interface Props {
 	alt: string
@@ -12,8 +12,8 @@ interface Props {
 	title: string
 }
 
-export function Frame({ title, alt, id, src, className }: Props) {
-	const handleDownload = (e: React.MouseEvent) => {
+export function Frame({ title, alt, id, src }: Props) {
+	const handleDownload = () => {
 		downloadGif({
 			filename: `${title || alt}.gif`,
 			url: src,
@@ -21,19 +21,19 @@ export function Frame({ title, alt, id, src, className }: Props) {
 		toast.success('Gif downloaded!')
 	}
 
-	const handleCopy = (e: React.MouseEvent) => {
+	const handleCopy = () => {
 		navigator.clipboard.writeText(src)
 		toast.success('Link copied!')
 	}
 
 	return (
-		<div className="relative group hover:scale-110 transition-transform rounded-md overflow-hidden">
+		<div className="group relative overflow-hidden rounded-md transition-transform hover:scale-110">
 			<Link key={id} to={`/gif/${id}`}>
 				<img alt={alt} src={src} loading="lazy" />
 			</Link>
-			<div className="absolute top-1 right-1 z-[100] opacity-0 transition-opacity group-hover:opacity-100 flex flex-col gap-2">
+			<div className="absolute top-1 right-1 z-[100] flex flex-col gap-2 opacity-0 transition-opacity group-hover:opacity-100">
 				<button
-					className="size-10 bg-black/80 rounded-full flex items-center justify-center text-white"
+					className="flex size-10 items-center justify-center rounded-full bg-black/80 text-white"
 					type="button"
 					onClick={handleCopy}
 				>
@@ -41,7 +41,7 @@ export function Frame({ title, alt, id, src, className }: Props) {
 				</button>
 				<button
 					type="button"
-					className="size-10 bg-black/80 rounded-full flex items-center justify-center"
+					className="flex size-10 items-center justify-center rounded-full bg-black/80"
 					onClick={handleDownload}
 				>
 					<DownloadIcon />

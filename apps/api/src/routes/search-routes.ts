@@ -1,5 +1,5 @@
-import { getGifByIdController, getSearchController } from '../controllers/search.controllers'
 import { Router } from 'express'
+import { getGifByIdController, getSearchController } from '../controllers/search.controllers'
 
 export const searchRoutes = Router()
 

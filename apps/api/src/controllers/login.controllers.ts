@@ -1,6 +1,6 @@
-import { db } from '../config/db'
 import type { LoginInfo } from '@giffy/types'
 import type { Request, Response } from 'express'
+import { db } from '../config/db'
 
 export async function postLogin(req: Request, res: Response) {
 	const { username, password } = req.body

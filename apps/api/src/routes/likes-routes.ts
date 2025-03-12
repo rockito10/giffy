@@ -1,5 +1,5 @@
-import { getLikedGifs, getLikes, postLikes } from '../controllers/likes.controllers'
 import { Router } from 'express'
+import { getLikedGifs, getLikes, postLikes } from '../controllers/likes.controllers'
 
 export const likesRoutes = Router()
 

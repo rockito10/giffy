@@ -1,6 +1,6 @@
-interface DownloadIconProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface DownloadIconProps extends React.SVGProps<SVGSVGElement> {}
 
-export function DownloadIcon({ children, ...props }: DownloadIconProps) {
+export function DownloadIcon({ ...props }: DownloadIconProps) {
 	return (
 		<svg
 			width="18"

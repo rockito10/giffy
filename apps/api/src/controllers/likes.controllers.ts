@@ -137,8 +137,6 @@ export async function getLikedGifs(req: Request, res: Response) {
 		take: 20 * page_n,
 	})
 
-	console.log(gifsIDs)
-
 	const mappedGiffyIds: string[] = []
 	const mappedTenorIds: string[] = []
 
@@ -167,12 +165,6 @@ export async function getLikedGifs(req: Request, res: Response) {
 	// GIFS FROM TENOR
 
 	const tenorGifs = await getTenorGifs(mappedTenorIds)
-
-	// console.log({
-	// 	gifs: [...giffyGifs, ...tenorGifs.gifs],
-	// 	pos: '',
-	// 	page: page_n + 1,
-	// })
 
 	// Responder con los GIFs encontrados
 	return res

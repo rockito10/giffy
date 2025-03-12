@@ -1,4 +1,3 @@
-
 import { useAuth } from '@/hooks/useAuth'
 import { Redirect, Route } from 'wouter'
 

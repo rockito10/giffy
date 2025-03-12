@@ -1,7 +1,6 @@
-
 interface DownloadProps {
-  url: string 
-  filename: string
+	url: string
+	filename: string
 }
 
 export const downloadGif = async ({ url, filename }: DownloadProps) => {

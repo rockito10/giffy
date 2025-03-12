@@ -7,8 +7,6 @@ type UploadedGifsProps = {
 }
 
 export function useInfiniteUploadedGifs({ userID }: UploadedGifsProps) {
-
-
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['uploaded', userID],
 		queryFn: ({ pageParam = 1 }) => {

@@ -5,9 +5,9 @@
 			"source": "/api/:path*",
 			"destination": "https://giffy-server.vercel.app/api/:path*"
 		},
-		{ 
-      "source": "/(.*)", 
-      "destination": "/"
-    }
+		{
+			"source": "/(.*)",
+			"destination": "/"
+		}
 	]
 }
