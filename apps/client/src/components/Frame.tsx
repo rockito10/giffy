@@ -1,60 +1,52 @@
 import { Link } from 'wouter'
+import { DownloadIcon } from './icons/DownloadIcon'
+import { CopyImage } from './icons/CopyImage'
+import { downloadGif } from '../utils/downloadGif'
+import { toast } from 'react-toastify'
 
 interface Props {
 	alt: string
 	id: string
 	src: string
 	className?: string
+	title: string
 }
 
-export function Frame({ alt, id, src, className }: Props) {
-	return (
-		// <Link key={id} href={`/gif/${id}`} className='group relative hover:z-10'>
-		// 	<img
-		// 		alt={alt}
-		// 		className={`${className} w-full rounded-md transition-transform hover:scale-125`}
-		// 		src={src}
-		// 	/>
+export function Frame({ title, alt, id, src, className }: Props) {
+	const handleDownload = (e: React.MouseEvent) => {
+		downloadGif({
+			filename: `${title || alt}.gif`,
+			url: src,
+		})
+		toast.success('Gif downloaded!')
+	}
 
-		// 	<button
-		// 		className='share-button url-button absolute top-4 right-2 w-full opacity-0 transition-opacity group-hover:opacity-100'
-		// 		type="button"
-		// 		onClick={() => navigator.clipboard.writeText(src)}
-		// 	>
-		// 		<img
-		// 			src="https://tenor.com/assets/img/icons/link.svg"
-		// 			alt="Share URL"
-		// 			className="url-icon"
-		// 		/>
-		// 	</button>
-		// </Link>
-		<Link key={id} to={`/gif/${id}`}>
-			<img
-				alt={alt}
-				className={`${className} rounded-md transition-transform hover:scale-110`}
-				src={src}
-			/>
-		</Link>
+	const handleCopy = (e: React.MouseEvent) => {
+		navigator.clipboard.writeText(src)
+		toast.success('Link copied!')
+	}
+
+	return (
+		<div className="relative group hover:scale-110 transition-transform rounded-md overflow-hidden">
+			<Link key={id} to={`/gif/${id}`}>
+				<img alt={alt} src={src} loading="lazy" />
+			</Link>
+			<div className="absolute top-1 right-1 z-[100] opacity-0 transition-opacity group-hover:opacity-100 flex flex-col gap-2">
+				<button
+					className="size-10 bg-black/80 rounded-full flex items-center justify-center text-white"
+					type="button"
+					onClick={handleCopy}
+				>
+					<CopyImage />
+				</button>
+				<button
+					type="button"
+					className="size-10 bg-black/80 rounded-full flex items-center justify-center"
+					onClick={handleDownload}
+				>
+					<DownloadIcon />
+				</button>
+			</div>
+		</div>
 	)
 }
-
-/*
-interface Props {
-	alt: string
-	id: string
-	src: string
-	className?: string
-}
-
-export function Frame({ alt, id, src, className }: Props) {
-	return (
-		<Link key={id} href={`/gif/${id}`}>
-			<img
-				alt={alt}
-				className={`${className} rounded-md transition-transform hover:scale-110`}
-				src={src}
-			/>
-		</Link>
-	)
-}
-*/

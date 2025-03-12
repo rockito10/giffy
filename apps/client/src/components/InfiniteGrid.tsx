@@ -21,7 +21,7 @@ export const InfiniteGrid = forwardRef<HTMLDivElement, InfiniteGridProps>(
 			<div className="flex flex-col items-center justify-center">
 				<Grid data={data} />
 				<br />
-				<div ref={ref} className="w-full border">
+				<div ref={ref} className="w-full border border-slate-100 ">
 					{/* Observer */}
 				</div>
 				<br />

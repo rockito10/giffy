@@ -35,7 +35,7 @@ export function CommentComponent({
 
 				<div className="z-50 flex flex-col items-center gap-2 border-gray-500 border-r p-[1vw]">
 					<Link to={`/user/${userId}`}>
-						<Avatar name={username} src={avatar} className="size-20" />
+						<Avatar name={username} src={avatar} className="size-16 md:size-20" />
 					</Link>
 					<h3 className="text-sm">{username} </h3>
 				</div>

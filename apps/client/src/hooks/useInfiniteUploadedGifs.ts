@@ -1,16 +1,13 @@
 import { getUploadedGifs } from '@/services/services'
 import type { ListOfGifs } from '@giffy/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
-import { useInView } from './useInView'
 
 type UploadedGifsProps = {
 	userID: string
 }
 
 export function useInfiniteUploadedGifs({ userID }: UploadedGifsProps) {
-	// const { getSavedUserId } = useMe()
-	// const userID = getSavedUserId() ?? ''
+
 
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
 		queryKey: ['uploaded', userID],
@@ -40,15 +37,5 @@ export function useInfiniteUploadedGifs({ userID }: UploadedGifsProps) {
 		},
 	})
 
-	const { inView, ref } = useInView({
-		rootMargin: '0px 0px 500px 0px',
-	})
-
-	useEffect(() => {
-		if (inView && hasNextPage) {
-			fetchNextPage()
-		}
-	}, [inView, fetchNextPage, hasNextPage])
-
-	return { data: data?.pages[0], ref, error, isLoading }
+	return { data: data?.pages[0], error, isLoading, fetchNextPage, hasNextPage }
 }

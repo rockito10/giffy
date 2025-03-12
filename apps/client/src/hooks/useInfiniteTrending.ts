@@ -2,24 +2,22 @@ import { getTrendingListOfGifs } from '@/services/services'
 import type { ListOfGifs } from '@giffy/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useParams } from 'wouter'
 import { useInView } from './useInView'
 
-export function useInfiniteTrending() {
-	const { page = '1' } = useParams()
-	const page_n = Number(page) || 1
+type TrendingGifsProps = { page: string; pos: string }
 
+export function useInfiniteTrending() {
 	const { data, fetchNextPage, hasNextPage, error, isLoading } = useInfiniteQuery<ListOfGifs>({
-		queryKey: ['trending'], // Agregar page_n al queryKey
-		queryFn: ({ pageParam = '' }) => {
-			const pos = typeof pageParam === 'string' ? pageParam : ''
-			return getTrendingListOfGifs({ pos, page: page_n })
+		queryKey: ['trending'],
+		queryFn: ({ pageParam = { page: 1, pos: '' } }) => {
+			const { pos, page } = pageParam as TrendingGifsProps
+			return getTrendingListOfGifs({ pos, page: Number(page) })
 		},
 
-		initialPageParam: '',
+		initialPageParam: { page: 1, pos: '' },
 		getNextPageParam: (lastPage) => {
 			if (lastPage.gifs.length < 40) return undefined
-			return lastPage.pos
+			return { page: lastPage.page, pos: lastPage.pos }
 		},
 		select: (data) => {
 			const allGifs = data.pages.flatMap((page) => page.gifs)
@@ -28,7 +26,7 @@ export function useInfiniteTrending() {
 					{
 						gifs: allGifs,
 						pos: data.pages[data.pages.length - 1].pos,
-						page: 1,
+						page: data.pages[data.pages.length - 1].page,
 					},
 				],
 				pageParams: data.pageParams,

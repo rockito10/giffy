@@ -2,9 +2,11 @@ import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
 import { CommentContainer } from '@/components/Comments/CommentContainer'
 import { LikeButton } from '@/components/LikeButton'
+import { DownloadIcon } from '@/components/icons/DownloadIcon'
 import { CommentsContextProvider } from '@/contexts/CommentsContext'
 import { useGetGifById } from '@/hooks/useGetGifById'
 import { useMe } from '@/hooks/useMe'
+import { downloadGif } from '@/utils/downloadGif'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { Link, useLocation, useParams } from 'wouter'
@@ -43,6 +45,19 @@ export default function GifsDetails() {
 
 	const src = images?.gif
 
+	const handleDownload = () => {
+		downloadGif({
+			url: src,
+			filename: `${title || alt}.gif`,
+		})
+
+		toast.success('Gif downloaded!')
+	}
+
+	const handleCopy = () => {
+		navigator.clipboard.writeText(images?.gif).then(() => toast.success('URL copied!'))
+	}
+
 	const LinkAvatar = authorId ? (
 		<Link to={`/user/${authorId}`}>
 			<Avatar
@@ -57,7 +72,7 @@ export default function GifsDetails() {
 			usernameClasses="hidden"
 			name={authorName}
 			src={authorAvatar}
-			className="size-16 md:scale-100"
+			className="size-10 md:scale-100"
 		/>
 	)
 
@@ -67,7 +82,7 @@ export default function GifsDetails() {
 				<div className="flex flex-col gap-8 md:flex-row">
 					{/* <div className="flex flex-col gap-8 "> */}
 					{/* --- GIF DESKTOP --- */}
-					<div className="hidden max-w-[50%] flex-shrink-0 flex-col gap-y-4 md:flex ">
+					<div className="hidden min-w-[25%] max-w-[50%] flex-shrink-0 flex-col gap-y-4 md:flex ">
 						<img alt="gif" className="w-full rounded-2xl border-4 border-[#28242f]" src={src} />
 					</div>
 
@@ -104,19 +119,16 @@ export default function GifsDetails() {
 
 						{/* --- --- --- Buttons (START) --- --- --- */}
 
-						<div className="justify-st flex items-center gap-4">
-							<Button>
-								<LikeButton gifId={gifId} likesInfo={likesData} className="size-12 bg-[#28242f]" />
-							</Button>
+						<div className="flex items-center gap-4">
+							<LikeButton
+								gifId={gifId}
+								likesInfo={likesData}
+								className="size-12 rounded-full bg-[#28242f]"
+							/>
+
 							<div className="flex gap-4">
 								{/* SHARE BUTTON */}
-								<Button
-									onClick={() =>
-										navigator.clipboard
-											.writeText(images?.gif)
-											.then(() => toast.success('URL copied!'))
-									}
-								>
+								<Button onClick={handleCopy}>
 									<img
 										src="https://tenor.com/assets/img/icons/link.svg"
 										alt="Share URL"
@@ -124,7 +136,18 @@ export default function GifsDetails() {
 									/>
 								</Button>
 
+								{/* DOWNLOAD */}
+
+								<button
+									onClick={handleDownload}
+									type="button"
+									className="flex size-12 items-center justify-center rounded-full bg-[#28242f] p-2"
+								>
+									<DownloadIcon />
+								</button>
+
 								{/* TWITTER BUTTON */}
+
 								<Button
 									href={`https://twitter.com/intent/tweet?text=I%20love%20this%20GIF!&url=${images?.gif}`}
 								>

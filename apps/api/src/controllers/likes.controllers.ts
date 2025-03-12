@@ -128,7 +128,7 @@ export async function getLikedGifs(req: Request, res: Response) {
 	// Obtener los GIFs liked por el usuario con `user_id` igual a `userID`
 	const gifsIDs = await db.liked.findMany({
 		where: {
-			user_id: userID, // Filtramos por el userID
+			user_id: userID,
 		},
 		select: {
 			gif_id: true,
@@ -137,9 +137,7 @@ export async function getLikedGifs(req: Request, res: Response) {
 		take: 20 * page_n,
 	})
 
-	// // Extraer solo los GIFs (sin la información de la relación `liked`)
-	// const mappedGiffyIds = gifsIDs.filter((gif) => gif.gif_id.startsWith('giffy'))
-	// const mappedTenorIds = gifsIDs.filter((gif) => !gif.gif_id.startsWith('giffy'))
+	console.log(gifsIDs)
 
 	const mappedGiffyIds: string[] = []
 	const mappedTenorIds: string[] = []
@@ -152,8 +150,6 @@ export async function getLikedGifs(req: Request, res: Response) {
 		}
 	}
 
-	// const gifs: ListOfGifs | [] = []
-
 	// GIFS FROM DATABASE
 	const giffyGifs = await db.gif.findMany({
 		where: {
@@ -161,9 +157,22 @@ export async function getLikedGifs(req: Request, res: Response) {
 		},
 	})
 
+	if (giffyGifs.length > 20)
+		return res.json({
+			gifs: [giffyGifs],
+			pos: '',
+			page: page_n + 1,
+		})
+
 	// GIFS FROM TENOR
 
 	const tenorGifs = await getTenorGifs(mappedTenorIds)
+
+	// console.log({
+	// 	gifs: [...giffyGifs, ...tenorGifs.gifs],
+	// 	pos: '',
+	// 	page: page_n + 1,
+	// })
 
 	// Responder con los GIFs encontrados
 	return res

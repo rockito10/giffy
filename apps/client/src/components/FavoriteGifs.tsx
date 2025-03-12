@@ -6,12 +6,27 @@ type FavoriteGifsProps = {
 }
 
 export function FavoriteGifs({ userID }: FavoriteGifsProps) {
-	const { data, ref } = useInfiniteLikedGifs({ userID })
+	const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteLikedGifs({ userID })
+	const handleMoreGifs = () => {
+		if (hasNextPage) {
+			fetchNextPage()
+		}
+	}
+
 	return (
-		<InfiniteGrid
-			data={data}
-			ref={ref}
-			noResultsMessage="No favorites yet, start liking your loved gifs!"
-		/>
+		<div>
+			<InfiniteGrid
+				data={data}
+				noResultsMessage="No favorites yet, start liking your loved gifs!"
+			/>
+			<button
+				type="button"
+				className="rounded-full bg-purple-500 px-4 py-2 transition-colors hover:bg-purple-700 "
+				onClick={handleMoreGifs}
+				disabled={isLoading}
+			>
+				Load more
+			</button>
+		</div>
 	)
 }

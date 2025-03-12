@@ -1,19 +1,34 @@
 import { FavoriteGifs } from '@/components/FavoriteGifs'
 import { UploadedGifs } from '@/components/UploadedGifs'
+import { useMe } from '@/hooks/useMe'
+import { getUser } from '@/services/services'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'wouter'
 
 export default function UserGifsPage() {
-	const { id } = useParams()
+	const { id: userID } = useParams()
+	const { getSavedUserId } = useMe()
+	const currentUserId = getSavedUserId()
 
-	if (!id) return <div>Cargando...</div>
+	if (!userID) return <div>Cargando...</div>
+	const { data } = useQuery({
+		queryKey: [userID],
+		queryFn: () => getUser(userID),
+	})
+
+	if (!data) return
+
+	const { user_name: userOfPage } = data
 
 	return (
 		<div className="flex flex-col items-start gap-8">
-			<h2 className="font-medium text-5xl text-gradient ">MY GIFS</h2>
+			<h2 className="font-medium text-5xl text-gradient ">
+				{currentUserId === userID ? 'MY GIFS' : `${userOfPage}'s GIFS`}
+			</h2>
 
 			<div className="home-container w-full ">
 				<div className="home-box">
-					<UploadedGifs userID={id} />
+					<UploadedGifs userID={userID} />
 				</div>
 			</div>
 
@@ -21,7 +36,7 @@ export default function UserGifsPage() {
 
 			<div className="home-container w-full ">
 				<div className="home-box">
-					<FavoriteGifs userID={id} />
+					<FavoriteGifs userID={userID} />
 				</div>
 			</div>
 		</div>

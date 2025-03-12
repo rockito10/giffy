@@ -1,8 +1,6 @@
 import { getFavoriteGifs } from '@/services/services'
 import type { ListOfGifs } from '@giffy/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
-import { useInView } from './useInView'
 
 type FavoriteGifsProps = {
 	userID: string
@@ -37,17 +35,15 @@ export function useInfiniteLikedGifs({ userID }: FavoriteGifsProps) {
 		},
 	})
 
-	const { inView, ref } = useInView({
-		rootMargin: '0px 0px 500px 0px',
-	})
+	// const { inView, ref } = useInView({
+	// 	rootMargin: '0px 0px 500px 0px',
+	// })
 
-	useEffect(() => {
-		if (inView && hasNextPage) {
-			fetchNextPage()
-		}
-	}, [inView, fetchNextPage, hasNextPage])
+	// useEffect(() => {
+	// 	if (inView && hasNextPage) {
+	// 		fetchNextPage()
+	// 	}
+	// }, [inView, fetchNextPage, hasNextPage])
 
-	console.log('userId', userID, data)
-
-	return { data: data?.pages[0], ref, error, isLoading }
+	return { data: data?.pages[0], error, isLoading, fetchNextPage, hasNextPage }
 }
