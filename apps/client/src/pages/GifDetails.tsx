@@ -47,11 +47,11 @@ export default function GifsDetails() {
 
 	const handleDownload = () => {
 		downloadGif({
-			url: src,
 			filename: `${title || alt}.gif`,
+			url: src,
+		}).then(() => {
+			toast.success('Gif downloaded!')
 		})
-
-		toast.success('Gif downloaded!')
 	}
 
 	const handleCopy = () => {

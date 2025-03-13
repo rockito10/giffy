@@ -13,25 +13,10 @@ interface Props {
 }
 
 export function Frame({ title, alt, id, src }: Props) {
-	const handleDownload = () => {
-		downloadGif({
-			filename: `${title || alt}.gif`,
-			url: src,
-		})
-		toast.success('Gif downloaded!')
-	}
 
-	const handleCopy = () => {
-		navigator.clipboard.writeText(src)
-		toast.success('Link copied!')
-	}
-
-	return (
-		<div className="group relative overflow-hidden rounded-md transition-transform hover:scale-110">
-			<Link key={id} to={`/gif/${id}`}>
-				<img alt={alt} src={src} loading="lazy" />
-			</Link>
-			<div className="absolute top-1 right-1 z-[100] flex flex-col gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+	function FrameButtons() {
+		return (
+			<div className="absolute top-1 right-1 z-[100] hidden flex-col gap-2 opacity-0 transition-opacity group-hover:opacity-100 md:flex">
 				<button
 					className="flex size-10 items-center justify-center rounded-full bg-black/80 text-white"
 					type="button"
@@ -47,6 +32,30 @@ export function Frame({ title, alt, id, src }: Props) {
 					<DownloadIcon />
 				</button>
 			</div>
+		)
+	}
+
+	const handleDownload = () => {
+		downloadGif({
+			filename: `${title || alt}.gif`,
+			url: src,
+		}).then(() => {
+			toast.success('Gif downloaded!')
+		})
+	}
+
+	const handleCopy = () => {
+		navigator.clipboard.writeText(src).then(() => {
+			toast.success('Link copied!')
+		})
+	}
+
+	return (
+		<div className="group relative overflow-hidden rounded-md transition-transform hover:scale-110">
+			<Link key={id} to={`/gif/${id}`}>
+				<img alt={alt} src={src} loading="lazy" />
+			</Link>
+			<FrameButtons/>
 		</div>
 	)
 }
